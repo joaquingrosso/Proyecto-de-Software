@@ -16,6 +16,9 @@ class ProductionConfig(Config):
     DB_USER = environ.get("DB_USER", "MY_DB_USER")
     DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
     DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
+    SQLALCHEMY_DATABASE_URI = (
+        f"postgresql://{DBUSER}:{DBPASS}@{DBHOST}:5432/{DB_NAME}"
+    ) 
 
 
 class DevelopmentConfig(Config):
@@ -25,7 +28,9 @@ class DevelopmentConfig(Config):
     DB_USER = environ.get("DB_USER", "MY_DB_USER")
     DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
     DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
-
+    SQLALCHEMY_DATABASE_URI = (
+        f"postgresql://{DBUSER}:{DBPASS}@{DBHOST}:5432/{DB_NAME}"
+    ) 
 
 class TestingConfig(Config):
     """Testing configuration."""
@@ -35,7 +40,9 @@ class TestingConfig(Config):
     DB_USER = environ.get("DB_USER", "MY_DB_USER")
     DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
     DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
-
+    SQLALCHEMY_DATABASE_URI = (
+        f"postgresql://{DBUSER}:{DBPASS}@{DBHOST}:5432/{DB_NAME}"
+    ) 
 
 config = dict(
     development=DevelopmentConfig,
