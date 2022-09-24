@@ -25,9 +25,9 @@ class DevelopmentConfig(Config):
     """Development configuration."""
 
     DB_HOST = environ.get("DB_HOST", "localhost")
-    DB_USER = environ.get("DB_USER", "MY_DB_USER")
-    DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
-    DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
+    DB_USER = environ.get("DB_USER", "postgres")
+    DB_PASS = environ.get("DB_PASS", "1234")
+    DB_NAME = environ.get("DB_NAME", "grupo13")
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"
     ) 
