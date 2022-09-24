@@ -1,10 +1,11 @@
-from flask_sqlalchemy import sqlalchemy
+from flask_sqlalchemy import SQLAlchemy
 
-db = sqlalchemy()
+db = SQLAlchemy()
+#db = prueba()
 
 def init_app(app):
-    db.init_app(app)
-    config_db(app)
+   db.init_app(app)
+   config_db(app)
 
 
 def config_db(app):

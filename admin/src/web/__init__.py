@@ -14,7 +14,7 @@ def create_app(env="development", static_folder="static"):
 
     app.config.from_object(config[env])
 
-    database.init_app(app)
+    # database.init_app(app)
 
     @app.get("/")
     def home():
