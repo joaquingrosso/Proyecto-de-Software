@@ -19,7 +19,7 @@ def create_app(env="development", static_folder="static"):
     @app.get("/")
     def home():
         #return "hola mundo"
-        return render_template("home.html")
+        return render_template("home.html")   
 
     app.register_error_handler(404, handlers.not_found_error)
     # app.register_error_handler(500, handlers.internal_server_error)
