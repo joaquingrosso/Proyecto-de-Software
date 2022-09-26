@@ -4,7 +4,6 @@ from flask import Blueprint
 
 from src.core import core
 
-
 def list_usuarios():
     return core.Usuario.query.all()
 
