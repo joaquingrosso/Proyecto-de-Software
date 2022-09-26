@@ -1,8 +1,5 @@
 from datetime import datetime
-
-
 from src.core.database import db
-
 
 class Usuario(db.Model):
     
@@ -14,12 +11,6 @@ class Usuario(db.Model):
     apellido = db.Column(db.String(30))
     password = db.Column(db.String(20))
     activo = db.Column(db.Integer) #0 moroso (no) - 1 activo (si)
-    inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now())
+    inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
-
-    
-
-
-
-
 
