@@ -3,6 +3,11 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<h1>Bienvenido, {{ current_user.fullname }}</h1>
-<a class="btn btn-secondary" href="{{ url_for('logout') }}">Logout</a>
+
+ <!-- {% for message in get_flashed_messages() %}
+<div class="flash"> {{ message }}</div>
+{% endfor %}  -->
+
+<h1>Bienvenido, {{ user }}</h1>
+
 {% endblock %}
