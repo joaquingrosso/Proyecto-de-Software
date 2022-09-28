@@ -33,3 +33,6 @@ class Usuario(db.Model):
 
     def esta_activo(self):
         return self.activo
+
+    def list_usuarios():
+        return Usuario.query.all()

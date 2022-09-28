@@ -3,7 +3,7 @@ from cgitb import handler
 from logging import handlers
 from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session 
-from src.core.usuarioModel import Usuario
+from src.core.models.usuario_model import Usuario
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import database
@@ -54,17 +54,18 @@ def create_app(env="development", static_folder="static"):
                  flash("el nombre de usuario o contraseña es incorrecto")
                  return redirect(url_for("login"))
     
-        return render_template("auth/login.html")
-    
-    @app.route("/prueba_usuario/")
-    def prueba_usuario():
-            return render_template("prueba_usuario.html")            
+        return render_template("auth/login.html")               
 
     @app.route("/loguot")
     def logout():
             session.pop("username", None)
             print("logout")
             return redirect(url_for("login"))
+
+
+    @app.route("/prueba_usuario/")
+    def prueba_usuario():
+            return render_template("prueba_usuario.html") 
     
     app.register_error_handler(404, handlers.not_found_error)
 
