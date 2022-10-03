@@ -1,6 +1,13 @@
 from datetime import datetime
 from src.core.database import db
 
+roles = db.Table('usuario_tiene_rol',
+                 db.Column('usuario_id', db.Integer, db.ForeignKey(
+                     'usuario.id')),
+                 db.Column('rol_id', db.Integer, db.ForeignKey(
+                     'rol.id'))
+                 )
+
 class Usuario(db.Model):
     
     __tablename__ = 'usuario'
@@ -13,7 +20,9 @@ class Usuario(db.Model):
     activo = db.Column(db.Integer) #0 moroso (no) - 1 activo (si)
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
-
+    roles = db.relationship('Rol', secondary=roles, backref=db.backref(
+        'usuarios_con_el_rol', lazy=True), lazy='subquery')
+    
     def __init__(
             self, email=None, username=None, password=None, first_name=None, last_name=None
     ):

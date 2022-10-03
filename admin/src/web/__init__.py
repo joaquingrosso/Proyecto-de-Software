@@ -2,8 +2,15 @@ from logging import handlers
 from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
 from src.web.controllers import auth_controller
+
+# Imports tablas de los modelos
 from src.core.models.usuario_model import Usuario
 from src.core.models.rol_model import Rol
+from src.core.models.permiso_model import Permiso
+from src.core.models.asociado_model import Asociado
+from src.core.models.disciplina_model import Disciplina
+from src.core.models.cuota_model import Cuota
+
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import database
@@ -40,8 +47,8 @@ def create_app(env="development", static_folder="static"):
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
 
-    # @app.cli.command(name="resetdb")
-    # def resetdb():
-    #     database.reset_db()
+    @app.cli.command(name="resetdb")
+    def resetdb():
+        database.reset_db()
 
     return app

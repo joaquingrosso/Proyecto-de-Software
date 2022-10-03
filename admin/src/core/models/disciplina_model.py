@@ -13,7 +13,7 @@ class Disciplina(db.Model):
     enabled = db.Column(db.Boolean) 
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
-    cuota = db.relationship('Cuota', backref='disciplina', lazy=True)
+    # cuota = db.relationship('Cuota', backref='disciplina', lazy=True)
     
 
     def __init__(

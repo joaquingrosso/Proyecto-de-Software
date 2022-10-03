@@ -1,12 +1,19 @@
 from datetime import datetime
+from src.core.models.disciplina_model import Disciplina
+from src.core.models.cuota_model import Cuota
 from src.core.database import db
 
-asociado_disciplina = db.Table (
-    "asociado_disciplina",
+asociado_disciplina = db.Table ("asociado_disciplina",
     db.Column ("asociado_id",db.Integer,db.ForeignKey ("asociado.id"), primary_key=True),
     db.Column ("disciplina_id",db.Integer,db.ForeignKey ("disciplina.id"), primary_key=True)
 )
 
+# asociado_cuota = db.Table( "asociado_cuota",
+                          
+#     db.Column ("asociado_id",db.Integer,db.ForeignKey ("asociado.id"), primary_key=True),
+#     db.Column ("disciplina_id",db.Integer,db.ForeignKey ("disciplina.id"), primary_key=True) 
+    
+# )
 
 class Asociado(db.Model):
     
@@ -22,10 +29,10 @@ class Asociado(db.Model):
     state = db.Column(db.String(10))
     phone_number = db.Column(db.Integer)
     email = db.Column(db.String(50))
-    disciplinas = db.Relationship("disciplina", secondary=asociado_disciplina)
+    disciplinas = db.relationship('disciplina', secondary=asociado_disciplina, backref=db.backref('asociado_realiza_disciplina', lazy = True), lazy='subquery')
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
-    cuota = db.relationship('Cuota', backref='asociado', lazy=True)
+    #cuota = db.relationship('cuota', secondary=asociado_cuota, backref=db.backref('asociado_realiza_una_cuota', lazy = True), lazy='subquery')
 
     def __init__(
             self, first_name=None, last_name=None, document_type=None, document=None, gender=None, member_number=None, adress=None, state=None ,phone_number=None , email=None
