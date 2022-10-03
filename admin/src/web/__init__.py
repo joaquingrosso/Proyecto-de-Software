@@ -3,6 +3,7 @@ from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
 from src.web.controllers import auth_controller
 from src.core.models.usuario_model import Usuario
+from src.core.models.rol_model import Rol
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import database
@@ -41,5 +42,5 @@ def create_app(env="development", static_folder="static"):
     # @app.cli.command(name="resetdb")
     # def resetdb():
     #     database.reset_db()
-        
+
     return app
