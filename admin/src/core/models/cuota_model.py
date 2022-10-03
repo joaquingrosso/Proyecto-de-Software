@@ -5,8 +5,8 @@ class Cuota(db.Model):
     
     __tablename__ = 'cuota'
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    # asociado_id = db.Column(db.Integer, db.ForeignKey('asociado.id'),nullable=False)
-    # disciplina_id = db.Column(db.Integer, db.ForeignKey('persodisciplinan.id'),nullable=False)    
+    asociado_id = db.Column(db.Integer, db.ForeignKey('asociado.id'),nullable=False)
+    disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplina.id'),nullable=False)    
     monto = db.Column(db.Integer)
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())

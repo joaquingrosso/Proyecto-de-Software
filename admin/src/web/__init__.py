@@ -1,7 +1,9 @@
+import importlib
 from logging import handlers
 from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
 from src.web.controllers import auth_controller
+
 
 # Imports tablas de los modelos
 from src.core.models.usuario_model import Usuario
@@ -46,9 +48,24 @@ def create_app(env="development", static_folder="static"):
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
+    #agregar error 403
 
     @app.cli.command(name="resetdb")
     def resetdb():
         database.reset_db()
 
+    @app.shell_context_processor
+    def make_shell_context():
+        modules = dict(app=app)
+        
+        modelsmodule = importlib.import_module('src.core.models')
+        # import ipdb
+        # ipdb.set_trace() #breakpoint
+        for modulename in modelsmodule.__dict__:
+            modules[modulename] = getattr(modelsmodule, modulename)
+            
+        print('Auto imported ', [i[0] for i in modules.items()])
+        return modules
+
+    
     return app

@@ -29,7 +29,7 @@ class Asociado(db.Model):
     state = db.Column(db.String(10))
     phone_number = db.Column(db.Integer)
     email = db.Column(db.String(50))
-    disciplinas = db.relationship('disciplina', secondary=asociado_disciplina, backref=db.backref('asociado_realiza_disciplina', lazy = True), lazy='subquery')
+    disciplinas = db.relationship('Disciplina', secondary=asociado_disciplina, backref=db.backref('asociado_realiza_disciplina', lazy = True), lazy='subquery')
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
     #cuota = db.relationship('cuota', secondary=asociado_cuota, backref=db.backref('asociado_realiza_una_cuota', lazy = True), lazy='subquery')
