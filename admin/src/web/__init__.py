@@ -3,6 +3,7 @@ from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
 from src.web.controllers import auth_controller
 from src.core.models.usuario_model import Usuario
+from src.core.models.rol_model import Rol
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import database
@@ -28,8 +29,8 @@ def create_app(env="development", static_folder="static"):
 # #ruta al login 
     @app.route("/")
     def home():
-        return redirect(url_for('login'))
-           
+        #return redirect(url_for('login'))
+         return render_template("home.html")  
     # Autenticacion
     app.add_url_rule('/iniciar_sesion', 'login', auth_controller.login, methods=["GET", "POST"])
     app.add_url_rule('/cerrar_sesion', 'logout', auth_controller.logout)
@@ -38,8 +39,8 @@ def create_app(env="development", static_folder="static"):
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
 
-    # @app.cli.command(name="resetdb")
-    # def resetdb():
-    #     database.reset_db()
+    @app.cli.command(name="resetdb")
+    def resetdb():
+        database.reset_db()
         
     return app
