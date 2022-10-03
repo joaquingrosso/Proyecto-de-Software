@@ -31,42 +31,6 @@ def create_app(env="development", static_folder="static"):
     def home():
         #return redirect(url_for('login'))
          return render_template("home.html")  
-
-    
-    #ruta al login
-    @app.route("/login", methods=["GET" , "POST"])
-    def login():
-        if request.method == "POST":
-            print(request.form['username'])
-            print(request.form['password'])
-            username = request.form['username']
-            password = request.form['password']
-            session["username"] = username
-            session["password"] = password
-            user = Usuario.query.filter_by(username=username).first()
-            print(user)
-            if user:
-                 if user.password == password:
-                    return redirect(url_for("prueba_usuario", user=user.username))
-                 elif user.password != password:
-                     flash("el nombre de usuario o contraseña es incorrecto")
-            else:
-                 flash("el nombre de usuario o contraseña es incorrecto")
-                 return redirect(url_for("login"))
-    
-        return render_template("auth/login.html")               
-
-    @app.route("/loguot")
-    def logout():
-            session.pop("username", None)
-            print("logout")
-            return redirect(url_for("login"))
-
-
-    @app.route("/prueba_usuario/")
-    def prueba_usuario():
-            
-            return render_template("prueba_usuario.html") 
     
     # Autenticacion
     app.add_url_rule('/iniciar_sesion', 'login', auth_controller.login, methods=["GET", "POST"])
