@@ -28,53 +28,13 @@ def create_app(env="development", static_folder="static"):
 # #ruta al login 
     @app.route("/")
     def home():
-<<<<<<< HEAD
         return redirect(url_for("login"))
-    
-    #ruta al login
-    @app.route("/login", methods=["GET" , "POST"])
-    def login():
-        if request.method == "POST":
-            print(request.form['username'])
-            print(request.form['password'])
-            username = request.form['username']
-            password = request.form['password']
-            session["username"] = username
-            session["password"] = password
-            user = Usuario.query.filter_by(username=username).first()
-            print(user)
-            if user:
-                 if user.password == password:
-                    return redirect(url_for("prueba_usuario", user=user.username))
-                 elif user.password != password:
-                     flash("el nombre de usuario o contraseña es incorrecto")
-            else:
-                 flash("el nombre de usuario o contraseña es incorrecto")
-                 return redirect(url_for("login"))
-    
-        return render_template("auth/login.html")               
-
-    @app.route("/loguot")
-    def logout():
-            session.pop("username", None)
-            print("logout")
-            return redirect(url_for("login"))
-
-
-    @app.route("/prueba_usuario/")
-    def prueba_usuario():
-            
-            return render_template("prueba_usuario.html") 
-    
-=======
-        return redirect(url_for('login'))
-           
+       
     # Autenticacion
     app.add_url_rule('/iniciar_sesion', 'login', auth_controller.login, methods=["GET", "POST"])
     app.add_url_rule('/cerrar_sesion', 'logout', auth_controller.logout)
 
     #manejo de errores
->>>>>>> 4bc8b882d15a84dc7254cb2ff394791978181fa2
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
 
