@@ -37,12 +37,11 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/cerrar_sesion', 'logout', auth_controller.logout)
 
     #manejo de errores
-
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
 
-    @app.cli.command(name="resetdb")
-    def resetdb():
-        database.reset_db()
-        
+    # @app.cli.command(name="resetdb")
+    # def resetdb():
+    #     database.reset_db()
+
     return app
