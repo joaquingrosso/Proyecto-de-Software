@@ -47,7 +47,7 @@ def create_app(env="development", static_folder="static"):
             print(user)
             if user:
                  if user.password == password:
-                    return redirect(url_for("prueba_usuario", user=user))
+                    return redirect(url_for("prueba_usuario", user=user.username))
                  elif user.password != password:
                      flash("el nombre de usuario o contraseña es incorrecto")
             else:
@@ -65,6 +65,7 @@ def create_app(env="development", static_folder="static"):
 
     @app.route("/prueba_usuario/")
     def prueba_usuario():
+            
             return render_template("prueba_usuario.html") 
     
     app.register_error_handler(404, handlers.not_found_error)
