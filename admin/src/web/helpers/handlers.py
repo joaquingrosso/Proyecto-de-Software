@@ -10,10 +10,9 @@ def not_found_error(e):
      return render_template("error.html", **kwargs), 404
 
 
-
-# def not_found_error(e):
-#      kwargs = {
-#          "error_name": "500 Internal server Error",
-#          "error_description": "Error interno del servidor", 
-#      }
-#      return render_template("error500.html", **kwargs), 500
+def not_authorize(e):
+    kwargs = {
+        "error_name": "401 Unauthorized Error",
+        "error_description": "No está autorizado para acceder a la url",
+    }
+    return render_template("error.html", **kwargs), 401

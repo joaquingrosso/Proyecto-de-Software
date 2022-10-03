@@ -31,8 +31,16 @@ class Usuario(db.Model):
             self.last_name,
         )
 
-    def esta_activo(self):
-        return self.activo
+    @classmethod
+    def get_user_by_username_and_password(self, username, password):
+        return Usuario.query.filter(self.username == username, self.password == password).first()
+
+    @classmethod
+    def get_user_by_username(self, username):
+        return Usuario.query.filter(self.username == username).first()
+
+    def is_valid(self):
+        return self.activo and not self.baja
 
     def list_usuarios():
         return Usuario.query.all()

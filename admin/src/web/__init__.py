@@ -1,8 +1,7 @@
-from asyncore import read
-from cgitb import handler
 from logging import handlers
 from flask import Flask
-from flask import render_template, request, redirect , url_for, flash, session 
+from flask import render_template, request, redirect , url_for, flash, session
+from src.web.controllers import auth_controller
 from src.core.models.usuario_model import Usuario
 from src.web.helpers import handlers
 from src.core.config import config
@@ -11,7 +10,7 @@ from src.core.database import db
 from flask_sqlalchemy import SQLAlchemy
 from flask_session.__init__ import Session
 from os import error
-from werkzeug.security import generate_password_hash
+# from routes import auth
 
 # def create_app(static_folder="static"):
 def create_app(env="development", static_folder="static"):
@@ -25,12 +24,11 @@ def create_app(env="development", static_folder="static"):
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
 
-    # @app.get("/")
-    # def home():
-    #     return render_template("home.html")
-    #ruta al home
+    
+# #ruta al login 
     @app.route("/")
     def home():
+<<<<<<< HEAD
         return redirect(url_for("login"))
     
     #ruta al login
@@ -68,7 +66,17 @@ def create_app(env="development", static_folder="static"):
             
             return render_template("prueba_usuario.html") 
     
+=======
+        return redirect(url_for('login'))
+           
+    # Autenticacion
+    app.add_url_rule('/iniciar_sesion', 'login', auth_controller.login, methods=["GET", "POST"])
+    app.add_url_rule('/cerrar_sesion', 'logout', auth_controller.logout)
+
+    #manejo de errores
+>>>>>>> 4bc8b882d15a84dc7254cb2ff394791978181fa2
     app.register_error_handler(404, handlers.not_found_error)
+    app.register_error_handler(401, handlers.not_authorize)
 
     # @app.cli.command(name="resetdb")
     # def resetdb():
