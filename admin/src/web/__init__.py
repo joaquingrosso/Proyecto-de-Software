@@ -44,11 +44,14 @@ def create_app(env="development", static_folder="static"):
     # Autenticacion
     app.add_url_rule('/iniciar_sesion', 'login', auth_controller.login, methods=["GET", "POST"])
     app.add_url_rule('/cerrar_sesion', 'logout', auth_controller.logout)
-
+    
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
     #agregar error 403
+
+
+    
 
     @app.cli.command(name="resetdb")
     def resetdb():
@@ -65,7 +68,19 @@ def create_app(env="development", static_folder="static"):
             modules[modulename] = getattr(modelsmodule, modulename)
             
         print('Auto imported ', [i[0] for i in modules.items()])
-        return modules
+        return modules 
 
+    @app.route("/index")
+    def index():
+        #return redirect(url_for('login'))
+         return render_template("index.html")  
     
+
+    @app.route("/pruebaUsuario")
+    def pruebaUsuario():
+        #return redirect(url_for('login'))
+        return render_template("prueba_usuario.html")  
+    
+
+
     return app
