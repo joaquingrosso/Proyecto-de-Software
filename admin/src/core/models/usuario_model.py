@@ -48,6 +48,10 @@ class Usuario(db.Model):
     def get_user_by_username(self, username):
         return Usuario.query.filter(self.username == username).first()
 
+    def register_user_database(self):
+        db.session.add(self)
+        db.session.commit()
+        
     def is_valid(self):
         return self.activo and not self.baja
 

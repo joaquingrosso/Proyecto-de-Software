@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+
+{% endblock %}
+
+{% block title %} Club Deportivo Villa Elisa {% endblock %}
+
+{% block customCSS %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/home.css') }}">
+{% endblock %}  
+
+{% block body %}
+<div id="cabecera" class="content">
+    <img src="../../../public/img/logo2.png">
+    <h1>Club Deportivo Villa Elisa</h1>
+</div>
+<br>
+<!-- Menu -->
+<div class="container-fluid border-4 border-top border-dark">
+    
+</div>
+
+{% endblock %}

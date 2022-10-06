@@ -1,16 +1,17 @@
-# from flask import render_template
-# from flask import request
-# from flask import Blueprint
+from src.core.models.usuario_model import Usuario
+from flask import render_template ,request
 
-# from src.core import core
+def register():
 
-
-# def list_usuarios():
-#     return core.Usuario.query.all()
-
-# @app.get("/pruebaUsuario")
-# def pruebaUsuario():
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
+        password = request.form['password']
+        username = request.form['username']
         
-#     usuarios = core.list_usuarios()
-
-#     return render_template("pruebaUsuario.html", usuarios)
+        user= Usuario(email,username, password, first_name, last_name)
+        user.register_user_database()
+        
+    return render_template('user/register_user.html')
+    
