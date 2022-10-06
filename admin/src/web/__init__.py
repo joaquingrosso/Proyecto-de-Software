@@ -3,6 +3,7 @@ from logging import handlers
 from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
 from src.web.controllers import auth_controller
+from src.web.controllers import index_controller
 
 
 # Imports tablas de los modelos
@@ -45,12 +46,19 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/iniciar_sesion', 'login', auth_controller.login, methods=["GET", "POST"])
     app.add_url_rule('/cerrar_sesion', 'logout', auth_controller.logout)
     
+    # Manejo de menu index
+    app.add_url_rule('/inicio', 'inicio', index_controller.inicio)
+    app.add_url_rule('/gestion_usuarios', 'gestion_usuarios', index_controller.gestion_usuarios)
+    app.add_url_rule('/gestion_asociados', 'gestion_asociados', index_controller.gestion_asociados)
+    app.add_url_rule('/gestion_disciplinas', 'gestion_disciplinas', index_controller.gestion_disciplinas) 
+    app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 
+    app.add_url_rule('/configuracion', 'configuracion', index_controller.configuracion)
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
     #agregar error 403
 
-
+    
     
 
     @app.cli.command(name="resetdb")
