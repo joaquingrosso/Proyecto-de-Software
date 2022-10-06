@@ -14,7 +14,7 @@ def login():
         print(user)
         if user:
             if user.password == password:
-                return render_template("index.html")  
+                return render_template('inicio_privada.html')
             elif user.password != password:
                 flash("el nombre de usuario o contraseña es incorrecto")
             else:

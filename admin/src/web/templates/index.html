@@ -1,55 +1,72 @@
 {% extends "layout.html" %}
+
+{% block customCSS %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/index.css') }}">
+{% endblock %}  
+
 {% block head %}
     {{ super() }}
-
 {% endblock %}
 
-{% block title %} index {% endblock %}
+{% block title %} 
+  index 
+{% endblock %}
 
 {% block body %}
 
 <!--SECTION NAVAR-->
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="{{ url_for('static', filename='img/logo2.png') }}" width="70" height="70" >
-          </a>
-        <a class="navbar-brand" href="#">Club Deportivo Villa Elisa</a>
-           <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-           <span class="navbar-toggler-icon"></span>
-         </button> 
-      
-      <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Gestionar Usuarios</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Gestionar PersonasA</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Gestionar Disciplinas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Configuracion</a>
-          </li>
-        </ul>
-            <li class="nav-item dropdown" class="navbar-text">
-                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="img-fluid" src="{{ url_for('static', filename='img/perfil.png') }}" alt="logo" width="50" height="50">
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Ver Perfil</a></li>
-                  <li><a class="dropdown-item" href="{{ url_for('logout') }}">Cerrar sesion</a></li>
-                </ul>
-              </li>
+<header>
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
+      <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+              <img src="{{ url_for('static', filename='img/logo2.png') }}" width="70" height="70" >
+            </a>
+          <a class="navbar-brand" href="{{ url_for('inicio') }}">Club Deportivo Villa Elisa</a>
+            <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button> 
+        
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('gestion_usuarios') }}">Gestionar Usuarios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('gestion_asociados') }}">Gestionar Asociados</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('gestion_disciplinas') }}">Gestionar Disciplinas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('pago_cuotas') }}">Pago de Cuotas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('configuracion') }}">Configuracion</a>
+            </li>
+          </ul>
+              <li class="nav-item dropdown" class="navbar-text">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img class="img-fluid" src="{{ url_for('static', filename='img/perfil.png') }}" alt="logo" width="50" height="50">
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Ver Perfil</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('logout') }}">Cerrar sesion</a></li>
+                  </ul>
+                </li>
+        </div>
       </div>
-    </div>
-  </nav>
-  
+    </nav>
+  </header>
   <!--SECTION NAVAR-->
 
+<body>
+  {% block content %}
+  {% endblock %}
+</body>
+
 {% endblock %}  
+
+
 
 
 

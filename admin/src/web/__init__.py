@@ -2,6 +2,11 @@ import importlib
 from logging import handlers
 from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
+<<<<<<< HEAD
+=======
+from src.web.controllers import auth_controller
+from src.web.controllers import index_controller
+>>>>>>> 8c92f431f05ef0265e4e695fe31a547ed0d8d931
 
 #Controllers
 
@@ -49,13 +54,21 @@ def create_app(env="development", static_folder="static"):
     # Autenticacion
     app.add_url_rule('/iniciar_sesion', 'login', auth_controller.login, methods=["GET", "POST"])
     app.add_url_rule('/cerrar_sesion', 'logout', auth_controller.logout)
-
     
-    
+    # Manejo de menu index
+    app.add_url_rule('/inicio', 'inicio', index_controller.inicio)
+    app.add_url_rule('/gestion_usuarios', 'gestion_usuarios', index_controller.gestion_usuarios)
+    app.add_url_rule('/gestion_asociados', 'gestion_asociados', index_controller.gestion_asociados)
+    app.add_url_rule('/gestion_disciplinas', 'gestion_disciplinas', index_controller.gestion_disciplinas) 
+    app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 
+    app.add_url_rule('/configuracion', 'configuracion', index_controller.configuracion)
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
     #agregar error 403
+
+    
+    
 
     @app.cli.command(name="resetdb")
     def resetdb():
@@ -72,7 +85,19 @@ def create_app(env="development", static_folder="static"):
             modules[modulename] = getattr(modelsmodule, modulename)
             
         print('Auto imported ', [i[0] for i in modules.items()])
-        return modules
+        return modules 
 
+    @app.route("/index")
+    def index():
+        #return redirect(url_for('login'))
+         return render_template("index.html")  
     
+
+    @app.route("/pruebaUsuario")
+    def pruebaUsuario():
+        #return redirect(url_for('login'))
+        return render_template("prueba_usuario.html")  
+    
+
+
     return app

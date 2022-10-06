@@ -57,3 +57,6 @@ class Usuario(db.Model):
 
     def list_usuarios():
         return Usuario.query.all()
+    
+    def primer_usuario():
+        return Usuario.query.all().first()
