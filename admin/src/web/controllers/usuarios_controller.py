@@ -14,4 +14,4 @@ def register():
         user.register_user_database()
         
     return render_template('user/register_user.html')
-    
+

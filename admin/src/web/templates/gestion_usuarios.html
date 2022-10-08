@@ -1,8 +1,45 @@
 {% extends "index.html" %}
 
-
-
 {% block content %}
-    <h1>Gestion Usuarios</h1>
+
+<h1>Gestion Usuarios</h1>
+<br>
+
+<!-- tabla usuarios  -->
+<div class="container">
+    <p>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-warning "><i class="fa-solid fa-user-plus"></i> Agregar Usuario</button>
+        </div>
+    </p>
+    <div class="col-md-10">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>Nombre de Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th class="text-center">Operaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- print({{ user }}) -->
+                {% for u in user %}
+                <tr>
+                    <td> {{ u.username  }}</td>
+                    <td> {{ u.first_name }} </td>
+                    <td> {{ u.last_name  }} </td>
+                    <td align="center">
+                        <a href="" class="text-primary"><i class="fa-solid fa-pen-to-square"></i> Editar</a> | 
+                        <a href="" class="text-danger" onClick="return confirm('¿Esta seguro que desea eliminar el usuario?');"><i class="fa fa-fw fa-trash"></i> Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+ <!-- fin de tabla -->
+
 
 {% endblock %}
