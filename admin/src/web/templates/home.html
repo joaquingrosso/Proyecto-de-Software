@@ -10,7 +10,7 @@
 {% block body %}
         <!-- Seccion menu cabecera -->
         <div id="cabecera" class="content">
-            <img src="../../../public/img/logo2.png">
+            <a href="{{ url_for('home') }}"><img src="../../../public/img/logo2.png"></a>
             <h1>Club Deportivo Villa Elisa</h1>
             <a href="{{ url_for('register_user') }}"><button type="button" class="btn btn-primary" style="float: right; margin-top: -15mm; " >Registrarse</button></a>
             <a href="{{ url_for('login') }}"><button type="button" class="btn btn-primary" style="float: right;margin-top: -15mm ; margin-right:40mm" >Iniciar Sesion</button></a>

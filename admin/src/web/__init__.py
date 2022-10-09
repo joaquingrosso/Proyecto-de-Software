@@ -2,16 +2,13 @@ import importlib
 from logging import handlers
 from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
-<<<<<<< HEAD
-=======
-from src.web.controllers import auth_controller
-from src.web.controllers import index_controller
->>>>>>> 8c92f431f05ef0265e4e695fe31a547ed0d8d931
+
 
 #Controllers
 
 from src.web.controllers import auth_controller
 from src.web.controllers import usuarios_controller
+from src.web.controllers import index_controller
 
 # Imports tablas de los modelos
 from src.core.models.usuario_model import Usuario
@@ -49,7 +46,7 @@ def create_app(env="development", static_folder="static"):
         #return redirect(url_for('login'))
          return render_template("home.html")  
     # Register user
-    app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register, methods=["GET", "POST"])
+    app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register_validation, methods=["GET", "POST"])
     
     # Autenticacion
     app.add_url_rule('/iniciar_sesion', 'login', auth_controller.login, methods=["GET", "POST"])
