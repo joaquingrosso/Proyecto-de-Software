@@ -68,5 +68,12 @@ class Usuario(db.Model):
     def list_usuarios():
         return Usuario.query.all()
     
-    def primer_usuario():
-        return Usuario.query.all().first()
+    def existe_usuario(username):
+        return Usuario.query.filter_by(username=username).first()
+
+    def create(us, cl, no, ap, em):
+        today = datetime.now()
+        nuevo_usuario = Usuario(username=us, password=cl, first_name=no, last_name=ap, email=em, activo=1, inserted_at=today, created_at=today )
+        db.session.add(nuevo_usuario)
+        db.session.commit()
+        return True

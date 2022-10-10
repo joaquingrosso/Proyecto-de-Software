@@ -1,10 +1,15 @@
 from flask import redirect, render_template, request, url_for, session, flash
+from src.core.models.usuario_model import Usuario
 
 def inicio():
     return render_template("inicio_privada.html") 
 
-def gestion_usuarios():
-    return render_template("gestion_usuarios.html") 
+def gestion_usuarios(nombre=' ' ):
+    usuariosActualesActivos = Usuario.list_usuarios()
+    print(usuariosActualesActivos)
+    if request.method == 'GET':
+        nombre = nombre
+    return render_template("gestion_usuarios.html", user=usuariosActualesActivos) 
 
 def gestion_asociados():
     return render_template("gestion_asociados.html")

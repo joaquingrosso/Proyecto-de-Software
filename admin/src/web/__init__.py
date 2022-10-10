@@ -3,6 +3,8 @@ from logging import handlers
 from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
 
+from src.web.controllers import auth_controller
+from src.web.controllers import index_controller
 
 #Controllers
 
@@ -54,11 +56,15 @@ def create_app(env="development", static_folder="static"):
     
     # Manejo de menu index
     app.add_url_rule('/inicio', 'inicio', index_controller.inicio)
-    app.add_url_rule('/gestion_usuarios', 'gestion_usuarios', index_controller.gestion_usuarios)
+    app.add_url_rule('/gestion_usuarios/usuarios', 'gestion_usuarios', index_controller.gestion_usuarios , methods=["GET", "POST"])
     app.add_url_rule('/gestion_asociados', 'gestion_asociados', index_controller.gestion_asociados)
     app.add_url_rule('/gestion_disciplinas', 'gestion_disciplinas', index_controller.gestion_disciplinas) 
     app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 
     app.add_url_rule('/configuracion', 'configuracion', index_controller.configuracion)
+    #Crear Usuario
+    app.add_url_rule('/crear_usuario', 'crear_usuario', usuarios_controller.crear_usuario, methods=["POST", "GET"])
+
+
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
@@ -83,18 +89,6 @@ def create_app(env="development", static_folder="static"):
             
         print('Auto imported ', [i[0] for i in modules.items()])
         return modules 
-
-    @app.route("/index")
-    def index():
-        #return redirect(url_for('login'))
-         return render_template("index.html")  
-    
-
-    @app.route("/pruebaUsuario")
-    def pruebaUsuario():
-        #return redirect(url_for('login'))
-        return render_template("prueba_usuario.html")  
-    
 
 
     return app
