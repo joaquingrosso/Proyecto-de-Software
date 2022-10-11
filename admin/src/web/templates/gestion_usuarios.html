@@ -1,5 +1,15 @@
 {% extends "index.html" %}
 
+<script type=text/javascript>
+        
+    $(function eliminar_usuario(unId){
+        console.log("eliminar js");      
+        elimiar_usuario(unId);
+    }); 
+
+</script>
+
+
 {% block content %}
 
 <h1>Gestion Usuarios</h1>
@@ -31,7 +41,7 @@
                     <td> {{ u.last_name  }} </td>
                     <td align="center">
                         <a href="" class="text-primary"><i class="fa-solid fa-pen-to-square"></i> Editar</a> | 
-                        <a href="" class="text-danger" onClick="return confirm('¿Esta seguro que desea eliminar el usuario?');"><i class="fa fa-fw fa-trash"></i> Eliminar</a>
+                        <a href="{{ url_for( 'eliminar_usuario',id = u.id )  }}" class="text-danger" onClick="return confirm('¿Esta seguro que desea eliminar el usuario?');"><i class="fa fa-fw fa-trash"></i> Eliminar</a>  <!--  -->
                     </td>
                 </tr>
                 {% endfor %}

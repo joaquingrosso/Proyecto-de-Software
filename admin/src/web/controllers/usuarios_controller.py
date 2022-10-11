@@ -1,5 +1,5 @@
 from src.core.models.usuario_model import Usuario
-from flask import render_template ,request
+from flask import render_template ,request, redirect, url_for   
 
 def register():
     if request.method == 'POST':
@@ -35,3 +35,10 @@ def crear_usuario():
         return render_template('user/crear_usuario.html', mensaje= mensaje)
     else:
         return render_template('user/crear_usuario.html', mensaje=mensaje)
+
+    
+def eliminar_usuario(id):
+    print("entro! eliminar controller")
+    usu = Usuario.get_user_by_id(id)
+    usu.delete()
+    return redirect(url_for("gestion_usuarios"))

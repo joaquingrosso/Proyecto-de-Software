@@ -39,7 +39,12 @@ class Usuario(db.Model):
             self.first_name,
             self.last_name,
         )
-
+    
+    @classmethod
+    def get_user_by_id(self, user_id):
+        print("entro! get by id model")
+        return Usuario.query.filter(self.id == user_id).first()
+    
     @classmethod
     def get_user_by_username_and_password(self, username, password):
         return Usuario.query.filter(self.username == username, self.password == password).first()
@@ -65,5 +70,10 @@ class Usuario(db.Model):
         today = datetime.now()
         nuevo_usuario = Usuario(username=us, password=cl, first_name=no, last_name=ap, email=em, activo=1, inserted_at=today, created_at=today )
         db.session.add(nuevo_usuario)
-        db.session.commit()
+        
         return True
+
+    def delete(self):
+        print("entro! eliminar model")
+        db.session.delete(self)
+        db.session.commit()

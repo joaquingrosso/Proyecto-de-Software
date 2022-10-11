@@ -61,7 +61,7 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/configuracion', 'configuracion', index_controller.configuracion)
     #Crear Usuario
     app.add_url_rule('/crear_usuario', 'crear_usuario', usuarios_controller.crear_usuario, methods=["POST", "GET"])
-
+    app.add_url_rule('/eliminar_usuario/<id>', 'eliminar_usuario', usuarios_controller.eliminar_usuario)
 
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
