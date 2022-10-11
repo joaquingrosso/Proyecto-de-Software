@@ -2,6 +2,7 @@ import importlib
 from logging import handlers
 from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
+
 from src.web.controllers import auth_controller
 from src.web.controllers import index_controller
 
@@ -9,6 +10,7 @@ from src.web.controllers import index_controller
 
 from src.web.controllers import auth_controller
 from src.web.controllers import usuarios_controller
+from src.web.controllers import index_controller
 
 # Imports tablas de los modelos
 from src.core.models.usuario_model import Usuario
@@ -46,7 +48,7 @@ def create_app(env="development", static_folder="static"):
         #return redirect(url_for('login'))
          return render_template("home.html")  
     # Register user
-    app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register, methods=["GET", "POST"])
+    app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register_validation, methods=["GET", "POST"])
     
     # Autenticacion
     app.add_url_rule('/iniciar_sesion', 'login', auth_controller.login, methods=["GET", "POST"])
@@ -59,10 +61,13 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/gestion_disciplinas', 'gestion_disciplinas', index_controller.gestion_disciplinas) 
     app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 
     app.add_url_rule('/configuracion', 'configuracion', index_controller.configuracion)
-    #Crear Usuario
+    
+    #Operaciones Usuarios
     app.add_url_rule('/crear_usuario', 'crear_usuario', usuarios_controller.crear_usuario, methods=["POST", "GET"])
-
-
+    app.add_url_rule('/eliminar_usuario/<id>', 'eliminar_usuario', usuarios_controller.eliminar_usuario)
+    app.add_url_rule('/modificar_usuario/<id>', 'modificar_usuario', usuarios_controller.modificar_usuario, methods=["POST", "GET"])
+    
+    
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
@@ -87,18 +92,6 @@ def create_app(env="development", static_folder="static"):
             
         print('Auto imported ', [i[0] for i in modules.items()])
         return modules 
-
-    @app.route("/index")
-    def index():
-        #return redirect(url_for('login'))
-         return render_template("index.html")  
-    
-
-    @app.route("/pruebaUsuario")
-    def pruebaUsuario():
-        #return redirect(url_for('login'))
-        return render_template("prueba_usuario.html")  
-    
 
 
     return app
