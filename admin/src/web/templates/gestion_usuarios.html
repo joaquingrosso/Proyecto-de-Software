@@ -39,11 +39,53 @@
                     <td> {{ u.username  }}</td>
                     <td> {{ u.first_name }} </td>
                     <td> {{ u.last_name  }} </td>
-                    <td align="center">
-                        <a href="{{ url_for( 'modificar_usuario',id = u.id )  }}" class="text-primary"><i class="fa-solid fa-pen-to-square"></i> Editar</a> | 
-                        <a href="{{ url_for( 'eliminar_usuario',id = u.id )  }}" class="text-danger" onClick="return confirm('¿Esta seguro que desea eliminar el usuario?');"><i class="fa fa-fw fa-trash"></i> Eliminar</a>  <!--  -->
+                    <td align="center">  
+                          <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modaledit{{u.id}}">
+                            <i class="fa-solid fa-pen-to-square"></i> Editar
+                          </button>
+                          <a href="{{ url_for( 'eliminar_usuario',id = u.id )  }}" class="text-danger" onClick="return confirm('¿Esta seguro que desea eliminar el usuario?');"><i class="fa fa-fw fa-trash"></i> Eliminar</a>  <!--  -->
                     </td>
                 </tr>
+
+                <!-- Modal para el modificar -->
+                <div class="modal fade" id="modaledit{{u.id}}" tabindex="-1" aria-labelledby="modaledit" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modaledit">Modificar Usuario</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ url_for('modificar_usuario', id=u.id) }}" method="POST">
+                                <div class="form-group">
+                                    <label class="form-label" for="first_name" style="float: left;"> <b> Nombre </b> </label>
+                                    <input type="text" id="first_name" name="first_name" value="{{u.first_name}}" class="form-control"  />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="last_name"style="float: left;"> <b> Apellido </b> </label>
+                                    <input type="text" id="last_name" name="last_name" value="{{u.last_name}}" class="form-control"  />
+                                </div>
+                          <div class="form-group">
+                            <label class="form-label" for="email"style="float: left;"> <b> E-mail  </b> </label>
+                            <input type="email" id="email" name="email" value="{{u.email}}" class="form-control"  />
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label" for="password"style="float: left;">  <b> Password  </b> </label>
+                            <input type="password" id="password" name="password" value="{{u.pass1 + u.pass2}}" class="form-control" disabled/>
+                          </div>
+                           <div class="form-group">
+                            <label class="form-label" for="username"style="float: left;"> <b> Username  </b> </label>
+                            <input type="text" id="username" name="username" value="{{u.username}}" class="form-control" />
+                          </div> 
+                          <div>
+                            <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success btn-lg btn-block"><i class="fa fa-save"></i> Guardar</button>
+                          </div>
+                          
+                            </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 {% endfor %}
             </tbody>
         </table>

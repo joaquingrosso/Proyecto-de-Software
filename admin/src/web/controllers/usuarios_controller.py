@@ -99,10 +99,10 @@ def modificar_usuario(id):
         #     print("paso el primer if username")
         #     if not verify_username(username):
         #         print("paso el segundo if verify_user")
-        #         usu.update_user_database(first_name,last_name,email,username)
+        usu.update_user_database(first_name,last_name,email,username)
         #     return redirect(url_for("gestion_usuarios"))
         if valido:
           usu.update_user_database(first_name,last_name,email,username)
           return redirect(url_for("gestion_usuarios"))  
-    return render_template('/user/modificar_usuario.html', usu=usu)    
-    
+    # return render_template('/user/modificar_usuario.html', usu=usu) 
+        return redirect(url_for("gestion_usuarios")) 
