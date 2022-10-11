@@ -1,5 +1,5 @@
 {% extends "index.html" %}
-
+<!-- 
 <script type=text/javascript>
         
     $(function eliminar_usuario(unId){
@@ -7,7 +7,7 @@
         elimiar_usuario(unId);
     }); 
 
-</script>
+</script> -->
 
 
 {% block content %}
@@ -40,7 +40,7 @@
                     <td> {{ u.first_name }} </td>
                     <td> {{ u.last_name  }} </td>
                     <td align="center">
-                        <a href="" class="text-primary"><i class="fa-solid fa-pen-to-square"></i> Editar</a> | 
+                        <a href="{{ url_for( 'modificar_usuario',id = u.id )  }}" class="text-primary"><i class="fa-solid fa-pen-to-square"></i> Editar</a> | 
                         <a href="{{ url_for( 'eliminar_usuario',id = u.id )  }}" class="text-danger" onClick="return confirm('¿Esta seguro que desea eliminar el usuario?');"><i class="fa fa-fw fa-trash"></i> Eliminar</a>  <!--  -->
                     </td>
                 </tr>

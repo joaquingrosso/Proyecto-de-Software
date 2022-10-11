@@ -47,7 +47,6 @@ class Usuario(db.Model):
     
     @classmethod
     def get_user_by_id(self, user_id):
-        print("entro! get by id model")
         return Usuario.query.filter(self.id == user_id).first()
     
   
@@ -67,6 +66,13 @@ class Usuario(db.Model):
         db.session.add(self)
         db.session.commit()
         
+    def update_user_database(self,first_name, last_name, email , username):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.username = username
+        db.session.commit()
+        
     def is_valid(self):
         return self.activo and not self.baja
 
@@ -84,6 +90,5 @@ class Usuario(db.Model):
         return True
 
     def delete(self):
-        print("entro! eliminar model")
         db.session.delete(self)
         db.session.commit()
