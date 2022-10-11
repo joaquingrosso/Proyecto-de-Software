@@ -1,5 +1,7 @@
 from flask import redirect, render_template, request, url_for, session, flash
 from src.core.models.usuario_model import Usuario
+from werkzeug.security import check_password_hash
+
 
 def login():
     if request.method == 'POST':
@@ -9,11 +11,14 @@ def login():
         session["password"] = password
         #usuario = Usuario.get_by_username_and_pass(request.form['username'], request.form['password'])
         user = Usuario.query.filter_by(username=username).first()
+        pass1 = user.pass1
+        pass2 = user.pass2
+        pass1 = pass1 + pass2
         if user == None:
             flash("el nombre de usuario o contraseña es incorrecto")
         print(user)
         if user:
-            if user.password == password:
+            if check_password_hash(pass1, password):
                 return render_template('inicio_privada.html')
             elif user.password != password:
                 flash("el nombre de usuario o contraseña es incorrecto")

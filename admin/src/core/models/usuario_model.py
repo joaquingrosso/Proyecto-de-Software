@@ -1,5 +1,7 @@
 from datetime import datetime
 from src.core.database import db
+from werkzeug.security import generate_password_hash , check_password_hash
+
 
 roles = db.Table('usuario_tiene_rol',
                  db.Column('usuario_id', db.Integer, db.ForeignKey(
@@ -13,7 +15,8 @@ class Usuario(db.Model):
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     username = db.Column(db.String(30))
-    password = db.Column(db.String(50))   
+    pass1 = db.Column(db.String(128))
+    pass2 = db.Column(db.String(128))    
     email = db.Column(db.String(50))
     first_name = db.Column(db.String(30))
     last_name = db.Column(db.String(30))
@@ -24,18 +27,20 @@ class Usuario(db.Model):
         'usuarios_con_el_rol', lazy=True), lazy='subquery')
     
     def __init__(
-            self, email=None, username=None, password=None, first_name=None, last_name=None
+            self, email, username, pass1,pass2, first_name, last_name
     ):
         self.email = ((email),)
         self.username = ((username),)
-        self.password = ((password),)
+        self.pass1 = ((pass1),)
+        self.pass2 = ((pass2),)
         self.first_name = ((first_name),)
         self.last_name = ((last_name),)
         self.activo = 1
 
     def __repr__(self):
-        return "<user(username='%s', first_name='%s', last_name='%s' )>" % (
+        return "<user(username='%s',email='%s', first_name='%s', last_name='%s' )>" % (
             self.username,
+            self.email,
             self.first_name,
             self.last_name,
         )
@@ -45,6 +50,11 @@ class Usuario(db.Model):
         print("entro! get by id model")
         return Usuario.query.filter(self.id == user_id).first()
     
+  
+    def verify_password(self, password):
+        passwd = self.pass1 + self.pass2
+        return check_password_hash(passwd, password)
+        
     @classmethod
     def get_user_by_username_and_password(self, username, password):
         return Usuario.query.filter(self.username == username, self.password == password).first()
