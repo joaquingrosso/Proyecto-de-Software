@@ -10,6 +10,7 @@ from src.web.controllers import index_controller
 
 from src.web.controllers import auth_controller
 from src.web.controllers import usuarios_controller
+from src.web.controllers import disciplina_controller
 from src.web.controllers import index_controller
 
 # Imports tablas de los modelos
@@ -67,7 +68,12 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/eliminar_usuario/<id>', 'eliminar_usuario', usuarios_controller.eliminar_usuario)
     app.add_url_rule('/modificar_usuario/<id>', 'modificar_usuario', usuarios_controller.modificar_usuario, methods=["POST", "GET"])
     
+    #Operaciones Disciplina
+    app.add_url_rule('/crear_disciplina', 'crear_disciplina', disciplina_controller.crear_disciplina, methods=["POST", "GET"])
+    app.add_url_rule('/eliminar_disciplina/<id>', 'eliminar_disciplina', disciplina_controller.eliminar_disciplina)
+    app.add_url_rule('/modificar_disciplina/<id>', 'modificar_disciplina', disciplina_controller.modificar_disciplina, methods=["POST", "GET"])
     
+
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)

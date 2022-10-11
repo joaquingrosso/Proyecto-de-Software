@@ -33,6 +33,13 @@ class Disciplina(db.Model):
             self.monthly_cost,
         )
 
+    @classmethod
+    def get_disciplina_by_id(self, disip_id):
+        return Disciplina.query.filter(self.id == disip_id).first()
+
+    def register_disciplina_database(self):
+        db.session.add(self)
+        db.session.commit()
 
     def list_disciplina():
         return Disciplina.query.all()

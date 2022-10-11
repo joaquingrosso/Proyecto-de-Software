@@ -1,5 +1,6 @@
 from flask import redirect, render_template, request, url_for, session, flash
 from src.core.models.usuario_model import Usuario
+from src.core.models.disciplina_model import Disciplina
 
 def inicio():
     return render_template("inicio_privada.html") 
@@ -14,8 +15,12 @@ def gestion_usuarios(nombre=' ' ):
 def gestion_asociados():
     return render_template("gestion_asociados.html")
 
-def gestion_disciplinas():
-    return render_template("gestion_disciplinas.html")
+def gestion_disciplinas(nombre=' '):
+    disciplinasActualesActivas = Disciplina.list_disciplina()  
+    print(disciplinasActualesActivas)
+    if request.method == 'GET':
+        nombre = nombre
+    return render_template("gestion_disciplinas.html", discip = disciplinasActualesActivas)
 
 def pago_cuotas():
     return render_template("pago_cuotas.html")
