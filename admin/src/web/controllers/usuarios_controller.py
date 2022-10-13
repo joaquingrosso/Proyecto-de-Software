@@ -94,7 +94,6 @@ def modificar_usuario(id):
         last_name = request.form['last_name']
         email = request.form['email']
         username = request.form['username']
-<<<<<<< HEAD
         # if usu.username != request.form['username']:
         #     print("paso el primer if username")
         #     if not verify_username(username):
@@ -106,7 +105,6 @@ def modificar_usuario(id):
           return redirect(url_for("gestion_usuarios"))  
     # return render_template('/user/modificar_usuario.html', usu=usu) 
         return redirect(url_for("gestion_usuarios")) 
-=======
             
         if usu.username != username:
             if verify_username(username):
@@ -121,4 +119,3 @@ def modificar_usuario(id):
           return redirect(url_for("gestion_usuarios"))      
     return render_template('/user/modificar_usuario.html', usu=usu)    
     
->>>>>>> be68c228a476287dbff4a4c895117e6cae6ee877
