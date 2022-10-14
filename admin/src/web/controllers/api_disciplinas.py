@@ -25,10 +25,8 @@ def mostrar_disciplina(id):
 def mostrar_disciplinas():
     #disciplinas = 10
     disciplinas = Disciplina.list_disciplina()
-    import ipdb
-    ipdb.set_trace()
     lista = []
-    for disciplina in disciplinas.items:
+    for disciplina in disciplinas:
         dic= {  "id" : disciplina.id,
                 "nombre": disciplina.name,
                 "categoria": disciplina.category, 

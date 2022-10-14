@@ -37,9 +37,21 @@ class Disciplina(db.Model):
     def get_disciplina_by_id(self, disip_id):
         return Disciplina.query.filter(self.id == disip_id).first()
 
+    def update_disciplina_database(self, name, category, instructors , date_time, monthly_cost):
+        self.name = name
+        self.category = category
+        self.instructors = instructors
+        self.date_time = date_time
+        self.monthly_cost = monthly_cost
+        db.session.commit()
+
     def register_disciplina_database(self):
         db.session.add(self)
         db.session.commit()
 
     def list_disciplina():
         return Disciplina.query.all()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
