@@ -15,9 +15,9 @@ class Cuota(db.Model):
     def __init__(
             self, asociado_id=None, disciplina_id=None, monto=None
     ):
-        self.first_name = ((asociado_id),)
-        self.disciplina_id = ((disciplina_id),)
-        self.monto = ((monto),)
+        self.first_name = asociado_id
+        self.disciplina_id = disciplina_id
+        self.monto = monto
     
     # def __repr__(self):
     #     return "<cuota(first_name='%s', last_name='%s', member_number='%s' )>" % (

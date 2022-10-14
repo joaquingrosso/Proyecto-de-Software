@@ -41,7 +41,16 @@ def create_app(env="development", static_folder="static"):
     # Server Side session
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
-
+    # permiso_admin1= Permiso("admin_index")
+    # permiso_admin1.register_database()
+    # permiso_admin2= Permiso("admin_new")
+    # permiso_admin2.register_database()
+    # permiso_admin3= Permiso("admin_destroy")
+    # permiso_admin3.register_database()
+    # permiso_admin4= Permiso("admin_update")
+    # permiso_admin4.register_database()
+    # permiso_admin5= Permiso("admin_show")
+    # permiso_admin5.register_database()
     
 # #ruta al login 
     @app.route("/")
@@ -80,6 +89,7 @@ def create_app(env="development", static_folder="static"):
     #agregar error 403
 
     
+    #datos roles y permisos
     
 
     @app.cli.command(name="resetdb")

@@ -19,12 +19,12 @@ class Disciplina(db.Model):
     def __init__(
             self, name=None, category=None, instructors=None, date_time=None, monthly_cost=None, enabled=None
     ):
-        self.name = ((name),)
-        self.category = ((category),)
-        self.instructors = ((instructors),)
-        self.date_time = ((date_time),)
-        self.monthly_cost = ((monthly_cost),)
-        self.enabled = ((enabled),)
+        self.name = name
+        self.category = category
+        self.instructors = instructors
+        self.date_time = date_time
+        self.monthly_cost = monthly_cost
+        self.enabled = enabled
 
     def __repr__(self):
         return "<disciplina(name='%s', date_time='%s', monthly_cost='%s' )>" % (

@@ -15,8 +15,7 @@ class Usuario(db.Model):
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     username = db.Column(db.String(30))
-    pass1 = db.Column(db.String(128))
-    pass2 = db.Column(db.String(128))    
+    password = db.Column(db.String(500))    
     email = db.Column(db.String(50))
     first_name = db.Column(db.String(30))
     last_name = db.Column(db.String(30))
@@ -27,14 +26,13 @@ class Usuario(db.Model):
         'usuarios_con_el_rol', lazy=True), lazy='subquery')
     
     def __init__(
-            self, email, username, pass1,pass2, first_name, last_name
+            self, email, username, password, first_name, last_name
     ):
-        self.email = ((email),)
-        self.username = ((username),)
-        self.pass1 = ((pass1),)
-        self.pass2 = ((pass2),)
-        self.first_name = ((first_name),)
-        self.last_name = ((last_name),)
+        self.email = email
+        self.username = username
+        self.password = password
+        self.first_name = first_name
+        self.last_name = last_name
         self.activo = 1
 
     def __repr__(self):
@@ -51,7 +49,7 @@ class Usuario(db.Model):
     
   
     def verify_password(self, password):
-        passwd = self.pass1 + self.pass2
+        passwd = self.password
         return check_password_hash(passwd, password)
         
     @classmethod

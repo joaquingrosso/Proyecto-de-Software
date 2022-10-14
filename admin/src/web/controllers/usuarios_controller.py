@@ -48,9 +48,7 @@ def verify_email(email):
 
 def register_database(email,username,password, first_name,last_name):
     passwd_hash = generate_password_hash(password)
-    passwd1= passwd_hash[:len(passwd_hash)//2]
-    passwd2= passwd_hash[len(passwd_hash)//2:]
-    user= Usuario(email,username, passwd1,passwd2, first_name, last_name)
+    user= Usuario(email,username,passwd_hash, first_name, last_name)
     user.register_user_database()
         
     return render_template('user/register_user.html')
@@ -94,20 +92,6 @@ def modificar_usuario(id):
         last_name = request.form['last_name']
         email = request.form['email']
         username = request.form['username']
-<<<<<<< HEAD
-        # if usu.username != request.form['username']:
-        #     print("paso el primer if username")
-        #     if not verify_username(username):
-        #         print("paso el segundo if verify_user")
-        usu.update_user_database(first_name,last_name,email,username)
-        #     return redirect(url_for("gestion_usuarios"))
-        if valido:
-          usu.update_user_database(first_name,last_name,email,username)
-          return redirect(url_for("gestion_usuarios"))  
-    # return render_template('/user/modificar_usuario.html', usu=usu) 
-        return redirect(url_for("gestion_usuarios")) 
-=======
-            
         if usu.username != username:
             if verify_username(username):
                 valido = False
@@ -118,7 +102,7 @@ def modificar_usuario(id):
        
         if valido:
           usu.update_user_database(first_name,last_name,email,username)
-          return redirect(url_for("gestion_usuarios"))      
-    return render_template('/user/modificar_usuario.html', usu=usu)    
+          return redirect(url_for("gestion_usuarios"))  
+    # return render_template('/user/modificar_usuario.html', usu=usu) 
+        return redirect(url_for("gestion_usuarios"))    
     
->>>>>>> be68c228a476287dbff4a4c895117e6cae6ee877

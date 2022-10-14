@@ -7,3 +7,8 @@ class Permiso(db.Model):
     
     def __init__(self, nombre):
         self.nombre = nombre
+        
+    
+    def register_database(self):
+        db.session.add(self)
+        db.session.commit()

@@ -37,16 +37,16 @@ class Asociado(db.Model):
     def __init__(
             self, first_name=None, last_name=None, document_type=None, document=None, gender=None, member_number=None, adress=None, state=None ,phone_number=None , email=None
     ):
-        self.first_name = ((first_name),)
-        self.last_name = ((last_name),)
-        self.document_type = ((document_type),)
-        self.document = ((document),)
-        self.gender = ((gender),)
-        self.member_number = ((member_number),)
-        self.adress = ((adress),)
-        self.state = ((state),)
-        self.phone_number = ((phone_number),)
-        self.email = ((email),)
+        self.first_name = first_name
+        self.last_name = last_name
+        self.document_type = document_type
+        self.document = document
+        self.gender = gender
+        self.member_number = member_number
+        self.adress = adress
+        self.state = state
+        self.phone_number = phone_number
+        self.email = email
 
     def __repr__(self):
         return "<asociado(first_name='%s', last_name='%s', member_number='%s' )>" % (
