@@ -12,6 +12,7 @@ from src.web.controllers import auth_controller
 from src.web.controllers import usuarios_controller
 from src.web.controllers import disciplina_controller
 from src.web.controllers import index_controller
+from src.web.controllers import api_disciplinas
 
 # Imports tablas de los modelos
 from src.core.models.usuario_model import Usuario
@@ -91,6 +92,9 @@ def create_app(env="development", static_folder="static"):
     
     #datos roles y permisos
     
+    # Endpoints para la api
+    app.add_url_rule('/disciplina/<int:id>', 'mostrar_disciplina',api_disciplinas.mostrar_disciplina, methods=['GET'])
+    app.add_url_rule('/disciplinas', 'mostrar_disciplinas',api_disciplinas.mostrar_disciplinas, methods=['GET'])
 
     @app.cli.command(name="resetdb")
     def resetdb():
