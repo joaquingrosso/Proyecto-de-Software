@@ -13,5 +13,9 @@ class Rol(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	nombre = db.Column(db.String(40))
 	permisos = db.relationship('Permiso', secondary=permisos, backref=db.backref('roles_con_el_permiso', lazy = True), lazy='subquery')
-# def __init__(self, nombre):
-#         self.nombre = nombre
+	
+	def __init__(
+				self, nombre
+		):
+			self.nombre = nombre
+        

@@ -24,6 +24,7 @@ from src.core.models.cuota_model import Cuota
 
 from src.web.helpers import handlers
 from src.core.config import config
+from src.core import seeds
 from src.core import database
 from src.core.database import db
 from flask_sqlalchemy import SQLAlchemy
@@ -99,6 +100,10 @@ def create_app(env="development", static_folder="static"):
     @app.cli.command(name="resetdb")
     def resetdb():
         database.reset_db()
+
+    @app.cli.command(name="seeds")
+    def seedsdb():
+        seeds.run()
 
     @app.shell_context_processor
     def make_shell_context():
