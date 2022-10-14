@@ -18,7 +18,7 @@ def register_validation():
         username = request.form['username']
         if not verify_user(username, email) and valido: #se chequea que el usuario no exista y que no tenca campos vacios
             register_database(email, username, password, first_name, last_name)
-            return redirect(url_for("auth/login"))
+            return redirect(url_for("login"))
     return render_template('user/register_user.html')
 
 def verify_user(username,email):
