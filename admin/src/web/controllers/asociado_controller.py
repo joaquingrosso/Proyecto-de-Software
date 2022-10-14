@@ -31,7 +31,9 @@ def crear_asociado():
         return redirect(url_for("gestion_asociados"))  
     return render_template('asociado/crear_asociado.html')
 
-def eliminar_asociado():
+def eliminar_asociado(id):
+    asoc = Asociado.get_asociado_by_id(id)        
+    asoc.delete()
     return redirect(url_for("gestion_asociados"))
 
 def modificar_asociado(id):

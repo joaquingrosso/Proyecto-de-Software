@@ -78,3 +78,7 @@ class Asociado(db.Model):
 
     def list_asociados():
         return Asociado.query.all()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()

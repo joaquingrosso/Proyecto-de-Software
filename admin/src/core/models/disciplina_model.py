@@ -51,3 +51,7 @@ class Disciplina(db.Model):
 
     def list_disciplina():
         return Disciplina.query.all()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()

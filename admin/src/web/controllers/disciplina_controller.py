@@ -29,7 +29,9 @@ def crear_disciplina():
         return redirect(url_for("gestion_disciplinas"))  
     return render_template('disciplina/crear_disciplina.html')
 
-def eliminar_disciplina():
+def eliminar_disciplina(id):
+    disci= Disciplina.get_disciplina_by_id(id)
+    disci.delete()
     return redirect(url_for("gestion_disciplinas"))
 
 def modificar_disciplina(id):
