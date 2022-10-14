@@ -22,7 +22,6 @@ def login():
                 flash("el nombre de usuario o contraseña es incorrecto")
             else:
                 flash("el nombre de usuario o contraseña es incorrecto")
-                return redirect(url_for("auth/login"))
     return render_template("auth/login.html")               
 
 

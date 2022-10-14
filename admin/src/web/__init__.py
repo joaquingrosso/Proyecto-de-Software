@@ -1,5 +1,6 @@
 import importlib
 from logging import handlers
+#from admin.src.web.controllers import asociado_controller
 from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
 
@@ -13,6 +14,7 @@ from src.web.controllers import usuarios_controller
 from src.web.controllers import disciplina_controller
 from src.web.controllers import index_controller
 from src.web.controllers import api_disciplinas
+from src.web.controllers import asociado_controller
 
 # Imports tablas de los modelos
 from src.core.models.usuario_model import Usuario
@@ -83,6 +85,10 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/eliminar_disciplina/<id>', 'eliminar_disciplina', disciplina_controller.eliminar_disciplina)
     app.add_url_rule('/modificar_disciplina/<id>', 'modificar_disciplina', disciplina_controller.modificar_disciplina, methods=["POST", "GET"])
     
+    #Operaciones Asociados
+    app.add_url_rule('/crear_asociado', 'crear_asociado', asociado_controller.crear_asociado, methods=["POST", "GET"])
+    app.add_url_rule('/eliminar_asociado/<id>', 'eliminar_asociado', asociado_controller.eliminar_asociado)
+    app.add_url_rule('/modificar_asociado/<id>', 'modificar_asociado', asociado_controller.modificar_asociado, methods=["POST", "GET"])
 
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
