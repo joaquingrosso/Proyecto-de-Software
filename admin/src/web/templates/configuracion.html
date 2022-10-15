@@ -1,8 +1,21 @@
 {% extends "index.html" %}
 
+{% block title %} Configuracion {% endblock %}
 
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/login.css') }}">
+{% endblock %}
 
 {% block content %}
-    <h1>Configuracion</h1>
+
+    <form class="form-signin" action="" >
+        <h1>Configuracion</h1>
+        <div class="form-floating mt-4" >
+            <input type="password" class="form-control" name="password" placeholder="Password" required>
+            <label for="password">Ingrese su Clave</label>
+        </div>
+        <button type="submit">Ingresar</button>
+
+    </form>
 
 {% endblock %}
