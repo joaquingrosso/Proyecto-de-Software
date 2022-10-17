@@ -1,24 +1,31 @@
 {% extends "index.html" %}
-<!-- 
-<script type=text/javascript>
-        
-    $(function eliminar_usuario(unId){
-        console.log("eliminar js");      
-        elimiar_usuario(unId);
-    }); 
-
-</script> -->
 
 
 {% block content %}
+
+<!-- para el buscador -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+<!-- para el buscador -->
 
 <h1>Gestion Usuarios</h1>
 <br>
 
 <!-- tabla usuarios  -->
+
 <div class="container">
+
+
+  <!-- buscador  -->
+  <div class="row">
+    <div class="col-sm-10">
+      <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    </div>  
+  </div>
+  <!-- buscador -->
+  
     <p>
-        <div class="col-sm-2">
+        <div class="col-md-2">
            <a href="{{ url_for('crear_usuario')}}"> <button type="button" class="btn btn-warning "><i class="fa-solid fa-user-plus"></i> Agregar Usuario</button> </a>
         </div>
     </p>
@@ -32,7 +39,7 @@
                     <th class="text-center">Operaciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="myTable">
                 <!-- print({{ user }}) -->
                 {% for u in user %}
                 <tr>
@@ -93,5 +100,18 @@
 </div>
  <!-- fin de tabla -->
 
+<!-- script para el buscador --> 
+ <script>
+  $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+  </script>
+<!-- script para el buscador --> 
 
 {% endblock %}
+
