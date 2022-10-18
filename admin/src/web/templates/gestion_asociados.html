@@ -1,0 +1,162 @@
+{% extends "index.html" %}
+
+{% block content %}
+<!-- para el buscador -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+<!-- para el buscador -->
+<h1>Gestion Asociados</h1>
+
+<br>
+
+
+
+<!-- tabla asociados  -->
+<div class="container">
+     <!-- buscador  -->
+  <div class="row">
+    <div class="col-sm-10">
+      <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    </div>  
+  </div>
+  <!-- buscador -->
+
+    <p>
+    <div class="col-sm-2">
+        <a href="{{ url_for('crear_asociado') }}"> <button type="button" class="btn btn-warning "><i
+                    class="fa-solid fa-user-plus"></i> Agregar Asociado</button> </a>
+    </div>
+    </p>
+    <div class="col-md-10">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Documento</th>
+                    <th>Genero</th>
+                    <th>Numero de socio</th>
+                    <th>Email</th>
+                    <th class="text-center">Operaciones</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                <!-- print({{ user }}) -->
+                {% for a in asoc %}
+                <tr>
+                    <td> {{ a.first_name }}</td>
+                    <td> {{ a.last_name }} </td>
+                    <td> {{ a.document }} </td>
+                    <td> {{ a.gender }} </td>
+                    <td> {{ a.member_number }} </td>
+                    <td> {{ a.email }} </td>
+                    <td align="center">
+                        <button type="button" class="btn btn-white" data-bs-toggle="modal"
+                            data-bs-target="#modaledit{{a.id}}">
+                            <i class="fa-solid fa-pen-to-square"></i> Editar
+                        </button>
+                        <a href="{{ url_for( 'eliminar_asociado',id = a.id )  }}" class="text-danger"
+                            onClick="return confirm('¿Esta seguro que desea eliminar el asociado?');"><i
+                                class="fa fa-fw fa-trash"></i> Eliminar</a>
+                    </td>
+                </tr>
+
+                <!-- Modal para el modificar -->
+                <div class="modal fade" id="modaledit{{a.id}}" tabindex="-1" aria-labelledby="modaledit"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modaledit">Modificar Asociado</h5>
+                            </div>
+
+
+                            <div class="modal-body">
+                                <form action="{{ url_for('modificar_asociado', id=a.id) }}" method="POST">
+                                    <div class="form-group">
+                                        <label class="form-label" for="first_name" style="float: left;"> <b> Nombre </b>
+                                        </label>
+                                        <input type="text" id="first_name" name="first_name" value="{{a.first_name}}"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="last_name" style="float: left;"> <b> Apellido </b> 
+                                        </label>
+                                        <input type="text" id="last_name" name="last_name" value="{{a.last_name}}"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="document_type" style="float: left;"> <b> Tipo Documento </b> 
+                                        </label>
+                                        <input type="text" id="document_type" name="document_type" value="{{a.document_type}}"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="document" style="float: left;"> <b> Documento </b> 
+                                        </label>
+                                        <input type="text" id="document" name="document" value="{{a.document}}"
+                                            class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="gender" style="float: left;"> <b> Genero </b> 
+                                        </label>
+                                        <input type="text" id="gender" name="gender" value="{{a.gender}}" 
+                                            class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="member_number" style="float: left;"> <b> Numero de socio </b> 
+                                        </label>
+                                        <input type="number" id="member_number" name="member_number" value="{{a.member_number}}" 
+                                            class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="adress" style="float: left;"> <b> Direccion </b> 
+                                        </label>
+                                        <input type="text" id="adress" name="adress" value="{{a.adress}}" 
+                                            class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone_number" style="float: left;"> <b> Numero telefono </b> 
+                                        </label>
+                                        <input type="text" id="phone_number" name="phone_number" value="{{a.phone_number}}" 
+                                            class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="email" style="float: left;"> <b> Email </b> 
+                                        </label>
+                                        <input type="email" id="email" name="email" value="{{a.email}}" 
+                                            class="form-control" />
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-secondary btn-lg"
+                                            data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-success btn-lg btn-block"><i
+                                                class="fa fa-save"></i> Guardar</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- fin de tabla -->
+
+<!-- script para el buscador --> 
+<script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    </script>
+  <!-- script para el buscador --> 
+
+{% endblock %}

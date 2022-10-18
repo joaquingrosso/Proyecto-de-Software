@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+
+
+{% block content %}
+
+<h1>Datos del perfil</h1> 
+<br>
+<div id="header">
+    <h3>Nombre de usuario: </h3> {{ user.username }}
+</div>
+<hr/>
+<div id="header">
+    <h3>Correo: </h3> {{ user.email }}
+</div>
+<hr/>
+<div id="header">
+    <h3>Nombre: </h3>  {{ user.first_name }}
+</div>
+<hr/>
+<div id="header">
+    <h3>Apellido: </h3> {{ user.last_name }}
+</div>
+</div>
+<hr/>
+
+
+{% endblock %}

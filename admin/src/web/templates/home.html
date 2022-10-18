@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block customCSS %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/home.css') }}">
+      <!-- Iconos fontawesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='public/fontawesome/css/all.css') }}">
+{% endblock %}  
+
+
+{% block title %} home {% endblock %}
+
+{% block body %}
+        <!-- Seccion menu cabecera -->
+        <div id="cabecera" class="content">
+            <a href="{{ url_for('home') }}"><img src="../../../public/img/logo2.png"></a>
+            <h1>Club Deportivo Villa Elisa</h1>
+            <a href="{{ url_for('register_user') }}"><button type="button" class="btn btn-primary" style="float: right; margin-top: -15mm; " >Registrarse</button></a>
+            <a href="{{ url_for('login') }}"><button type="button" class="btn btn-primary" style="float: right;margin-top: -15mm ; margin-right:40mm" >Iniciar Sesion</button></a>
+        </div>
+        <br>
+        <!-- Menu -->
+        <div class="container-fluid border-4 border-top border-dark">
+            <nav class="navbar navbar-center navbar-expand-xxl navbar-light bg-light ">
+                <div id="menu" class="nav navbar-nav navbar-center">
+                    <ul>
+                        <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Disciplinas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Descripcion</a></li>
+                        
+                    </ul>
+                   
+                </div>
+            </nav>
+        </div>
+        <br>
+        <!-- Seccion Slider con las imagenes -->
+        <div class="slider">
+            <ul>
+                <li><img src="../../../public/img/image_slider/slider1.jpg" alt=""></li>
+                <li><img src="../../../public/img/image_slider/slider2.jpg" alt=""></li>
+                <li><img src="../../../public/img/image_slider/slider3.jpg" alt=""></li>
+                <li><img src="../../../public/img/image_slider/slider4.jpg" alt=""></li>
+            </ul>
+        </div>
+
+        <!-- <footer class="border-4 border-top border-dark">
+            <h2>Redes Sociales</h2>
+        </footer> -->
+        
+{% endblock %}
+{% block footer %}
+    <div><h2>Redes Sociales</h2></div>
+
+
+{% endblock %}
