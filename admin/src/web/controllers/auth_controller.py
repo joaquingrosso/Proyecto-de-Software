@@ -11,6 +11,7 @@ def login():
         session["password"] = password
         #usuario = Usuario.get_by_username_and_pass(request.form['username'], request.form['password'])
         user = Usuario.query.filter_by(username=username).first()
+        session["id"]= user.id
         pass1 = user.password
         if user == None:
             flash("el nombre de usuario o contraseña es incorrecto")
@@ -28,3 +29,4 @@ def login():
 def logout():
     session.pop("username", None)
     return redirect(url_for("home"))
+

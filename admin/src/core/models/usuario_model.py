@@ -1,6 +1,7 @@
 from datetime import datetime
 from src.core.database import db
 from werkzeug.security import generate_password_hash , check_password_hash
+from src.core.models.rol_model import Rol
 
 
 roles = db.Table('usuario_tiene_rol',
@@ -23,7 +24,7 @@ class Usuario(db.Model):
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
     roles = db.relationship('Rol', secondary=roles, backref=db.backref(
-        'usuarios_con_el_rol', lazy=True), lazy='subquery')
+        'usuarios_con_el_rol', lazy=False), lazy='dynamic')
     
     def __init__(
             self, email, username, password, first_name, last_name
@@ -98,3 +99,15 @@ class Usuario(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+        
+    @classmethod
+    def tiene_rol(self,id,permiso):
+        valido = False
+        user= Usuario.get_user_by_id(id)
+        roles = user.roles.all()
+        for rol in roles:
+           if Rol.tiene_permiso(rol.nombre,permiso):
+               valido = True
+               break
+        #return bool(user.roles.filter_by(id=id).first().permisos.filter_by(nombre=permiso))
+        return valido
