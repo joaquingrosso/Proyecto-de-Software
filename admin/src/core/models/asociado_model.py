@@ -50,10 +50,9 @@ class Asociado(db.Model):
         self.email = email
 
     def __repr__(self):
-        return "<asociado(first_name='%s', last_name='%s', member_number='%s' )>" % (
+        return "<asociado(first_name='%s', last_name='%s')>" % (
             self.first_name,
             self.last_name,
-            self.member_number,
         )
 
     @classmethod
@@ -69,12 +68,12 @@ class Asociado(db.Model):
         asociado = Asociado.get_asociado_by_id(id)
         disciplinas = asociado.disciplinas
         print(disciplinas)
-        if disciplinas == None:
-            return True
+        if list(disciplinas) == []:
+            return False
         else:
             return bool(disciplinas.filter_by(id == id_disc).first())
 
-    def inscribir_disciplina(disciplina):
+    def inscribir_disciplina(self, disciplina):
         self.disciplinas.extend([disciplina])
 
     def update_asociado_database(self, first_name, last_name, document_type, document, gender, adress, phone_number, email):
