@@ -36,6 +36,7 @@
                     <th>Nombre de Usuario</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
+                    <th>Email</th>
                     <th class="text-center">Operaciones</th>
                 </tr>
             </thead>
@@ -46,6 +47,7 @@
                     <td> {{ u.username  }}</td>
                     <td> {{ u.first_name }} </td>
                     <td> {{ u.last_name  }} </td>
+                    <td> {{ u.email  }} </td>
                     <td align="center">  
                           <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modaledit{{u.id}}">
                             <i class="fa-solid fa-pen-to-square"></i> Editar

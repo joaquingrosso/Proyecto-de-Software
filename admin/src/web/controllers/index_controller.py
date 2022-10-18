@@ -31,3 +31,8 @@ def pago_cuotas():
 
 def configuracion():
     return render_template("configuracion.html")
+
+def ver_perfil():
+    username = session['username']
+    user = Usuario.query.filter_by(username=username).first()
+    return render_template('user/ver_perfil.html', user=user)

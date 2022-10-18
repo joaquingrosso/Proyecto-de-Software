@@ -107,3 +107,4 @@ def modificar_usuario(id):
     # return render_template('/user/modificar_usuario.html', usu=usu) 
         return redirect(url_for("gestion_usuarios"))    
     
+

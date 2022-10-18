@@ -75,12 +75,14 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/gestion_disciplinas', 'gestion_disciplinas', index_controller.gestion_disciplinas) 
     app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 
     app.add_url_rule('/configuracion', 'configuracion', index_controller.configuracion)
+    app.add_url_rule('/ver_perfil', 'ver_perfil',index_controller.ver_perfil, methods=['POST', 'GET']) 
     
     #Operaciones Usuarios
     app.add_url_rule('/crear_usuario', 'crear_usuario', usuarios_controller.crear_usuario, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_usuario/<id>', 'eliminar_usuario', usuarios_controller.eliminar_usuario)
     app.add_url_rule('/modificar_usuario/<id>', 'modificar_usuario', usuarios_controller.modificar_usuario, methods=["POST", "GET"])
     
+
     #Operaciones Disciplina
     app.add_url_rule('/crear_disciplina', 'crear_disciplina', disciplina_controller.crear_disciplina, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_disciplina/<id>', 'eliminar_disciplina', disciplina_controller.eliminar_disciplina)
