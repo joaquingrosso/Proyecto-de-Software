@@ -3,6 +3,7 @@ from enum import unique
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
 from src.core.database import db
+from src.core import models
 
 asociado_disciplina = db.Table ("asociado_disciplina",
     db.Column ("asociado_id",db.Integer,db.ForeignKey ("asociado.id"), primary_key=True),
@@ -67,14 +68,14 @@ class Asociado(db.Model):
     def tiene_disciplina(self, id, id_disc):
         asociado = Asociado.get_asociado_by_id(id)
         disciplinas = asociado.disciplinas
-        print(disciplinas)
         if list(disciplinas) == []:
             return False
         else:
-            return bool(disciplinas.filter_by(id == id_disc).first())
-
-    def inscribir_disciplina(self, disciplina):
-        self.disciplinas.extend([disciplina])
+            return bool(disciplinas.filter_by(id = id_disc).first())
+   
+    @classmethod
+    def inscribir_disciplina(self,asociado, disciplina):
+        models.asignar_asociado(asociado, [disciplina])
 
     def update_asociado_database(self, first_name, last_name, document_type, document, gender, adress, phone_number, email):
         self.first_name = first_name

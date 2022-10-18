@@ -34,6 +34,7 @@ def gestion_disciplinas(nombre=' '):
 
 @login_required
 def pago_cuotas():
+    asociado_actual = Asociado.list_asociados()
     return render_template("pago_cuotas.html")
 
 @login_required

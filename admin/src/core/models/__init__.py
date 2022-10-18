@@ -32,3 +32,9 @@ def asignar_usuario(usuario,rol1):
     db.session.add(usuario)
     db.session.commit()
     return usuario
+
+def asignar_asociado(asociado,disciplina):
+    asociado.disciplinas.extend(disciplina)
+    db.session.add(asociado)
+    db.session.commit()
+    return asociado
