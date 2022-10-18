@@ -8,13 +8,45 @@
 
 {% block content %}
 
-    <form class="form-signin" action="" >
+    <form class="form-config" action="" >
+        <br><br>
         <h1>Configuracion</h1>
-        <div class="form-floating mt-4" >
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-            <label for="password">Ingrese su Clave</label>
+
+        <div class="config" >
+            <label for="">Ingrese num de paginacion:</label>
+            <input type="number" class="form-control" name="" placeholder= "..." >
         </div>
-        <button type="submit">Ingresar</button>
+        <br>
+        <div class="form-row">
+            <label>Tabla de pagos:</label>
+            <select class="s-input" name="orden">
+              
+              <option value="1">Habilitar</option>
+              <option value="2">Desabilitar</option>
+            </select>
+        </div>
+        <br>
+        <div class="config" >
+            <label for="">Informacion de contacto:</label>
+            <input type="text" class="form-control" name="" placeholder="..." >
+        </div>
+
+        <div class="config" >
+            <label for="">Texto encabezado recibo de pago:</label>
+            <input type="text" class="form-control" name="" placeholder="..." >
+        </div>
+
+        <div class="config" >
+            <label for="">Valor de cuota mensual base:</label>
+            <input type="text" class="form-control" name="" placeholder="..." >
+        </div>
+
+        <div class="config" >
+            <label for="">Porcentaje de recargo de cuotas:</label>
+            <input type="text" class="form-control" name="" placeholder="..." >
+        </div>
+        <br>
+        <button type="submit">Actualizar</button>
 
     </form>
 

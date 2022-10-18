@@ -77,7 +77,7 @@ class Usuario(db.Model):
         return self.activo and not self.baja
 
     def list_usuarios():
-        return Usuario.query.all()
+        return Usuario.query.filter_by().paginate(1,2)
     
     def existe_usuario(username):
         return Usuario.query.filter_by(username=username).first()

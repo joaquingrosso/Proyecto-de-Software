@@ -19,10 +19,12 @@ from src.core.models.permiso_model import Permiso
 from src.core.models.asociado_model import Asociado
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
+from src.core.models.config_model import Config
 
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import database
+from src.core import seeds 
 from src.core.database import db
 from flask_sqlalchemy import SQLAlchemy
 from flask_session.__init__ import Session

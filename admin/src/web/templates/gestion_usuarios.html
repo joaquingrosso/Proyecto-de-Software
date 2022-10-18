@@ -34,7 +34,7 @@
             </thead>
             <tbody>
                 <!-- print({{ user }}) -->
-                {% for u in user %}
+                {% for u in user.items %}
                 <tr>
                     <td> {{ u.username  }}</td>
                     <td> {{ u.first_name }} </td>
