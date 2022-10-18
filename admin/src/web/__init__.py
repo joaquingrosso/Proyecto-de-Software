@@ -23,6 +23,7 @@ from src.core.models.permiso_model import Permiso
 from src.core.models.asociado_model import Asociado
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
+from src.core.models.pago_model import Pago
 
 
 from src.web.helpers import handlers
