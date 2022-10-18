@@ -11,7 +11,7 @@ cuotas_asociados = db.Table('usuario_tiene_cuota',
 class Cuota(db.Model):
     __tablename__ = 'cuota'
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    asociado_id = db.Column(db.Integer, db.ForeignKey('asociado.id'),nullable=False)
+    #asociado_id = db.Column(db.Integer, db.ForeignKey('asociado.id'),nullable=False)
     disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplina.id'),nullable=False)    
     monto = db.Column(db.Integer)
     periodo = db.Column(db.String, unique=False, nullable=False)
@@ -19,15 +19,13 @@ class Cuota(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now())
     asociados_cuotas = db.relationship('Asociado', secondary=cuotas_asociados, backref=db.backref('usuario_tiene_cuota', lazy = False), lazy='dynamic')
 
-    # falta una tabla pagos , que este asociado a una couta
+    def __init__(
+        self, asociado_id, disciplina_id, monto, periodo):
 
-
-    # def __init__(
-    #         self, asociado_id=None, disciplina_id=None, monto=None
-    # ):
-    #     self.first_name = asociado_id
-    #     self.disciplina_id = disciplina_id
-    #     self.monto = monto
+        self.asociado_id = asociado_id,
+        self.disciplina_id = disciplina_id,
+        self.monto = monto,
+        self.periodo = periodo
     
     # def __repr__(self):
     #     return "<cuota(first_name='%s', last_name='%s', member_number='%s' )>" % (
@@ -35,6 +33,7 @@ class Cuota(db.Model):
     #         self.last_name,
     #         self.member_number,
     #     )
+
 
 
     def list_cuota():
