@@ -51,8 +51,7 @@ class Asociado(db.Model):
     def __repr__(self):
         return "<asociado(first_name='%s', last_name='%s', member_number='%s' )>" % (
             self.first_name,
-            self.last_name,
-            self.member_number,
+            self.last_name,    
         )
 
 
