@@ -5,6 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- para el buscador -->
+
 <h1>Gestion Disciplinas</h1>
 <br>
 
@@ -69,7 +70,7 @@
             </button>
             <a href="{{ url_for( 'eliminar_disciplina',id = d.id )  }}" class="text-danger"
               onClick="return confirm('¿Esta seguro que desea eliminar la disciplina?');"><i
-                class="fa fa-fw fa-trash"></i> Eliminar</a> <!--  -->
+                class="fa fa-fw fa-trash"></i> Eliminar </a>             
           </td>
         </tr>
 
@@ -107,7 +108,7 @@
                   <div>
                     <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-success btn-lg btn-block"><i class="fa fa-save"></i>
-                      Guardar</button>
+                      Guardar</button>                    
                   </div>
 
                 </form>
@@ -115,6 +116,9 @@
             </div>
           </div>
         </div>
+
+        
+
         {% endfor %}
       </tbody>
     </table>

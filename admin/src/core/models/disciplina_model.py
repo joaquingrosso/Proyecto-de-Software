@@ -45,6 +45,10 @@ class Disciplina(db.Model):
     def get_disciplina_by_category(self, category):
         return Disciplina.query.filter(self.category == category).first()
 
+    @classmethod
+    def get_disciplina_by_name_and_category(self, name, category):
+        return Disciplina.query.filter(self.name == name, self.category == category).first()
+
     def update_disciplina_database(self, name, category, instructors , date_time, monthly_cost):
         self.name = name
         self.category = category

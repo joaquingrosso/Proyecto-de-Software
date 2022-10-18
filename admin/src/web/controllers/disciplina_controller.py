@@ -55,15 +55,12 @@ def modificar_disciplina(id):
         # return render_template('/user/modificar_usuario.html', usu=usu) 
         return redirect(url_for("gestion_disciplinas"))  
 
+
 def verify_disciplina(nombre, category):
-    name = Disciplina.get_disciplina_by_name(nombre)
-    category = Disciplina.get_disciplina_by_category(category)
-    if name is not None:
-        flash("El nombre ingresado ya existe")
-        return True
-    if category is not None:
-        flash("La category ingresada ya existe")
-        return True
+    disciplina = Disciplina.get_disciplina_by_name_and_category(nombre,category)
+    if disciplina is not None:
+        flash("La disciplina ya existe")
+        return True    
     return False   
 
 def verify_lenghts(name, category, instructors, date_time, monthly_cost):

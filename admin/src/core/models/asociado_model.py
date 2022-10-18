@@ -30,7 +30,7 @@ class Asociado(db.Model):
     state = db.Column(db.String(10))
     phone_number = db.Column(db.Integer)
     email = db.Column(db.String(50))
-    disciplinas = db.relationship('Disciplina', secondary=asociado_disciplina, backref=db.backref('asociado_realiza_disciplina', lazy = True), lazy='subquery')
+    disciplinas = db.relationship('Disciplina', secondary=asociado_disciplina, backref=db.backref('asociado_realiza_disciplina', lazy = False), lazy='dynamic')
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
     #cuota = db.relationship('cuota', secondary=asociado_cuota, backref=db.backref('asociado_realiza_una_cuota', lazy = True), lazy='subquery')
@@ -64,7 +64,19 @@ class Asociado(db.Model):
     def get_asociado_by_document(self, doc, doc_type):
         return Asociado.query.filter(self.document == doc, self.document_type == doc_type).first()
 
-                                        
+    @classmethod
+    def tiene_disciplina(self, id, id_disc):
+        asociado = Asociado.get_asociado_by_id(id)
+        disciplinas = asociado.disciplinas
+        print(disciplinas)
+        if disciplinas == None:
+            return True
+        else:
+            return bool(disciplinas.filter_by(id == id_disc).first())
+
+    def inscribir_disciplina(disciplina):
+        self.disciplinas.extend([disciplina])
+
     def update_asociado_database(self, first_name, last_name, document_type, document, gender, adress, phone_number, email):
         self.first_name = first_name
         self.last_name = last_name
