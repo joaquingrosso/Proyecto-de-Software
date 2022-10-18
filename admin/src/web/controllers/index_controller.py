@@ -7,21 +7,18 @@ def inicio():
 
 def gestion_usuarios(nombre=' ' ):
     usuariosActualesActivos = Usuario.list_usuarios()
-    print(usuariosActualesActivos)
     if request.method == 'GET':
         nombre = nombre
-    return render_template("gestion_usuarios.html", user=usuariosActualesActivos) 
+    return render_template("gestion_usuarios.html", user=usuariosActualesActivos ) 
 
 def gestion_asociados(nombre=' ' ):
     asociadosActuales = Asociado.list_asociados()
-    print(asociadosActuales)
     if request.method == 'GET':
         nombre = nombre
     return render_template("gestion_asociados.html", asoc = asociadosActuales)
 
 def gestion_disciplinas(nombre=' '):
     disciplinasActualesActivas = Disciplina.list_disciplina()  
-    print(disciplinasActualesActivas)
     if request.method == 'GET':
         nombre = nombre
     return render_template("gestion_disciplinas.html", discip = disciplinasActualesActivas)

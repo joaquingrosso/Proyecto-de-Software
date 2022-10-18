@@ -42,6 +42,14 @@ class Usuario(db.Model):
             self.first_name,
             self.last_name,
         )
+        
+    def listar_roles(self):
+        print("entro")
+        for rol in roles:
+            aux = rol.getNombre()   
+        print("listar roles",aux)
+        return aux
+    
     
     @classmethod
     def get_user_by_id(self, user_id):

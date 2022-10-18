@@ -29,6 +29,7 @@
                     <th>Nombre de Usuario</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
+                    <th>Roles</th>
                     <th class="text-center">Operaciones</th>
                 </tr>
             </thead>
@@ -39,14 +40,23 @@
                     <td> {{ u.username  }}</td>
                     <td> {{ u.first_name }} </td>
                     <td> {{ u.last_name  }} </td>
+                    <td>
+                    {% for r in u.roles %}
+                     {{ r.nombre }}
+                    {% endfor %}
+                    </td>
                     <td align="center">  
                           <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modaledit{{u.id}}">
                             <i class="fa-solid fa-pen-to-square"></i> Editar
                           </button>
                           <a href="{{ url_for( 'eliminar_usuario',id = u.id )  }}" class="text-danger" onClick="return confirm('¿Esta seguro que desea eliminar el usuario?');"><i class="fa fa-fw fa-trash"></i> Eliminar</a>  <!--  -->
+                         
+                          <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modalrol{{u.id}}">
+                            <i class="fa-solid fa-person-circle-plus"></i> Agregar Roles
+                          </button>
                     </td>
                 </tr>
-
+                
                 <!-- Modal para el modificar -->
                 <div class="modal fade" id="modaledit{{u.id}}" tabindex="-1" aria-labelledby="modaledit" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -86,6 +96,35 @@
                       </div>
                     </div>
                   </div>
+
+                   <!-- Modal para el asignar Roles -->
+                <div class="modal fade" id="modalrol{{u.id}}" tabindex="-1" aria-labelledby="modalrol" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="modalrol">Agregar Rol/es</h5>
+                      </div>
+                      <div class="modal-body">
+                          <form action="{{ url_for('modificar_usuario', id=u.id) }}" method="POST">
+                              <div class="form-group">
+                                  <label class="form-label" for="first_name" style="float: left;"> <b> Rol </b> </label>
+                                  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                   <option selected disabled>Seleccionar un Rol</option>
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Operador</option>
+                                    <option value="3">Socio</option>
+                                  </select>
+                              </div>
+                        <div>
+                          <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">Cerrar</button>
+                          <button type="submit" class="btn btn-success btn-lg btn-block"><i class="fa fa-save"></i> Guardar</button>
+                        </div>
+                        
+                          </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 {% endfor %}
             </tbody>
         </table>
