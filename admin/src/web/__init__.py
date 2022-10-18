@@ -25,7 +25,7 @@ from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
 from src.core.models.pago_model import Pago
 
-
+#from src.web.helpers.permiso import validar_permisos
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import seeds
@@ -47,16 +47,6 @@ def create_app(env="development", static_folder="static"):
     # Server Side session
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
-    # permiso_admin1= Permiso("admin_index")
-    # permiso_admin1.register_database()
-    # permiso_admin2= Permiso("admin_new")
-    # permiso_admin2.register_database()
-    # permiso_admin3= Permiso("admin_destroy")
-    # permiso_admin3.register_database()
-    # permiso_admin4= Permiso("admin_update")
-    # permiso_admin4.register_database()
-    # permiso_admin5= Permiso("admin_show")
-    # permiso_admin5.register_database()
     
 # #ruta al login 
     @app.route("/")
@@ -132,6 +122,6 @@ def create_app(env="development", static_folder="static"):
             
         print('Auto imported ', [i[0] for i in modules.items()])
         return modules 
-
+    #app.jinja_env.globals.update(validar_permisos=validar_permisos)
 
     return app

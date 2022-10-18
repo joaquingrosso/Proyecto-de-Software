@@ -28,4 +28,12 @@ class Rol(db.Model):
 		return f'Rol(nombre={self.nombre}'
 
 	
-    
+
+	@classmethod
+	def tiene_permiso(self,rol,permiso):
+		rol= self.obtener_rol(rol)
+		return bool(rol.permisos.filter_by(nombre=permiso).first())
+  
+	@classmethod
+	def obtener_rol(self, nombre_rol):
+		return Rol.query.filter(self.nombre == nombre_rol).first()
