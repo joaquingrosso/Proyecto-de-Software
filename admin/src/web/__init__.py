@@ -24,6 +24,7 @@ from src.core.models.asociado_model import Asociado
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
 
+
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import seeds
@@ -61,6 +62,10 @@ def create_app(env="development", static_folder="static"):
     def home():
         #return redirect(url_for('login'))
          return render_template("home.html")  
+
+    
+
+
     # Register user
     app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register_validation, methods=["GET", "POST"])
     
@@ -70,17 +75,19 @@ def create_app(env="development", static_folder="static"):
     
     # Manejo de menu index
     app.add_url_rule('/inicio', 'inicio', index_controller.inicio)
-    app.add_url_rule('/gestion_usuarios/usuarios', 'gestion_usuarios', index_controller.gestion_usuarios , methods=["GET", "POST"])
+    app.add_url_rule('/gestion_usuarios/usuarios', 'gestion_usuarios', index_controller.gestion_usuarios , methods=["GET", "POST"])   
     app.add_url_rule('/gestion_asociados', 'gestion_asociados', index_controller.gestion_asociados)
     app.add_url_rule('/gestion_disciplinas', 'gestion_disciplinas', index_controller.gestion_disciplinas) 
     app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 
     app.add_url_rule('/configuracion', 'configuracion', index_controller.configuracion)
+    app.add_url_rule('/ver_perfil', 'ver_perfil',index_controller.ver_perfil, methods=['POST', 'GET']) 
     
     #Operaciones Usuarios
     app.add_url_rule('/crear_usuario', 'crear_usuario', usuarios_controller.crear_usuario, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_usuario/<id>', 'eliminar_usuario', usuarios_controller.eliminar_usuario)
     app.add_url_rule('/modificar_usuario/<id>', 'modificar_usuario', usuarios_controller.modificar_usuario, methods=["POST", "GET"])
     
+
     #Operaciones Disciplina
     app.add_url_rule('/crear_disciplina', 'crear_disciplina', disciplina_controller.crear_disciplina, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_disciplina/<id>', 'eliminar_disciplina', disciplina_controller.eliminar_disciplina)

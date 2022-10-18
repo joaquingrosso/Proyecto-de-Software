@@ -11,6 +11,9 @@ class Cuota(db.Model):
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
 
+    # agregar un campo peiodo
+    # falta una tabla pagos , que este asociado a una couta
+
 
     def __init__(
             self, asociado_id=None, disciplina_id=None, monto=None

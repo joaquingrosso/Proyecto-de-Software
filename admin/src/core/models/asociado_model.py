@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import unique
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
 from src.core.database import db
@@ -24,7 +25,7 @@ class Asociado(db.Model):
     document_type = db.Column(db.String(5))
     document = db.Column(db.String(15))
     gender = db.Column(db.String(15))
-    member_number = db.Column(db.Integer)
+    #member_number = db.Column(db.Integer, unique=True) representado con el id
     adress = db.Column(db.String(50))
     state = db.Column(db.String(10))
     phone_number = db.Column(db.Integer)
@@ -35,14 +36,14 @@ class Asociado(db.Model):
     #cuota = db.relationship('cuota', secondary=asociado_cuota, backref=db.backref('asociado_realiza_una_cuota', lazy = True), lazy='subquery')
 
     def __init__(
-            self, first_name=None, last_name=None, document_type=None, document=None, gender=None, member_number=None, adress=None, state=None ,phone_number=None , email=None
+            self, first_name=None, last_name=None, document_type=None, document=None, gender=None, adress=None, state=None ,phone_number=None , email=None
     ):
         self.first_name = first_name
         self.last_name = last_name
         self.document_type = document_type
         self.document = document
         self.gender = gender
-        self.member_number = member_number
+        #self.member_number = member_number
         self.adress = adress
         self.state = state
         self.phone_number = phone_number
@@ -59,13 +60,17 @@ class Asociado(db.Model):
     def get_asociado_by_id(self, asoc_id):
         return Asociado.query.filter(self.id == asoc_id).first()
 
-    def update_asociado_database(self, first_name, last_name, document_type, document, gender, member_number, adress, phone_number, email):
+    @classmethod
+    def get_asociado_by_document(self, doc, doc_type):
+        return Asociado.query.filter(self.document == doc, self.document_type == doc_type).first()
+
+                                        
+    def update_asociado_database(self, first_name, last_name, document_type, document, gender, adress, phone_number, email):
         self.first_name = first_name
         self.last_name = last_name
         self.document_type = document_type
         self.document = document
         self.gender = gender
-        self.member_number = member_number
         self.adress = adress
         #self.state = state
         self.phone_number = phone_number

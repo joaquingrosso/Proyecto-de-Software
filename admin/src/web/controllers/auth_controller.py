@@ -9,14 +9,14 @@ def login():
         password = request.form['password']
         session["username"] = username
         session["password"] = password
+        session['logged_in'] = True
         #usuario = Usuario.get_by_username_and_pass(request.form['username'], request.form['password'])
-        user = Usuario.query.filter_by(username=username).first()
-        session["id"]= user.id
-        pass1 = user.password
-        if user == None:
+        user = Usuario.query.filter_by(username=username).first()        
+        if user == None or password == None:
             flash("el nombre de usuario o contraseña es incorrecto")
-        print(user)
+        print(user)        
         if user:
+            pass1 = user.password
             if check_password_hash(pass1, password):
                 return render_template('inicio_privada.html')
             elif user.password != password:
@@ -27,6 +27,6 @@ def login():
 
 
 def logout():
-    session.pop("username", None)
+    session.clear()
     return redirect(url_for("home"))
 
