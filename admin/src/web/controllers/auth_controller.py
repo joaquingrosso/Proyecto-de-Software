@@ -11,9 +11,7 @@ def login():
         session["password"] = password
         #usuario = Usuario.get_by_username_and_pass(request.form['username'], request.form['password'])
         user = Usuario.query.filter_by(username=username).first()
-        pass1 = user.pass1
-        pass2 = user.pass2
-        pass1 = pass1 + pass2
+        pass1 = user.password
         if user == None:
             flash("el nombre de usuario o contraseña es incorrecto")
         print(user)
@@ -24,10 +22,9 @@ def login():
                 flash("el nombre de usuario o contraseña es incorrecto")
             else:
                 flash("el nombre de usuario o contraseña es incorrecto")
-                return redirect(url_for("auth/login"))
     return render_template("auth/login.html")               
 
 
 def logout():
-    session.pop("username", None)
+    session.clear()
     return redirect(url_for("home"))

@@ -1,5 +1,6 @@
 import importlib
 from logging import handlers
+#from admin.src.web.controllers import asociado_controller
 from flask import Flask
 from flask import render_template, request, redirect , url_for, flash, session
 
@@ -10,7 +11,10 @@ from src.web.controllers import index_controller
 
 from src.web.controllers import auth_controller
 from src.web.controllers import usuarios_controller
+from src.web.controllers import disciplina_controller
 from src.web.controllers import index_controller
+from src.web.controllers import api_disciplinas
+from src.web.controllers import asociado_controller
 
 # Imports tablas de los modelos
 from src.core.models.usuario_model import Usuario
@@ -23,6 +27,7 @@ from src.core.models.config_model import Config
 
 from src.web.helpers import handlers
 from src.core.config import config
+from src.core import seeds
 from src.core import database
 from src.core import seeds 
 from src.core.database import db
@@ -42,7 +47,16 @@ def create_app(env="development", static_folder="static"):
     # Server Side session
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
-
+    # permiso_admin1= Permiso("admin_index")
+    # permiso_admin1.register_database()
+    # permiso_admin2= Permiso("admin_new")
+    # permiso_admin2.register_database()
+    # permiso_admin3= Permiso("admin_destroy")
+    # permiso_admin3.register_database()
+    # permiso_admin4= Permiso("admin_update")
+    # permiso_admin4.register_database()
+    # permiso_admin5= Permiso("admin_show")
+    # permiso_admin5.register_database()
     
 # #ruta al login 
     @app.route("/")
@@ -63,24 +77,43 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/gestion_disciplinas', 'gestion_disciplinas', index_controller.gestion_disciplinas) 
     app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 
     app.add_url_rule('/configuracion', 'configuracion', index_controller.configuracion)
+    app.add_url_rule('/ver_perfil', 'ver_perfil',index_controller.ver_perfil, methods=['POST', 'GET']) 
     
     #Operaciones Usuarios
     app.add_url_rule('/crear_usuario', 'crear_usuario', usuarios_controller.crear_usuario, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_usuario/<id>', 'eliminar_usuario', usuarios_controller.eliminar_usuario)
     app.add_url_rule('/modificar_usuario/<id>', 'modificar_usuario', usuarios_controller.modificar_usuario, methods=["POST", "GET"])
     
+
+    #Operaciones Disciplina
+    app.add_url_rule('/crear_disciplina', 'crear_disciplina', disciplina_controller.crear_disciplina, methods=["POST", "GET"])
+    app.add_url_rule('/eliminar_disciplina/<id>', 'eliminar_disciplina', disciplina_controller.eliminar_disciplina)
+    app.add_url_rule('/modificar_disciplina/<id>', 'modificar_disciplina', disciplina_controller.modificar_disciplina, methods=["POST", "GET"])
     
+    #Operaciones Asociados
+    app.add_url_rule('/crear_asociado', 'crear_asociado', asociado_controller.crear_asociado, methods=["POST", "GET"])
+    app.add_url_rule('/eliminar_asociado/<id>', 'eliminar_asociado', asociado_controller.eliminar_asociado)
+    app.add_url_rule('/modificar_asociado/<id>', 'modificar_asociado', asociado_controller.modificar_asociado, methods=["POST", "GET"])
+
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
     #agregar error 403
 
     
+    #datos roles y permisos
     
+    # Endpoints para la api
+    app.add_url_rule('/disciplina/<int:id>', 'mostrar_disciplina',api_disciplinas.mostrar_disciplina, methods=['GET'])
+    app.add_url_rule('/disciplinas', 'mostrar_disciplinas',api_disciplinas.mostrar_disciplinas, methods=['GET'])
 
     @app.cli.command(name="resetdb")
     def resetdb():
         database.reset_db()
+
+    @app.cli.command(name="seeds")
+    def seedsdb():
+        seeds.run()
 
     @app.shell_context_processor
     def make_shell_context():

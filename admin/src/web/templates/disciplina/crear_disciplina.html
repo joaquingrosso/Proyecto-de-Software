@@ -8,7 +8,7 @@
 <!-- Iconos fontawesome -->
 <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.css') }}">
 
-<p><h1 class="h3 mb-3 fw-normal"> Formulario de Creación de USUARIO</h1></p>
+<p><h1 class="h3 mb-3 fw-normal"> Formulario de Creación de Disciplina</h1></p>
 
     {% with messages = get_flashed_messages() %}
 
@@ -23,43 +23,43 @@
     {% endif %}
 
     {% endwith %}
-    <form action="{{ url_for('crear_usuario') }} " method="POST"  id="form_crear" name="form_crear">
+    <form action="{{ url_for('crear_disciplina') }}" method="POST"  id="form_crear" name="form_crear">
         <div class="row mb-4">
             <div class="col">
             <div class="form-outline shadow-sm p-1 mb-1 bg-white rounded">
-                <label class="form-label" for="first_name"> <b> Nombre </b> </label>
-                <input type="text" id="first_name" name="first_name" class="form-control" required />
+                <label class="form-label" for="name"> <b> Nombre </b> </label>
+                <input type="text" id="name" name="name" class="form-control" required />
             </div>
             </div>
             <div class="col">
             <div class="form-outline shadow-sm p-1 mb-1 bg-white rounded">
-                <label class="form-label" for="last_name"> <b> Apellido </b> </label>
-                <input type="text" id="last_name" name="last_name" class="form-control" required />
+                <label class="form-label" for="category"> <b> Categoria </b> </label>
+                <input type="text" id="category" name="category" class="form-control" required />
             </div>
             </div>
         </div>
     
       <!-- e-mail input -->
       <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
-        <label class="form-label" for="email"> <b> E-mail  </b> </label>
-        <input type="email" id="email" name="email" class="form-control" required />
+        <label class="form-label" for="instructors"> <b> Instructores  </b> </label>
+        <input type="text" id="instructors" name="instructors" class="form-control" required />
       </div>
     
       <!-- password input -->
       <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
-        <label class="form-label" for="password">  <b> Password  </b> </label>
-        <input type="password" id="password" name="password" class="form-control" />
+        <label class="form-label" for="date_time">  <b> Dia y hora  </b> </label>
+        <input type="text" id="date_time" name="date_time" class="form-control" />
       </div>
 
        <!-- text input -->
        <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
-        <label class="form-label" for="username"> <b> Username  </b> </label>
-        <input type="text" id="username" name="username" class="form-control" />
+        <label class="form-label" for="monthly_cost"> <b> Costo Mensual  </b> </label>
+        <input type="text" id="monthly_cost" name="monthly_cost" class="form-control" />
       </div>
 
       
       <button type="submit" class="btn btn-success btn-lg btn-block"><i class="fa fa-save"></i> CREAR</button>      
-      <a class="btn btn-primary btn-lg btn-block" href="{{ url_for('gestion_usuarios') }}" role="button">RETROCEDER</a> 
+      <a class="btn btn-primary btn-lg btn-block" href="{{ url_for('gestion_disciplinas') }}" role="button">RETROCEDER</a> 
     
     </form>
     

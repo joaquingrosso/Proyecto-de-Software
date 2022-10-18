@@ -4,7 +4,6 @@ from werkzeug.security import generate_password_hash , check_password_hash
 
 
 def register_validation():
-
     if request.method == 'POST':
         valido = True
         for clave,valor in request.form.items():
@@ -19,6 +18,7 @@ def register_validation():
         username = request.form['username']
         if not verify_user(username, email) and valido: #se chequea que el usuario no exista y que no tenca campos vacios
             register_database(email, username, password, first_name, last_name)
+            return redirect(url_for("login"))
     return render_template('user/register_user.html')
 
 def verify_user(username,email):
@@ -32,8 +32,7 @@ def verify_user(username,email):
         return True
     return False
 
-def verify_username(username):
-    
+def verify_username(username):    
     usuario = Usuario.query.filter_by(username=username).first()
     print(usuario)
     if usuario is not None:
@@ -50,9 +49,7 @@ def verify_email(email):
 
 def register_database(email,username,password, first_name,last_name):
     passwd_hash = generate_password_hash(password)
-    passwd1= passwd_hash[:len(passwd_hash)//2]
-    passwd2= passwd_hash[len(passwd_hash)//2:]
-    user= Usuario(email,username, passwd1,passwd2, first_name, last_name)
+    user= Usuario(email,username,passwd_hash, first_name, last_name)
     user.register_user_database()
         
     return render_template('user/register_user.html')
@@ -73,6 +70,7 @@ def crear_usuario():
         username = request.form['username']
         if not verify_user(username, email) and valido: #se chequea que el usuario no exista y que no tenca campos vacios
             register_database(email, username, password, first_name, last_name)
+            return redirect(url_for("gestion_usuarios"))  
     return render_template('user/crear_usuario.html')
 
 
@@ -95,14 +93,18 @@ def modificar_usuario(id):
         last_name = request.form['last_name']
         email = request.form['email']
         username = request.form['username']
-        # if usu.username != request.form['username']:
-        #     print("paso el primer if username")
-        #     if not verify_username(username):
-        #         print("paso el segundo if verify_user")
-        #         usu.update_user_database(first_name,last_name,email,username)
-        #     return redirect(url_for("gestion_usuarios"))
+        if usu.username != username:
+            if verify_username(username):
+                valido = False
+
+        if usu.email != email:
+            if verify_email(email):
+                valido = False
+       
         if valido:
           usu.update_user_database(first_name,last_name,email,username)
           return redirect(url_for("gestion_usuarios"))  
-    return render_template('/user/modificar_usuario.html', usu=usu)    
+    # return render_template('/user/modificar_usuario.html', usu=usu) 
+        return redirect(url_for("gestion_usuarios"))    
     
+
