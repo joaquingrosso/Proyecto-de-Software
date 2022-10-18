@@ -32,16 +32,19 @@
       </thead>
       <tbody id="myTable">
         <tr>
-          <td></td>
-          <td> </td>
-          <td> </td>
+          {% for ld in listaD %}
+          {% for la in listaA %}
+          <td>{{la.first_name}}</td>
+          <td>{{ld.name}}</td>
+          <td>{{ld.monthly_cost}} </td>
           <td align="center">
             <a href=""> <button type="button" class="btn btn-warning "><i class="fa-solid fa-user-plus"></i>
                Agregar Pago</button> 
             </a>        
           </td>
         </tr>
-
+        {% endfor %}
+        {% endfor %}
       </tbody>
     </table>
   </div>

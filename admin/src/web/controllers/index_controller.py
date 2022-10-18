@@ -34,8 +34,15 @@ def gestion_disciplinas(nombre=' '):
 
 @login_required
 def pago_cuotas():
+    lista_asociado = []
+    lista_disciplina = []
     asociado_actual = Asociado.list_asociados()
-    return render_template("pago_cuotas.html")
+    disciplina_actual = Disciplina.list_disciplina()
+    for a in asociado_actual:
+        for d in disciplina_actual:
+            lista_asociado.extend(Asociado.query.filter(a.id == d.id))
+            lista_disciplina.extend(Disciplina.query.filter(d.id == a.id))
+    return render_template("pago_cuotas.html", listaA = lista_asociado , listaD = lista_disciplina)
 
 @login_required
 def configuracion():

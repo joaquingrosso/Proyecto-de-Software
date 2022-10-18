@@ -54,6 +54,7 @@ class Asociado(db.Model):
         return "<asociado(first_name='%s', last_name='%s')>" % (
             self.first_name,
             self.last_name,
+    
         )
 
     @classmethod

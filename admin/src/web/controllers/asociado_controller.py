@@ -75,7 +75,7 @@ def realizar_inscripcion(id_a, id_d):
     if Asociado.tiene_disciplina(id_a, id_d):
         flash("Ya esta inscripto en esta disciplina")
     else:
-        Asociado.inscribir_disciplina(asociado,disciplina)
+        Asociado.inscribir_disciplina(asociado, disciplina)
     return redirect(url_for("gestion_asociados"))
 
 def verify_asociado(doc, doc_type):
