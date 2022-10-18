@@ -24,6 +24,7 @@ from src.core.models.asociado_model import Asociado
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
 
+
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import seeds
@@ -61,6 +62,10 @@ def create_app(env="development", static_folder="static"):
     def home():
         #return redirect(url_for('login'))
          return render_template("home.html")  
+
+    
+
+
     # Register user
     app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register_validation, methods=["GET", "POST"])
     
@@ -70,7 +75,7 @@ def create_app(env="development", static_folder="static"):
     
     # Manejo de menu index
     app.add_url_rule('/inicio', 'inicio', index_controller.inicio)
-    app.add_url_rule('/gestion_usuarios/usuarios', 'gestion_usuarios', index_controller.gestion_usuarios , methods=["GET", "POST"])
+    app.add_url_rule('/gestion_usuarios/usuarios', 'gestion_usuarios', index_controller.gestion_usuarios , methods=["GET", "POST"])   
     app.add_url_rule('/gestion_asociados', 'gestion_asociados', index_controller.gestion_asociados)
     app.add_url_rule('/gestion_disciplinas', 'gestion_disciplinas', index_controller.gestion_disciplinas) 
     app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 

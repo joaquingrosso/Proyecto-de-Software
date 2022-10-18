@@ -1,5 +1,6 @@
 from datetime import datetime
 from src.core.database import db
+from src.core.models.rol_model import Rol
 from werkzeug.security import generate_password_hash , check_password_hash
 
 
@@ -34,6 +35,9 @@ class Usuario(db.Model):
         self.first_name = first_name
         self.last_name = last_name
         self.activo = 1
+        rol = Rol.get_rol_Socio()
+        print(rol.nombre)
+        self.roles.extend([rol])
 
     def __repr__(self):
         return "<user(username='%s',email='%s', first_name='%s', last_name='%s' )>" % (
