@@ -19,7 +19,6 @@ def crear_asociado():
         last_name = request.form.get('last_name')
         document_type = request.form.get('document_type')
         document = request.form.get('document')
-
         gender = request.form.get('gender')
         #member_number = request.form.get('member_number')
         adress = request.form.get('adress')
@@ -28,7 +27,7 @@ def crear_asociado():
         email = request.form.get('email')
         
         #se chequea que el usuario no exista y que no tenca campos vacios
-        if not verify_asociado(document, document_type)and verify_lenghts(first_name, last_name, document, gender, adress, email) and valido: 
+        if not verify_asociado(document, document_type)and verify_lenghts(first_name, last_name, document, adress, email) and valido: 
             register_database(first_name, last_name, document_type, document, gender, adress, state, phone_number, email)
             return redirect(url_for("gestion_asociados"))  
     return render_template('asociado/crear_asociado.html')
@@ -57,10 +56,10 @@ def modificar_asociado(id):
         adress = request.form.get('adress')
         phone_number = request.form.get('phone_number')
         email = request.form.get('email')
-        #validaciones de modificar       
-        if verify_lenghts(first_name, last_name, document_type, document, gender, adress, email) and verify_asociado(document, document_type) and valido:
-          asoc.update_asociado_database(first_name, last_name, document_type, document, gender, adress, phone_number, email)
-          return redirect(url_for("gestion_asociados")) 
+        #validaciones de modificar    
+        if verify_lenghts(first_name, last_name, document, adress, email) and not verify_asociado_not_actual(id, document, document_type) and valido:
+            asoc.update_asociado_database(first_name, last_name, document_type, document, gender, adress, phone_number, email)
+            return redirect(url_for("gestion_asociados")) 
         # return render_template('/user/modificar_usuario.html', usu=usu) 
         return redirect(url_for("gestion_asociados"))  
 
@@ -80,14 +79,22 @@ def realizar_inscripcion(id_a, id_d):
     return redirect(url_for("gestion_asociados"))
 
 def verify_asociado(doc, doc_type):
-    asoc = Asociado.get_asociado_by_document(doc, doc_type)
+    asoc = Asociado.get_asociado_by_document(doc, doc_type)    
     if asoc is not None:
         flash("Ya existe un asociado con ese documento")
         return True
     return False   
 
-def verify_lenghts(first_name, last_name, document, gender, adress, email):
-    print(adress)
+def verify_asociado_not_actual(asoc_id, doc, doc_type):
+    asoc = Asociado.get_asociado_by_document(doc, doc_type)    
+    if asoc is not None:
+        aux = Asociado.get_asociado_by_id(asoc_id)
+        if asoc != aux:
+            flash("Ya existe un asociado con ese documento")
+            return True
+    return False   
+
+def verify_lenghts(first_name, last_name, document, adress, email):
     #name
     if len(first_name) > 30:
         flash("Nombre muy largo")
@@ -108,13 +115,6 @@ def verify_lenghts(first_name, last_name, document, gender, adress, email):
         return False
     elif len(document) < 8:
         flash("Documento muy corto")
-        return False 
-    #gender
-    if len(gender) > 15:
-        flash("Genero muy largo")
-        return False
-    elif len(gender) < 5:
-        flash("Genero muy corto")
         return False 
     #adress
     if len(adress) > 50:

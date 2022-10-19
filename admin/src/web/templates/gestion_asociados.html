@@ -63,7 +63,7 @@
                 <tr>
                     <td> {{ a.first_name }}</td>
                     <td> {{ a.last_name }} </td>
-                    <td> {{ a.document }} </td>
+                    <td> {{a.document_type}} - {{ a.document }} </td>
                     <td> {{ a.gender }} </td>
                     <!-- <td> {{ a.member_number }} </td> -->
                     <td> {{ a.email }} </td>
@@ -110,8 +110,23 @@
                                         <label class="form-label" for="document_type" style="float: left;"> <b> Tipo
                                                 Documento </b>
                                         </label>
-                                        <input type="text" id="document_type" name="document_type"
-                                            value="{{a.document_type}}" class="form-control" />
+                                        <!-- <input type="text" id="document_type" name="document_type"
+                                            value="{{a.document_type}}" class="form-control" /> -->
+                                        <select id="document_type" name="document_type" class="selectpicker form-control">
+                                            <option value="{{a.document_type}}">{{a.document_type}}</option>
+                                            {% if a.document_type != "CUIL" %}
+                                                <option value="CUIL">CUIL</option>
+                                            {% endif %}
+                                            {% if a.document_type != "DNI" %}
+                                                <option value="DNI">DNI</option>
+                                            {% endif %}
+                                            {% if a.document_type != "LC" %}
+                                                <option value="LC">LC</option>
+                                            {% endif %}
+                                            {% if a.document_type != "LE" %}
+                                                <option value="LE">LE</option>
+                                            {% endif %}                                            
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="document" style="float: left;"> <b> Documento
@@ -122,9 +137,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="gender" style="float: left;"> <b> Genero </b>
-                                        </label>
-                                        <input type="text" id="gender" name="gender" value="{{a.gender}}"
-                                            class="form-control" />
+                                        </label>                                        
+                                        <select id="gender" name="gender" value="{{a.gender}}" class="selectpicker form-control">
+                                            <option value="{{a.gender}}">{{a.gender}}</option>
+                                            {% if a.gender != "Masculino" %}
+                                                <option value="Masculino">Masculino</option>
+                                            {% endif %}
+                                            {% if a.gender != "Femenino" %}
+                                                <option value="Femenino">Femenino</option>
+                                            {% endif %}
+                                            {% if a.gender != "Otro" %}
+                                                <option value="Otro">Otro</option>
+                                            {% endif %}
+                                        </select>
                                     </div>
                                     <!-- <div class="form-group">
                                         <label class="form-label" for="member_number" style="float: left;"> <b> Numero
