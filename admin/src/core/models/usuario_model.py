@@ -90,6 +90,7 @@ class Usuario(db.Model):
     def list_usuarios(page,cant):
         return Usuario.query.filter_by().paginate(page,cant)
     
+    
     def existe_usuario(username):
         return Usuario.query.filter_by(username=username).first()
 

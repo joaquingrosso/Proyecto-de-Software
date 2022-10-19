@@ -4,6 +4,10 @@ from src.core.models.disciplina_model import Disciplina
 from src.core.models.asociado_model import Asociado
 from src.core.models.config_model import Config
 
+from functools import wraps
+from src.web.controllers import login_required
+
+
 def inicio():
     return render_template("inicio_privada.html") 
 
