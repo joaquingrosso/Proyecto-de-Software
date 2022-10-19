@@ -24,7 +24,19 @@ def run():
         first_name = "admin",
         last_name ="admin" 
         )
+
+    #creacion registro configuracion
+    config = models.crear_configuracion(
+        id = "1",
+        cant = "3",
+        estado_pagos = "1",  
+        info_contacto ="unContacto..", 
+        texto_encabezado = "unTexto..",    
+        valor_cuota = "unValor..",    
+        recargo_cuota = "unRecargo..",
     
+        )
+        
     #asignacion usuario al rol
     models.asignar_usuario(admin,[rol1,rol2])
     

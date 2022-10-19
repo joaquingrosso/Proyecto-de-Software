@@ -1,17 +1,14 @@
 from src.core.database import db
-<<<<<<< HEAD
 from src.core.models.config_model import Config
-
+from src.core.models.permiso_model import Permiso
+from src.core.models.rol_model import Rol
+from src.core.models.usuario_model import Usuario
 
 def crear_configuracion(**kwargs):
     config = Config(**kwargs)
     db.session.add(config)
     db.session.commit()
     return config
-=======
-from src.core.models.permiso_model import Permiso
-from src.core.models.rol_model import Rol
-from src.core.models.usuario_model import Usuario
 
 def crear_permisos(**kwargs):
     permiso = Permiso(**kwargs)
@@ -42,4 +39,3 @@ def asignar_usuario(usuario,rol1):
     db.session.add(usuario)
     db.session.commit()
     return usuario
->>>>>>> 5c66ff26a4cbf3d6dc4a703783af56ec4e8617e9
