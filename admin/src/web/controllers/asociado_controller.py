@@ -1,9 +1,10 @@
 from unicodedata import category
 from src.core.models.asociado_model import Asociado
-from flask import render_template ,request, redirect, url_for ,flash 
+from flask import render_template, request, redirect , url_for, flash
 from src.core.models.disciplina_model import Disciplina
 
 from src.web.controllers import login_required
+
 
 @login_required
 def crear_asociado():
@@ -18,6 +19,7 @@ def crear_asociado():
         last_name = request.form.get('last_name')
         document_type = request.form.get('document_type')
         document = request.form.get('document')
+
         gender = request.form.get('gender')
         #member_number = request.form.get('member_number')
         adress = request.form.get('adress')
@@ -26,7 +28,7 @@ def crear_asociado():
         email = request.form.get('email')
         
         #se chequea que el usuario no exista y que no tenca campos vacios
-        if not verify_asociado(document, document_type)and verify_lenghts(first_name, last_name, document_type, document, gender, adress, email) and valido: 
+        if not verify_asociado(document, document_type)and verify_lenghts(first_name, last_name, document, gender, adress, email) and valido: 
             register_database(first_name, last_name, document_type, document, gender, adress, state, phone_number, email)
             return redirect(url_for("gestion_asociados"))  
     return render_template('asociado/crear_asociado.html')
@@ -49,13 +51,12 @@ def modificar_asociado(id):
                 valido = False
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
-        document_type = request.form.get('document_type')
+        document_type = request.form.get('document_type')   
         document = request.form.get('document')
         gender = request.form.get('gender')
         adress = request.form.get('adress')
         phone_number = request.form.get('phone_number')
         email = request.form.get('email')
-        print(adress)
         #validaciones de modificar       
         if verify_lenghts(first_name, last_name, document_type, document, gender, adress, email) and verify_asociado(document, document_type) and valido:
           asoc.update_asociado_database(first_name, last_name, document_type, document, gender, adress, phone_number, email)
@@ -85,7 +86,7 @@ def verify_asociado(doc, doc_type):
         return True
     return False   
 
-def verify_lenghts(first_name, last_name, document_type, document, gender, adress, email):
+def verify_lenghts(first_name, last_name, document, gender, adress, email):
     print(adress)
     #name
     if len(first_name) > 30:
@@ -100,14 +101,7 @@ def verify_lenghts(first_name, last_name, document_type, document, gender, adres
         return False
     elif len(last_name) < 5:
         flash("Apellido muy corto")
-        return False       
-    #document_type
-    if len(document_type) > 5:
-        flash("Tipo de documento muy largo")
-        return False
-    elif len(document_type) < 2:
-        flash("Tipo de documento muy corto")
-        return False   
+        return False            
     #document
     if len(document) > 15:
         flash("Documento muy largo")
