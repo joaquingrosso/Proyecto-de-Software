@@ -49,8 +49,8 @@ class Disciplina(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def list_disciplina():
-        return Disciplina.query.all()
+    def list_disciplina(page,cant):
+        return Disciplina.query.filter_by().paginate(page,cant)
 
     def delete(self):
         db.session.delete(self)

@@ -23,3 +23,22 @@ class Config(db.Model):
         self.texto_encabezado = ((texto_encabezado),)
         self.valor_cuota = ((valor_cuota),)
         self.recargo_cuota = ((recargo_cuota),)
+
+
+    def get_configuration():
+        return Config.query.order_by(Config.id.desc()).first()
+
+    def get_page_rows():
+        return Config.get_configuration().page_size
+
+    def get_self(self, disip_id):
+        return Config.query.filter(self.id == disip_id).first()    
+
+    def update_config_database(self, cant, estado_pagos, info_contacto, texto_encabezado, valor_cuota, recargo_cuota ):
+        self.cant = cant
+        self.estado_pagos = estado_pagos
+        self.info_contacto = info_contacto
+        self.texto_encabezado = texto_encabezado
+        self.valor_cuota = valor_cuota
+        self.recargo_cuota = recargo_cuota
+        db.session.commit()

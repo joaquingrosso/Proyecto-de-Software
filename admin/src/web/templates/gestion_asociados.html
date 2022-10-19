@@ -42,7 +42,7 @@
             </thead>
             <tbody id="myTable">
                 <!-- print({{ user }}) -->
-                {% for a in asoc %}
+                {% for a in asoc.items %}
                 <tr>
                     <td> {{ a.first_name }}</td>
                     <td> {{ a.last_name }} </td>
@@ -142,6 +142,47 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        
+         <!-- Enlaces de paginación -->
+         <div class="text-right">
+            <a href="{{ url_for('gestion_asociados', page=asoc.prev_num) }}"
+               class="btn btn-outline-dark
+              {% if asoc.page == 1 %}disabled{% endif %}">
+                &laquo;
+            </a>
+         <!-- Recorra el número de páginas para mostrar un enlace para cada vista-->
+         {% for page_num in asoc.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+         {% if page_num %}
+         <!-- Verifique la página activa y establezca el enlace en "Activo"-->
+             {% if asoc.page == page_num %}
+             <a href="{{ url_for('gestion_asociados', page=page_num) }}"
+                class="btn btn-dark">
+                {{ page_num }}
+             </a>
+             {% else %}
+             <a href="{{ url_for('gestion_asociados', page=page_num) }}"
+                class="btn btn-outline-dark">
+                 {{ page_num }}
+             </a>
+             {% endif %}
+         {% else %}
+                ...
+         {% endif %}
+       {% endfor %}
+       <a href="{{ url_for('gestion_asociados', page=asoc.next_num) }}"
+           class="btn btn-outline-dark
+          {% if asoc.page == asoc.pages %}disabled{% endif %}">
+           &raquo;
+       </a>
+       </div>
+      <p class="text-right mt-3">
+          pagina {{ asoc.page }} de {{ asoc.pages }}
+       </p>
+  
+        </div>
+
+
     </div>
 </div>
 <!-- fin de tabla -->

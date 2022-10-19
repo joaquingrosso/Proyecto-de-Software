@@ -76,8 +76,8 @@ class Asociado(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def list_asociados():
-        return Asociado.query.all()
+    def list_asociados(page,cant):
+        return Asociado.query.filter_by().paginate(page,cant)
 
     def delete(self):
         db.session.delete(self)

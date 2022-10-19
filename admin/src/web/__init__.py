@@ -15,6 +15,8 @@ from src.web.controllers import disciplina_controller
 from src.web.controllers import index_controller
 from src.web.controllers import api_disciplinas
 from src.web.controllers import asociado_controller
+from src.web.controllers import config_controller
+
 
 # Imports tablas de los modelos
 from src.core.models.usuario_model import Usuario
@@ -78,6 +80,9 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 
     app.add_url_rule('/configuracion', 'configuracion', index_controller.configuracion)
     app.add_url_rule('/ver_perfil', 'ver_perfil',index_controller.ver_perfil, methods=['POST', 'GET']) 
+
+    #Configuracion
+    app.add_url_rule("/configuracion", "config_update", config_controller.update, methods=["POST"])
     
     #Operaciones Usuarios
     app.add_url_rule('/crear_usuario', 'crear_usuario', usuarios_controller.crear_usuario, methods=["POST", "GET"])

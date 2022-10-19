@@ -82,8 +82,8 @@ class Usuario(db.Model):
     def is_valid(self):
         return self.activo and not self.baja
 
-    def list_usuarios():
-        return Usuario.query.filter_by().paginate(1,2)
+    def list_usuarios(page,cant):
+        return Usuario.query.filter_by().paginate(page,cant)
     
     def existe_usuario(username):
         return Usuario.query.filter_by(username=username).first()
