@@ -25,8 +25,13 @@ from src.core.models.permiso_model import Permiso
 from src.core.models.asociado_model import Asociado
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
+<<<<<<< HEAD
 from src.core.models.config_model import Config
+=======
+from src.core.models.pago_model import Pago
+>>>>>>> 27aaf07bf30a57e424b5688335afc57ea06b0210
 
+#from src.web.helpers.permiso import validar_permisos
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import seeds
@@ -49,22 +54,16 @@ def create_app(env="development", static_folder="static"):
     # Server Side session
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
-    # permiso_admin1= Permiso("admin_index")
-    # permiso_admin1.register_database()
-    # permiso_admin2= Permiso("admin_new")
-    # permiso_admin2.register_database()
-    # permiso_admin3= Permiso("admin_destroy")
-    # permiso_admin3.register_database()
-    # permiso_admin4= Permiso("admin_update")
-    # permiso_admin4.register_database()
-    # permiso_admin5= Permiso("admin_show")
-    # permiso_admin5.register_database()
     
 # #ruta al login 
     @app.route("/")
     def home():
         #return redirect(url_for('login'))
          return render_template("home.html")  
+
+    
+
+
     # Register user
     app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register_validation, methods=["GET", "POST"])
     
@@ -74,7 +73,7 @@ def create_app(env="development", static_folder="static"):
     
     # Manejo de menu index
     app.add_url_rule('/inicio', 'inicio', index_controller.inicio)
-    app.add_url_rule('/gestion_usuarios/usuarios', 'gestion_usuarios', index_controller.gestion_usuarios , methods=["GET", "POST"])
+    app.add_url_rule('/gestion_usuarios/usuarios', 'gestion_usuarios', index_controller.gestion_usuarios , methods=["GET", "POST"])   
     app.add_url_rule('/gestion_asociados', 'gestion_asociados', index_controller.gestion_asociados)
     app.add_url_rule('/gestion_disciplinas', 'gestion_disciplinas', index_controller.gestion_disciplinas) 
     app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 
@@ -99,7 +98,8 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/crear_asociado', 'crear_asociado', asociado_controller.crear_asociado, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_asociado/<id>', 'eliminar_asociado', asociado_controller.eliminar_asociado)
     app.add_url_rule('/modificar_asociado/<id>', 'modificar_asociado', asociado_controller.modificar_asociado, methods=["POST", "GET"])
-
+    app.add_url_rule('/inscribir_asociado_disciplina/<id>', 'inscribir_asociado_disciplina', asociado_controller.inscribir_asociado_disciplina)
+    app.add_url_rule('/realizar_inscripcion/<id_a><id_d>', 'realizar_inscripcion', asociado_controller.realizar_inscripcion)
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
@@ -132,6 +132,6 @@ def create_app(env="development", static_folder="static"):
             
         print('Auto imported ', [i[0] for i in modules.items()])
         return modules 
-
+    #app.jinja_env.globals.update(validar_permisos=validar_permisos)
 
     return app

@@ -37,7 +37,7 @@ def run():
         )
         
     #asignacion usuario al rol
-    models.asignar_usuario(admin,[rol1,rol2])
+    models.asignar_usuario(admin,[rol1,rol2]) #ademas va a tener el rol asociado porque todos los usuarios se crean con ese rol
     
     #asignacion de roles y permisos
     models.asignar_permisos(rol1, [permiso1, permiso2, permiso3, permiso4, permiso5])
