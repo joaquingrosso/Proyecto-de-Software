@@ -17,6 +17,7 @@ from src.web.controllers import api_disciplinas
 from src.web.controllers import asociado_controller
 from src.web.controllers import config_controller
 
+from src.web.controllers import cuota_controller
 
 # Imports tablas de los modelos
 from src.core.models.usuario_model import Usuario
@@ -38,7 +39,9 @@ from src.core.database import db
 from flask_sqlalchemy import SQLAlchemy
 from flask_session.__init__ import Session
 from os import error
+
 # from routes import auth
+
 
 # def create_app(static_folder="static"):
 def create_app(env="development", static_folder="static"):
@@ -97,6 +100,10 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/modificar_asociado/<id>', 'modificar_asociado', asociado_controller.modificar_asociado, methods=["POST", "GET"])
     app.add_url_rule('/inscribir_asociado_disciplina/<id>', 'inscribir_asociado_disciplina', asociado_controller.inscribir_asociado_disciplina)
     app.add_url_rule('/realizar_inscripcion/<id_a><id_d>', 'realizar_inscripcion', asociado_controller.realizar_inscripcion)
+    
+    #Operaciones Couta
+    app.add_url_rule('/realizar_pago', 'realizar_pago', cuota_controller.realizar_pago, methods=["POST", "GET"])
+
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)

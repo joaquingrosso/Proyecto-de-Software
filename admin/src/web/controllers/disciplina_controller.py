@@ -49,7 +49,7 @@ def modificar_disciplina(id):
         monthly_cost = request.form['monthly_cost']
 
         #validaciones de modificar       
-        if verify_lenghts(name, category, instructors, date_time, monthly_cost)and verify_disciplina(name, category) and valido:
+        if verify_lenghts(name, category, instructors, date_time, monthly_cost) and not verify_disciplina_not_actual(id, name, category) and valido:
           disip.update_disciplina_database(name, category, instructors, date_time, monthly_cost)
           return redirect(url_for("gestion_disciplinas")) 
         # return render_template('/user/modificar_usuario.html', usu=usu) 
@@ -61,6 +61,15 @@ def verify_disciplina(nombre, category):
     if disciplina is not None:
         flash("La disciplina ya existe")
         return True    
+    return False   
+
+def verify_disciplina_not_actual(disc_id, name, category):
+    disciplina = Disciplina.get_disciplina_by_name_and_category(name,category)   
+    if disciplina is not None:
+        aux = Disciplina.get_disciplina_by_id(disc_id)
+        if disciplina != aux:
+            flash("La disciplina ya existe")
+            return True
     return False   
 
 def verify_lenghts(name, category, instructors, date_time, monthly_cost):

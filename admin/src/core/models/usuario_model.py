@@ -21,7 +21,7 @@ class Usuario(db.Model):
     email = db.Column(db.String(50))
     first_name = db.Column(db.String(30))
     last_name = db.Column(db.String(30))
-    activo = db.Column(db.Integer) #0 moroso (no) - 1 activo (si)
+    activo = db.Column(db.String(10)) 
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
     roles = db.relationship('Rol', secondary=roles, backref=db.backref(
@@ -35,9 +35,8 @@ class Usuario(db.Model):
         self.password = password
         self.first_name = first_name
         self.last_name = last_name
-        self.activo = 1
+        self.activo = "activo"
         rol = Rol.get_rol_Socio()
-        print(rol.nombre)
         self.roles.extend([rol])
 
     def __repr__(self):
@@ -89,6 +88,7 @@ class Usuario(db.Model):
 
     def list_usuarios(page,cant):
         return Usuario.query.filter_by().paginate(page,cant)
+    
     
     def existe_usuario(username):
         return Usuario.query.filter_by(username=username).first()

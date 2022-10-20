@@ -1,9 +1,11 @@
 from unicodedata import category
 from src.core.models.asociado_model import Asociado
-from flask import render_template ,request, redirect, url_for ,flash 
+from flask import render_template, request, redirect , url_for, flash
 from src.core.models.disciplina_model import Disciplina
+from src.core.models.config_model import Config
 
 from src.web.controllers import login_required
+
 
 @login_required
 def crear_asociado():
@@ -26,7 +28,7 @@ def crear_asociado():
         email = request.form.get('email')
         
         #se chequea que el usuario no exista y que no tenca campos vacios
-        if not verify_asociado(document, document_type)and verify_lenghts(first_name, last_name, document_type, document, gender, adress, email) and valido: 
+        if not verify_asociado(document, document_type)and verify_lenghts(first_name, last_name, document, adress, email) and valido: 
             register_database(first_name, last_name, document_type, document, gender, adress, state, phone_number, email)
             return redirect(url_for("gestion_asociados"))  
     return render_template('asociado/crear_asociado.html')
@@ -49,23 +51,24 @@ def modificar_asociado(id):
                 valido = False
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
-        document_type = request.form.get('document_type')
+        document_type = request.form.get('document_type')   
         document = request.form.get('document')
         gender = request.form.get('gender')
         adress = request.form.get('adress')
         phone_number = request.form.get('phone_number')
         email = request.form.get('email')
-        print(adress)
-        #validaciones de modificar       
-        if verify_lenghts(first_name, last_name, document_type, document, gender, adress, email) and verify_asociado(document, document_type) and valido:
-          asoc.update_asociado_database(first_name, last_name, document_type, document, gender, adress, phone_number, email)
-          return redirect(url_for("gestion_asociados")) 
+        #validaciones de modificar    
+        if verify_lenghts(first_name, last_name, document, adress, email) and not verify_asociado_not_actual(id, document, document_type) and valido:
+            asoc.update_asociado_database(first_name, last_name, document_type, document, gender, adress, phone_number, email)
+            return redirect(url_for("gestion_asociados")) 
         # return render_template('/user/modificar_usuario.html', usu=usu) 
         return redirect(url_for("gestion_asociados"))  
 
 @login_required
 def inscribir_asociado_disciplina(id):    
-    disciplinasActuales = Disciplina.list_disciplina()
+    config = Config.get_self(Config, 1)
+    page = request.args.get('page', 1, type=int)
+    disciplinasActuales = Disciplina.list_disciplina(page,config.cant)
     return render_template("asociado/inscribir_asociado_disciplina.html", id=id, disciplinas = disciplinasActuales )
 
 def realizar_inscripcion(id_a, id_d):
@@ -79,14 +82,22 @@ def realizar_inscripcion(id_a, id_d):
     return redirect(url_for("gestion_asociados"))
 
 def verify_asociado(doc, doc_type):
-    asoc = Asociado.get_asociado_by_document(doc, doc_type)
+    asoc = Asociado.get_asociado_by_document(doc, doc_type)    
     if asoc is not None:
         flash("Ya existe un asociado con ese documento")
         return True
     return False   
 
-def verify_lenghts(first_name, last_name, document_type, document, gender, adress, email):
-    print(adress)
+def verify_asociado_not_actual(asoc_id, doc, doc_type):
+    asoc = Asociado.get_asociado_by_document(doc, doc_type)    
+    if asoc is not None:
+        aux = Asociado.get_asociado_by_id(asoc_id)
+        if asoc != aux:
+            flash("Ya existe un asociado con ese documento")
+            return True
+    return False   
+
+def verify_lenghts(first_name, last_name, document, adress, email):
     #name
     if len(first_name) > 30:
         flash("Nombre muy largo")
@@ -100,27 +111,13 @@ def verify_lenghts(first_name, last_name, document_type, document, gender, adres
         return False
     elif len(last_name) < 5:
         flash("Apellido muy corto")
-        return False       
-    #document_type
-    if len(document_type) > 5:
-        flash("Tipo de documento muy largo")
-        return False
-    elif len(document_type) < 2:
-        flash("Tipo de documento muy corto")
-        return False   
+        return False            
     #document
     if len(document) > 15:
         flash("Documento muy largo")
         return False
     elif len(document) < 8:
         flash("Documento muy corto")
-        return False 
-    #gender
-    if len(gender) > 15:
-        flash("Genero muy largo")
-        return False
-    elif len(gender) < 5:
-        flash("Genero muy corto")
         return False 
     #adress
     if len(adress) > 50:
