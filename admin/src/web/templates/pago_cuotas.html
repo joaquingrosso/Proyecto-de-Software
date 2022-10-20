@@ -3,7 +3,7 @@
 
 
 {% block content %}
-<h1>Pago Cuotas</h1>
+<h1>Listado de Asociados inscriptos a Discipinas</h1>
 <br>
 
 <!-- tabla pagos  -->
@@ -26,21 +26,21 @@
         <tr class="bg-primary text-white">
           <th>Asociado</th>
           <th>Disciplina</th>
-          <th>Monto</th>
+          <!-- <th>Monto</th> -->
           <th class="text-center">Operaciones</th>
         </tr>
       </thead>
       <tbody id="myTable">
+        {% for la in listaA %}
+        {% for d in la.disciplinas.all() %}
         <tr>
-          {% for ld in listaD %}
-          {% for la in listaA %}
-          <td>{{la.first_name}}</td>
-          <td>{{ld.name}}</td>
-          <td>{{ld.monthly_cost}} </td>
+          <td>{{la.last_name}} {{la.first_name}}</td>
+          <td>{{d.name}}</td>
+          <!-- <td>{{d.monthly_cost}}</td> -->
           <td align="center">
-            <a href=""> <button type="button" class="btn btn-warning "><i class="fa-solid fa-user-plus"></i>
-               Agregar Pago</button> 
-            </a>        
+            <a href="{{ url_for('realizar_pago')}}"> <button type="button" class="btn btn-warning "><i class="fa-sharp fa-solid fa-eye"></i>
+                Ver Cuota</button>
+            </a>
           </td>
         </tr>
         {% endfor %}
@@ -51,5 +51,6 @@
 </div>
 <!-- fin de tabla -->
 
+<!-- lagregaron comportamiento de pago -->
 
 {% endblock %}

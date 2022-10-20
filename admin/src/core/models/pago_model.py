@@ -17,3 +17,9 @@ class Pago(db.Model):
     cuota_id = db.Column(db.Integer, db.ForeignKey('disciplina.id'),nullable=False)    
     pago_cuotas = db.relationship('Cuota', secondary=pago_cuotas, backref=db.backref('cuota_tiene_pago', lazy = False), lazy='dynamic')
 
+
+
+
+def register_pago_database(self):
+        db.session.add(self)
+        db.session.commit()

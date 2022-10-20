@@ -45,7 +45,13 @@
     <!-- e-mail input -->
     <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
         <label class="form-label" for="document_type"> <b> Tipo Documento </b> </label>
-        <input type="text" id="document_type" name="document_type" class="form-control" required />
+        
+        <select name="document_type" class="selectpicker form-control">
+            <option value="CUIL">CUIL</option>
+            <option value="DNI">DNI</option>
+            <option value="LC">LC</option>
+            <option value="LD">LE</option>
+        </select>
     </div>
 
     <!-- password input -->
@@ -57,7 +63,11 @@
     <!-- text input -->
     <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
         <label class="form-label" for="gender"> <b> Genero </b> </label>
-        <input type="text" id="gender" name="gender" class="form-control" />
+        <select name="gender" class="selectpicker form-control">
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Otro">Otro</option>
+        </select>
     </div>
 
     <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
@@ -67,7 +77,10 @@
 
     <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
         <label class="form-label" for="state"> <b> Estado </b> </label>
-        <input type="text" id="state" name="state" class="form-control" />
+        <select name="state" class="selectpicker form-control">
+            <option value="Activo">Activo</option>
+            <option value="No-Activo">No-Activo</option>            
+        </select>
     </div>
 
     <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
