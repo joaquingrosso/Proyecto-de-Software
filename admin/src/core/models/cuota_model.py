@@ -34,7 +34,10 @@ class Cuota(db.Model):
     #         self.member_number,
     #     )
 
-
+    @classmethod
+    def get_cuota_by_id(self, cuota_id):
+        return Cuota.query.filter(self.id == cuota_id).first()
+    
 
     def list_cuota():
         return Cuota.query.all()
