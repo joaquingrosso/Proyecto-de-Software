@@ -2,6 +2,7 @@ from unicodedata import category
 from src.core.models.asociado_model import Asociado
 from flask import render_template, request, redirect , url_for, flash
 from src.core.models.disciplina_model import Disciplina
+from src.core.models.config_model import Config
 
 from src.web.controllers import login_required
 
@@ -65,7 +66,9 @@ def modificar_asociado(id):
 
 @login_required
 def inscribir_asociado_disciplina(id):    
-    disciplinasActuales = Disciplina.list_disciplina()
+    config = Config.get_self(Config, 1)
+    page = request.args.get('page', 1, type=int)
+    disciplinasActuales = Disciplina.list_disciplina(page,config.cant)
     return render_template("asociado/inscribir_asociado_disciplina.html", id=id, disciplinas = disciplinasActuales )
 
 def realizar_inscripcion(id_a, id_d):

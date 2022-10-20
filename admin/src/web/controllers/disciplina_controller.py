@@ -64,9 +64,9 @@ def verify_disciplina(nombre, category):
     return False   
 
 def verify_disciplina_not_actual(disc_id, name, category):
-    disciplina = Disciplina.get_disciplina_by_name_and_category(nombre,category)   
+    disciplina = Disciplina.get_disciplina_by_name_and_category(name,category)   
     if disciplina is not None:
-        aux = Disciplina.get_disciplina_by_id(disip_id)
+        aux = Disciplina.get_disciplina_by_id(disc_id)
         if disciplina != aux:
             flash("La disciplina ya existe")
             return True

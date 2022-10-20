@@ -26,6 +26,7 @@ def gestion_asociados(nombre=' ' ):
     config = Config.get_self(Config, 1)
     page = request.args.get('page', 1, type=int)
     asociadosActuales = Asociado.list_asociados(page,config.cant)
+    print(asociadosActuales)
     if request.method == 'GET':
         nombre = nombre
     return render_template("gestion_asociados.html", asoc = asociadosActuales)
@@ -35,13 +36,16 @@ def gestion_disciplinas(nombre=' '):
     config = Config.get_self(Config, 1)
     page = request.args.get('page', 1, type=int)
     disciplinasActualesActivas = Disciplina.list_disciplina(page,config.cant) 
+    print(disciplinasActualesActivas)
     if request.method == 'GET':
         nombre = nombre
     return render_template("gestion_disciplinas.html", discip = disciplinasActualesActivas)
 
 @login_required
 def pago_cuotas():
-    lista_asociados = Asociado.list_asociados()
+    config = Config.get_self(Config, 1)
+    page = request.args.get('page', 1, type=int)
+    lista_asociados = Asociado.list_asociados(page,config.cant)
     return render_template("pago_cuotas.html", listaA = lista_asociados )
 
 @login_required
