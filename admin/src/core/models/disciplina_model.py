@@ -49,6 +49,14 @@ class Disciplina(db.Model):
     def get_disciplina_by_name_and_category(self, name, category):
         return Disciplina.query.filter(self.name == name, self.category == category).first()
 
+    @classmethod
+    def get_disciplina_enebled(self):
+        return True
+
+    @classmethod
+    def get_disciplina_disabled(self):
+        return False
+
     def update_disciplina_database(self, name, category, instructors , date_time, monthly_cost):
         self.name = name
         self.category = category

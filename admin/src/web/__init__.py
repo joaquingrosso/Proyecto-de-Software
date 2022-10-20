@@ -87,20 +87,22 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/crear_usuario', 'crear_usuario', usuarios_controller.crear_usuario, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_usuario/<id>', 'eliminar_usuario', usuarios_controller.eliminar_usuario)
     app.add_url_rule('/modificar_usuario/<id>', 'modificar_usuario', usuarios_controller.modificar_usuario, methods=["POST", "GET"])
-    
+    app.add_url_rule('/activar_desactivar/<id>', 'activar_desactivar', usuarios_controller.activar_desactivar)
 
     #Operaciones Disciplina
     app.add_url_rule('/crear_disciplina', 'crear_disciplina', disciplina_controller.crear_disciplina, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_disciplina/<id>', 'eliminar_disciplina', disciplina_controller.eliminar_disciplina)
     app.add_url_rule('/modificar_disciplina/<id>', 'modificar_disciplina', disciplina_controller.modificar_disciplina, methods=["POST", "GET"])
-    
+    app.add_url_rule('/habilitar_deshabilitarAsoc/<id>', 'habilitar_deshabilitarA', disciplina_controller.habilitar_deshabilitar)
+
     #Operaciones Asociados
     app.add_url_rule('/crear_asociado', 'crear_asociado', asociado_controller.crear_asociado, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_asociado/<id>', 'eliminar_asociado', asociado_controller.eliminar_asociado)
     app.add_url_rule('/modificar_asociado/<id>', 'modificar_asociado', asociado_controller.modificar_asociado, methods=["POST", "GET"])
     app.add_url_rule('/inscribir_asociado_disciplina/<id>', 'inscribir_asociado_disciplina', asociado_controller.inscribir_asociado_disciplina)
     app.add_url_rule('/realizar_inscripcion/<id_a><id_d>', 'realizar_inscripcion', asociado_controller.realizar_inscripcion)
-    
+    app.add_url_rule('/habilitar_deshabilitarDisc/<id>', 'habilitar_deshabilitarD', disciplina_controller.habilitar_deshabilitar)
+
     #Operaciones Couta
     app.add_url_rule('/realizar_pago', 'realizar_pago', cuota_controller.realizar_pago, methods=["POST", "GET"])
 

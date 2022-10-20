@@ -55,6 +55,16 @@ def modificar_disciplina(id):
         # return render_template('/user/modificar_usuario.html', usu=usu) 
         return redirect(url_for("gestion_disciplinas"))  
 
+@login_required
+def habilitar_deshabilitar(id):
+    disc = Disciplina.get_disciplina_by_id(id)
+    if disc.enabled == Disciplina.get_disciplina_enebled():
+        disc.enabled = Disciplina.get_disciplina_disabled()
+    else:
+        disc.enabled = Disciplina.get_disciplina_enebled()
+    disc.register_disciplina_database()
+    return redirect(url_for("gestion_disciplinas"))
+
 
 def verify_disciplina(nombre, category):
     disciplina = Disciplina.get_disciplina_by_name_and_category(nombre,category)

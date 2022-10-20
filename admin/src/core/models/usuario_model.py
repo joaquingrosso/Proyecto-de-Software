@@ -21,7 +21,7 @@ class Usuario(db.Model):
     email = db.Column(db.String(50))
     first_name = db.Column(db.String(30))
     last_name = db.Column(db.String(30))
-    activo = db.Column(db.String(10)) 
+    activo = db.Column(db.String(10)) #activo no-activo
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
     roles = db.relationship('Rol', secondary=roles, backref=db.backref(
@@ -35,7 +35,7 @@ class Usuario(db.Model):
         self.password = password
         self.first_name = first_name
         self.last_name = last_name
-        self.activo = "activo"
+        self.activo = "Activo"
         rol = Rol.get_rol_Socio()
         self.roles.extend([rol])
 
@@ -54,15 +54,17 @@ class Usuario(db.Model):
         print("listar roles",aux)
         return aux
     
+    @classmethod
+    def get_estado_activo(self):
+        return "Activo"
+
+    @classmethod
+    def get_estado_no_activo(self):
+        return "Desactivo"
     
     @classmethod
     def get_user_by_id(self, user_id):
-        return Usuario.query.filter(self.id == user_id).first()
-    
-  
-    def verify_password(self, password):
-        passwd = self.password
-        return check_password_hash(passwd, password)
+        return Usuario.query.filter(self.id == user_id).first()            
         
     @classmethod
     def get_user_by_username_and_password(self, username, password):
@@ -71,6 +73,10 @@ class Usuario(db.Model):
     @classmethod
     def get_user_by_username(self, username):
         return Usuario.query.filter(self.username == username).first()
+
+    def verify_password(self, password):
+        passwd = self.password
+        return check_password_hash(passwd, password)
 
     def register_user_database(self):
         db.session.add(self)

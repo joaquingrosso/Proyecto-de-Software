@@ -77,6 +77,14 @@ class Asociado(db.Model):
     def inscribir_disciplina(self,asociado, disciplina):
         models.asignar_asociado(asociado, [disciplina])
 
+    @classmethod
+    def get_estado_habilitado(self):
+        return "Activo"
+
+    @classmethod
+    def get_estado_deshabilitado(self):
+        return "No-Activo"
+
     def update_asociado_database(self, first_name, last_name, document_type, document, gender, adress, phone_number, email):
         self.first_name = first_name
         self.last_name = last_name

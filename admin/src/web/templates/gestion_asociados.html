@@ -52,7 +52,7 @@
                     <th>Apellido</th>
                     <th>Documento</th>
                     <th>Genero</th>
-                    <!-- <th>Numero de socio</th> -->
+                    <th>Estado</th>
                     <th>Email</th>
                     <th class="text-center">Operaciones</th>
                 </tr>
@@ -65,7 +65,7 @@
                     <td> {{ a.last_name }} </td>
                     <td> {{a.document_type}} - {{ a.document }} </td>
                     <td> {{ a.gender }} </td>
-                    <!-- <td> {{ a.member_number }} </td> -->
+                    <td> {{ a.state }} </td>
                     <td> {{ a.email }} </td>
                     <td align="center">
                         <button type="button" class="btn btn-white" data-bs-toggle="modal"
@@ -75,7 +75,7 @@
                         <a href="{{ url_for('eliminar_asociado',id = a.id )  }}" class="text-danger"
                             onClick="return confirm('¿Esta seguro que desea eliminar el asociado?');"><i
                                 class="fa fa-fw fa-trash"></i> Eliminar</a>
-
+                        <a href="{{ url_for( 'habilitar_deshabilitarD',id = a.id )  }}"  onClick="return confirm('¿Esta seguro que desea cambiar el estado del asociado?');"><i class="fa fa-fw fa-trash"></i> Habilitar/Deshabilitar</a>  <!--  -->
                         <a href="{{ url_for('inscribir_asociado_disciplina', id = a.id )  }}">
                             <i class="fa-sharp fa-solid fa-medal"></i> Inscribir Disciplina</a>
                     </td>
@@ -169,7 +169,7 @@
                                                 telefono </b>
                                         </label>
                                         <input type="text" id="phone_number" name="phone_number"
-                                            value="{{a.phone_number}}" class="form-control" />
+                                            value="{{a.phone_number}}" class="form-control" maxlength="9"/>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="email" style="float: left;"> <b> Email </b>

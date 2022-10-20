@@ -38,6 +38,7 @@
                     <th>Apellido</th>
                     <th>Email</th>
                     <th>Roles</th>
+                    <th>Activo</th>
                     <th class="text-center">Operaciones</th>
                 </tr>
             </thead>
@@ -48,18 +49,19 @@
                     <td> {{ u.username  }}</td>
                     <td> {{ u.first_name }} </td>
                     <td> {{ u.last_name  }} </td>
-                    <td> {{ u.email  }} </td>
+                    <td> {{ u.email  }} </td>                    
                     <td>
                     {% for r in u.roles %}
                      {{ r.nombre }}
                     {% endfor %}
                     </td>
+                    <td> {{ u.activo  }} </td>
                     <td align="center">  
                           <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modaledit{{u.id}}">
                             <i class="fa-solid fa-pen-to-square"></i> Editar
                           </button>
                           <a href="{{ url_for( 'eliminar_usuario',id = u.id )  }}" class="text-danger" onClick="return confirm('¿Esta seguro que desea eliminar el usuario?');"><i class="fa fa-fw fa-trash"></i> Eliminar</a>  <!--  -->
-                         
+                          <a href="{{ url_for( 'activar_desactivar',id = u.id )  }}"  onClick="return confirm('¿Esta seguro que desea cambiar el estado del usuario?');"><i class="fa fa-fw fa-trash"></i> Activar/Desactivar</a>  <!--  -->
                           <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modalrol{{u.id}}">
                             <i class="fa-solid fa-person-circle-plus"></i> Agregar Roles
                           </button>

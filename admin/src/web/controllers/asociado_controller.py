@@ -71,6 +71,16 @@ def inscribir_asociado_disciplina(id):
     disciplinasActuales = Disciplina.list_disciplina(page,config.cant)
     return render_template("asociado/inscribir_asociado_disciplina.html", id=id, disciplinas = disciplinasActuales )
 
+@login_required
+def habilitar_deshabilitar(id):
+    asoc = Asociado.get_asociado_by_id(id)
+    if asoc.state == Asociado.get_estado_habilitado():
+        asoc.state = Asociado.get_estado_deshabilitado()
+    else:
+        asoc.state = Asociado.get_estado_habilitado()
+    asoc.register_asociado_database()
+    return redirect(url_for("gestion_asociados"))
+
 def realizar_inscripcion(id_a, id_d):
     asociado = Asociado.get_asociado_by_id(id_a)
     disciplina = Disciplina.get_disciplina_by_id(id_d)

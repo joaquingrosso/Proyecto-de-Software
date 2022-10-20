@@ -58,6 +58,16 @@ def modificar_usuario(id):
         return redirect(url_for("gestion_usuarios"))    
     return redirect(url_for("gestion_usuarios"))  
 
+@login_required
+def activar_desactivar(id):
+    user = Usuario.get_user_by_id(id)
+    if user.activo == Usuario.get_estado_activo():
+        user.activo = Usuario.get_estado_no_activo()
+    else:
+        user.activo = Usuario.get_estado_activo()
+    user.register_user_database()
+    return redirect(url_for("gestion_usuarios"))
+
 def register_validation():
     if request.method == 'POST':
         valido = True
