@@ -25,11 +25,8 @@ from src.core.models.permiso_model import Permiso
 from src.core.models.asociado_model import Asociado
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
-<<<<<<< HEAD
 from src.core.models.config_model import Config
-=======
 from src.core.models.pago_model import Pago
->>>>>>> 27aaf07bf30a57e424b5688335afc57ea06b0210
 
 #from src.web.helpers.permiso import validar_permisos
 from src.web.helpers import handlers
