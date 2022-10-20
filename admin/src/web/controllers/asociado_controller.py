@@ -2,6 +2,7 @@ from unicodedata import category
 from src.core.models.asociado_model import Asociado
 from flask import render_template, request, redirect , url_for, flash
 from src.core.models.disciplina_model import Disciplina
+from src.core.models.cuota_model import Cuota
 from src.core.models.config_model import Config
 
 from src.web.controllers import login_required
@@ -35,6 +36,7 @@ def crear_asociado():
 
 @login_required
 def eliminar_asociado(id):
+    
     asoc = Asociado.get_asociado_by_id(id)        
     asoc.delete()
     return redirect(url_for("gestion_asociados"))
@@ -89,6 +91,11 @@ def realizar_inscripcion(id_a, id_d):
         flash("Ya esta inscripto en esta disciplina")
     else:
         Asociado.inscribir_disciplina(asociado, disciplina)
+        #generar cuotas
+        periodos = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septembre", "Octubre", "Noviembre", "Diciembre"]
+        for i in range(0, 12):
+            cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost, periodos[i])
+            cuo.register_cuota_database()
     return redirect(url_for("gestion_asociados"))
 
 def verify_asociado(doc, doc_type):

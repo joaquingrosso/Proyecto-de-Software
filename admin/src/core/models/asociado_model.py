@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import unique
 from src.core.models.disciplina_model import Disciplina
-from src.core.models.cuota_model import Cuota
+# from src.core.models.cuota_model import Cuota
 from src.core.database import db
 from src.core import models
 
@@ -84,6 +84,11 @@ class Asociado(db.Model):
     @classmethod
     def get_estado_deshabilitado(self):
         return "No-Activo"
+
+    @classmethod
+    def get_nombre_by_id(self, id):
+        asoc = Asociado.query.filter(self.id == id).first()
+        return asoc.first_name +  " " + asoc.last_name  
 
     def update_asociado_database(self, first_name, last_name, document_type, document, gender, adress, phone_number, email):
         self.first_name = first_name
