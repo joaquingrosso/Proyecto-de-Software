@@ -3,9 +3,11 @@ from flask import render_template ,request, redirect, url_for ,flash
 from werkzeug.security import generate_password_hash , check_password_hash
 from src.web.controllers import login_required
 from src.core.models.rol_model import Rol
+from src.core.models.config_model import Config
 
 @login_required
 def crear_usuario():
+
     if request.method == 'POST':
         valido = True
         for clave,valor in request.form.items():
@@ -73,7 +75,7 @@ def register_validation():
         username = request.form['username']
         #se chequea que el usuario no exista y que no tenca campos vacios
         if not verify_user(username, email) and verify_lenghts(username, password, email, first_name , last_name) and valido: 
-            register_database(email, username, password, first_name, last_name)
+            register_database(email, username, password, first_name, last_name,)
             return redirect(url_for("login"))
     return render_template('user/register_user.html')
 
@@ -149,4 +151,14 @@ def register_database(email,username,password, first_name,last_name):
     user.register_user_database()
     return render_template('user/register_user.html')
 
+
+
+def buscar_usuario():
+    page = request.args.get('page', 1, type=int)
+    config = Config.get_self(Config, 1)
+
+    lista_usuario = Usuario.search_by_status(request.args['estado'])
+    results = Usuario.get_paginated(Usuario, lista_usuario, page, config.cant)
+
+    return render_template("gestion_usuarios.html", user=results)
 

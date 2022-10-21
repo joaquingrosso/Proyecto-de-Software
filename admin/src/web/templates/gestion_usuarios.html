@@ -22,8 +22,20 @@
       <input class="form-control" id="myInput" type="text" placeholder="Search..">
     </div>
   </div>
+ <br>
   <!-- buscador -->
   
+  <!-- buscador  Por activo/Bloqueado-->
+  <div class="col-md-2">
+     <form action="{{ url_for('buscar_usuario')}}">
+       <select name="estado"  class="btn btn-secondary">
+         <option selected="selected">Filtrar</option>
+         <option value="all">Todos</option>
+         <option value="1">Bloqueado</option>
+         <option value="0">Activo</option>
+       </select>
+     </form>
+  </div>
     <p>
         <div class="col-md-2">
            <a href="{{ url_for('crear_usuario')}}"> <button type="button" class="btn btn-warning "><i class="fa-solid fa-user-plus"></i> Agregar Usuario</button> </a>
@@ -37,6 +49,7 @@
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
+                    <th>Estado</th>
                     <th>Roles</th>
                     <th class="text-center">Operaciones</th>
                 </tr>
@@ -49,6 +62,7 @@
                     <td> {{ u.first_name }} </td>
                     <td> {{ u.last_name  }} </td>
                     <td> {{ u.email  }} </td>
+                    <td> {{ u.activo  }} </td>
                     <td>
                     {% for r in u.roles %}
                      {{ r.nombre }}

@@ -3,6 +3,7 @@ from src.core.database import db
 from src.core.models.rol_model import Rol
 from werkzeug.security import generate_password_hash , check_password_hash
 from src.core.models.rol_model import Rol
+from sqlalchemy import Column, Boolean
 
 
 roles = db.Table('usuario_tiene_rol',
@@ -115,3 +116,13 @@ class Usuario(db.Model):
                break
         #return bool(user.roles.filter_by(id=id).first().permisos.filter_by(nombre=permiso))
         return valido
+
+
+    def search_by_status(estado):
+        if estado == 'all':
+            return Usuario.query_all(Usuario)
+        return Usuario.query.filter_by(activo=estado)
+
+    def get_paginated(self, query, page, cant):
+        return query.filter_by().paginate(page=page, per_page=cant)
+

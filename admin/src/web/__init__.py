@@ -66,7 +66,8 @@ def create_app(env="development", static_folder="static"):
 
     # Register user
     app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register_validation, methods=["GET", "POST"])
-    
+    app.add_url_rule("/gestion_usuarios/bhuscar", "buscar_usuario", usuarios_controller.buscar_usuario, methods=["GET"])
+
     # Autenticacion
     app.add_url_rule('/iniciar_sesion', 'login', auth_controller.login, methods=["GET", "POST"])
     app.add_url_rule('/cerrar_sesion', 'logout', auth_controller.logout)
