@@ -51,9 +51,14 @@ class Asociado(db.Model):
         self.email = email
 
     def __repr__(self):
-        return "<asociado(first_name='%s', last_name='%s')>" % (
+        return "<asociado(first_name='%s', last_name='%s', document_type='%s', document='%s', gender='%s', state='%s', email='%s' )>" % (
             self.first_name,
             self.last_name,
+            self.document_type,
+            self.document,
+            self.gender,
+            self.state,
+            self.email
         )
 
     @classmethod

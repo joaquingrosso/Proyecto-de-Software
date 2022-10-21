@@ -1,10 +1,10 @@
 from unicodedata import category
 from src.core.models.asociado_model import Asociado
-from flask import render_template, request, redirect , url_for, flash
+from flask import render_template, request, redirect , url_for, flash, make_response
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
 from src.core.models.config_model import Config
-
+import pdfkit
 
 from src.web.controllers import login_required
 
@@ -163,3 +163,15 @@ def register_database(first_name, last_name, document_type, document, gender, ad
 def eliminar_cuota_asociado(id):
     Cuota.eliminar_cuotas_asociado(id)
     return True
+
+
+def export_pdf(asociados):
+    html = render_template('/pdfs/pdf_asociado.html', asociados=asociados)
+    pdf = pdfkit.from_string(html,False)
+    resp = make_response(pdf)
+    resp.headers["Content-Type"] = "aplication/pdf"
+    resp.headers["Content-Disposition"] = "inline;filename=output.pdf"
+    return resp
+    
+    
+   

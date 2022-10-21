@@ -26,7 +26,11 @@
         <a href="{{ url_for('crear_asociado') }}"> <button type="button" class="btn btn-warning "><i
                     class="fa-solid fa-user-plus"></i> Agregar Asociado</button> </a>
     </div>
+    
     </p>
+
+    <a href="{{ url_for('export_pdf', asociados=asoc.items) }}"> <button type="button" class="btn btn-warning "><i
+        class="fa-solid fa-user-plus"></i> EXPORTAR PDF</button> </a>
 
     <div>
         {% with messages = get_flashed_messages() %}
