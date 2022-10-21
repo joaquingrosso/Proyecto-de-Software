@@ -111,8 +111,11 @@ class Asociado(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def list_asociados(page,cant):
+    def list_asociados_pag(page,cant):
         return Asociado.query.filter_by().paginate(page,cant)
+
+    def list_asociados():
+        return Asociado.query.all()
 
     def delete(self):
         db.session.delete(self)

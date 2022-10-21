@@ -165,12 +165,15 @@ def eliminar_cuota_asociado(id):
     return True
 
 
-def export_pdf(asociados):
-    html = render_template('/pdfs/pdf_asociado.html', asociados=asociados)
-    pdf = pdfkit.from_string(html,False)
+def export_pdf():
+    lista_asociados = Asociado.list_asociados()
+    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    html = render_template('/pdfs/pdf_asociado.html', asociados=lista_asociados)
+    pdf = pdfkit.from_string(html,False,configuration=config)
     resp = make_response(pdf)
     resp.headers["Content-Type"] = "aplication/pdf"
-    resp.headers["Content-Disposition"] = "inline;filename=output.pdf"
+    resp.headers["Content-Disposition"] = "inline;filename=asociados.pdf"
     return resp
     
     

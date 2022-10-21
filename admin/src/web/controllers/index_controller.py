@@ -25,7 +25,7 @@ def gestion_usuarios(nombre=' ' ):
 def gestion_asociados(nombre=' ' ):
     config = Config.get_self(Config, 1)
     page = request.args.get('page', 1, type=int)
-    asociadosActuales = Asociado.list_asociados(page,config.cant)
+    asociadosActuales = Asociado.list_asociados_pag(page,config.cant)
     print(asociadosActuales)
     if request.method == 'GET':
         nombre = nombre
@@ -45,7 +45,7 @@ def gestion_disciplinas(nombre=' '):
 def pago_cuotas():
     config = Config.get_self(Config, 1)
     page = request.args.get('page', 1, type=int)
-    lista_asociados = Asociado.list_asociados(page,config.cant)
+    lista_asociados = Asociado.list_asociados_pag(page,config.cant)
     return render_template("pago_cuotas.html", listaA = lista_asociados )
 
 @login_required

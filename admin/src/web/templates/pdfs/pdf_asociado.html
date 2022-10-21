@@ -1,2 +1,31 @@
-<h1>gestion de asociados</h1>
+<h1>Listado de asociados</h1>
 
+<hr>    
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Documento</th>
+                <th>Genero</th>
+                <th>Estado</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in asociados %}
+            <tr>
+                <td> {{ a.first_name }}</td>
+                <td> {{ a.last_name }} </td>
+                <td> {{ a.document_type}} - {{ a.document }} </td>
+                <td> {{ a.gender }} </td>
+                <td> {{ a.state }} </td>
+                <td> {{ a.email }} </td>                
+            </tr>        
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+        
