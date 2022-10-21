@@ -2,32 +2,26 @@ from unicodedata import category
 from src.core.models.disciplina_model import Disciplina
 from flask import render_template ,request, redirect, url_for ,flash 
 from src.web.controllers import login_required
-
-
+from src.core.models.cuota_model import Cuota
 
 
 @login_required
 def crear_disciplina():
     if request.method == 'POST':
-        valido = True
-        for clave,valor in request.form.items():
-            if valor == '':
-                msg_error = f"El campo {clave} esta vacio"
-                flash(msg_error)
-                valido = False
         name = request.form['name']
         category = request.form['category']
         instructors = request.form['instructors']
         date_time = request.form['date_time']
         monthly_cost = request.form['monthly_cost']
         #se chequea que el usuario no exista y que no tenca campos vacios
-        if not verify_disciplina(name, category) and verify_lenghts(name, category, instructors, date_time, monthly_cost) and valido: 
+        if not verify_disciplina(name, category) and verify_lenghts(name, category, instructors, date_time, monthly_cost): 
             register_database(name, category, instructors, date_time, monthly_cost)
             return redirect(url_for("gestion_disciplinas"))  
     return render_template('disciplina/crear_disciplina.html')
 
 @login_required
 def eliminar_disciplina(id):
+    eliminar_cuota_disciplina(id)
     disci= Disciplina.get_disciplina_by_id(id)
     disci.delete()
     return redirect(url_for("gestion_disciplinas"))
@@ -48,12 +42,24 @@ def modificar_disciplina(id):
         date_time = request.form['date_time']
         monthly_cost = request.form['monthly_cost']
 
-        #validaciones de modificar       
-        if verify_lenghts(name, category, instructors, date_time, monthly_cost) and not verify_disciplina_not_actual(id, name, category) and valido:
-          disip.update_disciplina_database(name, category, instructors, date_time, monthly_cost)
-          return redirect(url_for("gestion_disciplinas")) 
+        #validaciones de modificar
+        if valido:       
+            if verify_lenghts(name, category, instructors, date_time, monthly_cost) and not verify_disciplina_not_actual(id, name, category):
+                disip.update_disciplina_database(name, category, instructors, date_time, monthly_cost)
+                return redirect(url_for("gestion_disciplinas")) 
         # return render_template('/user/modificar_usuario.html', usu=usu) 
         return redirect(url_for("gestion_disciplinas"))  
+
+@login_required
+def habilitar_deshabilitar(id):
+    disc = Disciplina.get_disciplina_by_id(id)
+    print(disc)
+    if disc.enabled == Disciplina.get_disciplina_enebled():
+        disc.enabled = Disciplina.get_disciplina_disabled()
+    else:
+        disc.enabled = Disciplina.get_disciplina_enebled()
+    disc.register_disciplina_database()
+    return redirect(url_for("gestion_disciplinas"))
 
 
 def verify_disciplina(nombre, category):
@@ -109,3 +115,7 @@ def register_database(name, category, instructors, date_time, monthly_cost, enab
     disciplina.register_disciplina_database()
         
     return redirect(url_for("gestion_disciplinas"))  
+
+def eliminar_cuota_disciplina(id):
+    Cuota.eliminar_disciplinas_cuota_asociado(id)
+    return True

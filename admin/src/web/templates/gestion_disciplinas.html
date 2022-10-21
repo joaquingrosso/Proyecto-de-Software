@@ -33,6 +33,7 @@
                     <th>Instructores</th>
                     <th>Dia y Hora</th>
                     <th>Costo mensual</th>
+                    <th>Estado</th>
                     <th class="text-center">Operaciones</th>
                 </tr>
             </thead>
@@ -45,10 +46,18 @@
                     <td> {{ d.instructors }} </td>
                     <td> {{ d.date_time }} </td>
                     <td> {{ d.monthly_cost }} </td>
+                    <td>
+                      {% if d.enabled %}
+                        Habilitada
+                      {% else %}
+                        Deshabilitada
+                      {% endif %}
+                    </td>
                     <td align="center">
                         <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modaledit{{d.id}}">
                             <i class="fa-solid fa-pen-to-square"></i> Editar
                           </button>
+                          <a href="{{ url_for( 'habilitar_deshabilitarD',id = d.id )  }}"  onClick="return confirm('¿Esta seguro que desea cambiar el estado de la disciplina?');"><i class="fa fa-fw fa-trash"></i> Habilitar/Deshabilitar</a>  <!--  -->
                         <a href="{{ url_for( 'eliminar_disciplina',id = d.id )  }}" class="text-danger" onClick="return confirm('¿Esta seguro que desea eliminar la disciplina?');"><i class="fa fa-fw fa-trash"></i> Eliminar</a>  <!--  -->
                     </td>
                 </tr>
@@ -141,7 +150,21 @@
   </div>
 </div>
 <!-- fin de tabla -->
+<div>
+  {% with messages = get_flashed_messages() %}
 
+  {% if messages %}
+  <br />
+  {% for message in messages %}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>{{ message }}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  {% endwith %}
+</div>
 <!-- script para el buscador -->
 <script>
   $(document).ready(function () {

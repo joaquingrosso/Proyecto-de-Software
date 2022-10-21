@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import unique
 from src.core.models.disciplina_model import Disciplina
-from src.core.models.cuota_model import Cuota
+# from src.core.models.cuota_model import Cuota
 from src.core.database import db
 from src.core import models
 
@@ -51,9 +51,14 @@ class Asociado(db.Model):
         self.email = email
 
     def __repr__(self):
-        return "<asociado(first_name='%s', last_name='%s')>" % (
+        return "<asociado(first_name='%s', last_name='%s', document_type='%s', document='%s', gender='%s', state='%s', email='%s' )>" % (
             self.first_name,
             self.last_name,
+            self.document_type,
+            self.document,
+            self.gender,
+            self.state,
+            self.email
         )
 
     @classmethod
@@ -77,6 +82,19 @@ class Asociado(db.Model):
     def inscribir_disciplina(self,asociado, disciplina):
         models.asignar_asociado(asociado, [disciplina])
 
+    @classmethod
+    def get_estado_habilitado(self):
+        return "Activo"
+
+    @classmethod
+    def get_estado_deshabilitado(self):
+        return "No-Activo"
+
+    @classmethod
+    def get_nombre_by_id(self, id):
+        asoc = Asociado.query.filter(self.id == id).first()
+        return asoc.first_name +  " " + asoc.last_name  
+
     def update_asociado_database(self, first_name, last_name, document_type, document, gender, adress, phone_number, email):
         self.first_name = first_name
         self.last_name = last_name
@@ -93,8 +111,11 @@ class Asociado(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def list_asociados(page,cant):
+    def list_asociados_pag(page,cant):
         return Asociado.query.filter_by().paginate(page,cant)
+
+    def list_asociados():
+        return Asociado.query.all()
 
     def delete(self):
         db.session.delete(self)

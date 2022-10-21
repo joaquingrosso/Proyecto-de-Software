@@ -9,18 +9,12 @@ from src.core.models.config_model import Config
 def crear_usuario():
 
     if request.method == 'POST':
-        valido = True
-        for clave,valor in request.form.items():
-            if valor == '':
-                msg_error = f"El campo {clave} esta vacio"
-                flash(msg_error)
-                valido = False
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         email = request.form['email']
         password = request.form['password']
         username = request.form['username']
-        if not verify_user(username, email) and verify_lenghts(username, password, email, first_name , last_name) and valido: #se chequea que el usuario no exista y que no tenca campos vacios
+        if not verify_user(username, email) and verify_lenghts(username, password, email, first_name , last_name): #se chequea que el usuario no exista y y el tamaño de los campos
             register_database(email, username, password, first_name, last_name)
             return redirect(url_for("gestion_usuarios"))  
     return render_template('user/crear_usuario.html')
@@ -45,20 +39,30 @@ def modificar_usuario(id):
         last_name = request.form['last_name']
         email = request.form['email']
         username = request.form['username']
-        if usu.username != username:
-            if verify_username(username):
-                valido = False
+        if valido:
+            if usu.username != username:
+                if verify_username(username):
+                    valido = False
 
-        if usu.email != email:
-            if verify_email(email):
-                valido = False
-       
-        if verify_lenghts(username, None, email, first_name , last_name) and valido:
-          usu.update_user_database(first_name,last_name,email,username)
-          return redirect(url_for("gestion_usuarios"))  
+            if usu.email != email:
+                if verify_email(email):
+                    valido = False
+            if verify_lenghts(username, None, email, first_name , last_name):
+                usu.update_user_database(first_name,last_name,email,username)
+                return redirect(url_for("gestion_usuarios"))  
     # return render_template('/user/modificar_usuario.html', usu=usu) 
         return redirect(url_for("gestion_usuarios"))    
     return redirect(url_for("gestion_usuarios"))  
+
+@login_required
+def activar_desactivar(id):
+    user = Usuario.get_user_by_id(id)
+    if user.activo == Usuario.get_estado_activo():
+        user.activo = Usuario.get_estado_no_activo()
+    else:
+        user.activo = Usuario.get_estado_activo()
+    user.register_user_database()
+    return redirect(url_for("gestion_usuarios"))
 
 def register_validation():
     if request.method == 'POST':
@@ -74,6 +78,7 @@ def register_validation():
         password = request.form['password']
         username = request.form['username']
         #se chequea que el usuario no exista y que no tenca campos vacios
+        
         if not verify_user(username, email) and verify_lenghts(username, password, email, first_name , last_name) and valido: 
             register_database(email, username, password, first_name, last_name,)
             return redirect(url_for("login"))
