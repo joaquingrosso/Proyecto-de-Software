@@ -176,5 +176,6 @@ def export_pdf():
     resp.headers["Content-Disposition"] = "inline;filename=asociados.pdf"
     return resp
     
-    
-   
+
+def export_csv():
+    return "entro al exportar csv"

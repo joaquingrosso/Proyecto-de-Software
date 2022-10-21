@@ -30,8 +30,13 @@
             </th>
             <th></th>
             <th> 
-                <a href="{{ url_for('export_pdf') }}"> <button type="button" class="btn btn-danger "><i
-                    class="fa-solid fa-user-plus"></i> Exportar Pdf</button> </a>
+                <a href="{{ url_for('export_pdf') }}"> <button type="button" class="btn btn-danger ">
+                    <i class="fa-sharp fa-solid fa-file-pdf"></i> Exportar PDF</button> </a>
+            </th>
+            <th></th>
+            <th> 
+                <a href="{{ url_for('export_csv') }}"> <button type="button" class="btn btn-success ">
+                    <i class="fa-solid fa-file-csv"></i></i> Exportar CSV</button> </a>
             </th>
         </table>                
     </div>
