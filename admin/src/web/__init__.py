@@ -13,9 +13,12 @@ from src.web.controllers import auth_controller
 from src.web.controllers import usuarios_controller
 from src.web.controllers import disciplina_controller
 from src.web.controllers import index_controller
-from src.web.controllers import api_disciplinas
+from src.web.controllers.api.club import disciplines
+from src.web.controllers.api.me import disciplinas
+from src.web.controllers.api.me import profile
 from src.web.controllers import asociado_controller
 from src.web.controllers import config_controller
+
 
 from src.web.controllers import cuota_controller
 
@@ -114,9 +117,13 @@ def create_app(env="development", static_folder="static"):
     
     #datos roles y permisos
     
-    # Endpoints para la api
-    app.add_url_rule('/disciplina/<int:id>', 'mostrar_disciplina',api_disciplinas.mostrar_disciplina, methods=['GET'])
-    app.add_url_rule('/disciplinas', 'mostrar_disciplinas',api_disciplinas.mostrar_disciplinas, methods=['GET'])
+    # Endpoints para la api de disciplinas 
+    app.add_url_rule('/api/club/discipline/<int:id>', 'mostrar_disciplina',disciplines.mostrar_disciplina, methods=['GET'])
+    app.add_url_rule('/api/club/disciplines', 'mostrar_disciplinas',disciplines.mostrar_disciplinas, methods=['GET'])
+
+     # Endpoints para la api de usuario
+    app.add_url_rule('/api/me/discipline/<int:id>', 'mostrar_disciplinas_de_un_asociado', disciplinas.mostrar_disciplinas_de_un_asociado, methods=['GET'])
+    app.add_url_rule('/api/me/profile/<int:id>', 'mostrar_usuario', profile.mostrar_usuario, methods=['GET'])
 
     @app.cli.command(name="resetdb")
     def resetdb():

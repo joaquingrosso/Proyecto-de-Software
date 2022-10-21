@@ -57,5 +57,7 @@ def configuracion():
 @login_required
 def ver_perfil():
     username = session['username']
+    print(username)
     user = Usuario.query.filter_by(username=username).first()
+    print(user)
     return render_template('user/ver_perfil.html', user=user)
