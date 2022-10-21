@@ -8,19 +8,13 @@ from src.core.models.cuota_model import Cuota
 @login_required
 def crear_disciplina():
     if request.method == 'POST':
-        valido = True
-        for clave,valor in request.form.items():
-            if valor == '':
-                msg_error = f"El campo {clave} esta vacio"
-                flash(msg_error)
-                valido = False
         name = request.form['name']
         category = request.form['category']
         instructors = request.form['instructors']
         date_time = request.form['date_time']
         monthly_cost = request.form['monthly_cost']
         #se chequea que el usuario no exista y que no tenca campos vacios
-        if not verify_disciplina(name, category) and verify_lenghts(name, category, instructors, date_time, monthly_cost) and valido: 
+        if not verify_disciplina(name, category) and verify_lenghts(name, category, instructors, date_time, monthly_cost): 
             register_database(name, category, instructors, date_time, monthly_cost)
             return redirect(url_for("gestion_disciplinas"))  
     return render_template('disciplina/crear_disciplina.html')
@@ -48,10 +42,11 @@ def modificar_disciplina(id):
         date_time = request.form['date_time']
         monthly_cost = request.form['monthly_cost']
 
-        #validaciones de modificar       
-        if verify_lenghts(name, category, instructors, date_time, monthly_cost) and not verify_disciplina_not_actual(id, name, category) and valido:
-          disip.update_disciplina_database(name, category, instructors, date_time, monthly_cost)
-          return redirect(url_for("gestion_disciplinas")) 
+        #validaciones de modificar
+        if valido:       
+            if verify_lenghts(name, category, instructors, date_time, monthly_cost) and not verify_disciplina_not_actual(id, name, category):
+                disip.update_disciplina_database(name, category, instructors, date_time, monthly_cost)
+                return redirect(url_for("gestion_disciplinas")) 
         # return render_template('/user/modificar_usuario.html', usu=usu) 
         return redirect(url_for("gestion_disciplinas"))  
 
