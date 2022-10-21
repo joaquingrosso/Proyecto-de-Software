@@ -75,7 +75,7 @@
                         <a href="{{ url_for('eliminar_asociado',id = a.id )  }}" class="text-danger"
                             onClick="return confirm('¿Esta seguro que desea eliminar el asociado?');"><i
                                 class="fa fa-fw fa-trash"></i> Eliminar</a>
-                        <a href="{{ url_for( 'habilitar_deshabilitarD',id = a.id )  }}"  onClick="return confirm('¿Esta seguro que desea cambiar el estado del asociado?');"><i class="fa fa-fw fa-trash"></i> Habilitar/Deshabilitar</a>  <!--  -->
+                        <a href="{{ url_for( 'habilitar_deshabilitarA',id = a.id )  }}"  onClick="return confirm('¿Esta seguro que desea cambiar el estado del asociado?');"><i class="fa fa-fw fa-trash"></i> Habilitar/Deshabilitar</a>  <!--  -->
                         <a href="{{ url_for('inscribir_asociado_disciplina', id = a.id )  }}">
                             <i class="fa-sharp fa-solid fa-medal"></i> Inscribir Disciplina</a>
                     </td>

@@ -5,6 +5,7 @@ from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
 from src.core.models.config_model import Config
 
+
 from src.web.controllers import login_required
 
 
@@ -36,7 +37,7 @@ def crear_asociado():
 
 @login_required
 def eliminar_asociado(id):
-    
+    eliminar_cuota_asociado(id)
     asoc = Asociado.get_asociado_by_id(id)        
     asoc.delete()
     return redirect(url_for("gestion_asociados"))
@@ -158,3 +159,7 @@ def register_database(first_name, last_name, document_type, document, gender, ad
     asociado = Asociado(first_name, last_name, document_type, document, gender, adress, state , phone_number , email)
     asociado.register_asociado_database()        
     return redirect(url_for("gestion_asociados"))  
+
+def eliminar_cuota_asociado(id):
+    Cuota.eliminar_cuotas_asociado(id)
+    return True

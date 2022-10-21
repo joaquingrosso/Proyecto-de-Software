@@ -2,8 +2,7 @@ from unicodedata import category
 from src.core.models.disciplina_model import Disciplina
 from flask import render_template ,request, redirect, url_for ,flash 
 from src.web.controllers import login_required
-
-
+from src.core.models.cuota_model import Cuota
 
 
 @login_required
@@ -28,6 +27,7 @@ def crear_disciplina():
 
 @login_required
 def eliminar_disciplina(id):
+    eliminar_cuota_disciplina(id)
     disci= Disciplina.get_disciplina_by_id(id)
     disci.delete()
     return redirect(url_for("gestion_disciplinas"))
@@ -58,6 +58,7 @@ def modificar_disciplina(id):
 @login_required
 def habilitar_deshabilitar(id):
     disc = Disciplina.get_disciplina_by_id(id)
+    print(disc)
     if disc.enabled == Disciplina.get_disciplina_enebled():
         disc.enabled = Disciplina.get_disciplina_disabled()
     else:
@@ -119,3 +120,7 @@ def register_database(name, category, instructors, date_time, monthly_cost, enab
     disciplina.register_disciplina_database()
         
     return redirect(url_for("gestion_disciplinas"))  
+
+def eliminar_cuota_disciplina(id):
+    Cuota.eliminar_disciplinas_cuota_asociado(id)
+    return True

@@ -1,6 +1,6 @@
 from datetime import datetime
 from src.core.database import db
-from src.core.models.cuota_model import Cuota
+#from src.core.models.cuota_model import Cuota
 
 class Disciplina(db.Model):
     
