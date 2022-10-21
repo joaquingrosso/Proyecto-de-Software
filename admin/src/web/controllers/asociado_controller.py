@@ -207,7 +207,7 @@ def export_csv():
         sh.write(indice + 1,3,a.document_type)
         sh.write(indice + 1,4,a.document)
         sh.write(indice + 1,5,a.gender)
-        sh.write(indice + 1,5,a.email)
+        sh.write(indice + 1,6,a.email)
         indice +=1
     
     workbook.save(output)
