@@ -1,11 +1,12 @@
 from unicodedata import category
 from src.core.models.asociado_model import Asociado
-from flask import render_template, request, redirect , url_for, flash, make_response
+from flask import render_template, request, redirect , url_for, flash, make_response, Response
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
 from src.core.models.config_model import Config
 import pdfkit
-
+import io
+import xlwt
 from src.web.controllers import login_required
 
 
@@ -178,4 +179,37 @@ def export_pdf():
     
 
 def export_csv():
-    return "entro al exportar csv"
+    '''Exportar un csv'''
+    asociados = Asociado.list_asociados()
+    
+    output = io.BytesIO()
+    workbook = xlwt.Workbook()
+    #Agregar a la hoja del Csv
+    sh = workbook.add_sheet('Lista de asociados')
+    
+    '''Se crean los nombres de las
+        columnas en el csv'''
+        
+    sh.write(0,0,'Nro de Socio')
+    sh.write(0,1,'Apellido')
+    sh.write(0,2,'Nombre')
+    sh.write(0,3,'Tipo de Documento')
+    sh.write(0,4,'Nro Documento')
+    sh.write(0,5,'Genero')
+    sh.write(0,6,'Email')
+    
+    #cargar datos del asociado por fila
+    indice = 0
+    for a in asociados:
+        sh.write(indice + 1,0,a.id)
+        sh.write(indice + 1,1,a.last_name)
+        sh.write(indice + 1,2,a.first_name)
+        sh.write(indice + 1,3,a.document_type)
+        sh.write(indice + 1,4,a.document)
+        sh.write(indice + 1,5,a.gender)
+        sh.write(indice + 1,5,a.email)
+        indice +=1
+    
+    workbook.save(output)
+    output.seek(0)
+    return Response(output, mimetype="application/ms-Excel", headers= {"Content-Disposition":"attachment;filename=Lista de asociados.csv"})
