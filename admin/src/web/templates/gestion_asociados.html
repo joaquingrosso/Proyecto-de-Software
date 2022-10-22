@@ -79,8 +79,17 @@
                             onClick="return confirm('¿Esta seguro que desea eliminar el asociado?');"><i
                                 class="fa fa-fw fa-trash"></i> Eliminar</a>
                         <a href="{{ url_for( 'habilitar_deshabilitarA',id = a.id )  }}"  onClick="return confirm('¿Esta seguro que desea cambiar el estado del asociado?');"><i class="fa fa-fw fa-trash"></i> Habilitar/Deshabilitar</a>  <!--  -->
-                        <a href="{{ url_for('inscribir_asociado_disciplina', id = a.id )  }}">
+                        {% if a.state == "No-Activo" %}
+                        <button type="button" class="btn btn-white" disabled="true">
+                            <a href="{{ url_for('inscribir_asociado_disciplina', id = a.id )  }}">
                             <i class="fa-sharp fa-solid fa-medal"></i> Inscribir Disciplina</a>
+                        </button>
+                        {% else %} 
+                        <button type="button" class="btn btn-white">
+                            <a href="{{ url_for('inscribir_asociado_disciplina', id = a.id )  }}">
+                            <i class="fa-sharp fa-solid fa-medal"></i> Inscribir Disciplina</a>
+                        </button>
+                        {% endif %}
                     </td>
                 </tr>
 
