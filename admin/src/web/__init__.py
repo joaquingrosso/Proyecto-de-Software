@@ -16,6 +16,7 @@ from src.web.controllers import index_controller
 from src.web.controllers.api.club import disciplines
 from src.web.controllers.api.me import disciplinas
 from src.web.controllers.api.me import profile
+from src.web.controllers.api.me import pagos_de_un_asociado
 from src.web.controllers import asociado_controller
 from src.web.controllers import config_controller
 
@@ -124,6 +125,7 @@ def create_app(env="development", static_folder="static"):
      # Endpoints para la api de usuario
     app.add_url_rule('/api/me/discipline/<int:id>', 'mostrar_disciplinas_de_un_asociado', disciplinas.mostrar_disciplinas_de_un_asociado, methods=['GET'])
     app.add_url_rule('/api/me/profile/<int:id>', 'mostrar_usuario', profile.mostrar_usuario, methods=['GET'])
+    app.add_url_rule('/api/me/payments/<int:id>', 'mostrar_pagos_de_un_asociado', pagos_de_un_asociado.mostrar_pagos_de_un_asociado, methods=['GET'])
 
     @app.cli.command(name="resetdb")
     def resetdb():
