@@ -156,6 +156,28 @@ def register_database(email,username,password, first_name,last_name):
     user.register_user_database()
     return render_template('user/register_user.html')
 
+@login_required
+def agregar_rol(id):
+    user = Usuario.get_user_by_id(id)
+    roles_usuario = list(user.roles)
+    cantidad_roles =len(roles_usuario)
+    if request.method == "POST":
+        valor_select = request.form.get('roles')
+        if cantidad_roles != 3 and validar_rol(roles_usuario,valor_select):
+            rol = Rol.obtener_rol(valor_select)
+            user.roles.extend([rol])
+            user.register_user_database()
+        else:
+            if cantidad_roles == 3:
+                flash("Ya tiene todos los roles disponibles y no se pueden agregar mas")
+    return redirect(url_for("gestion_usuarios"))
+
+def validar_rol (roles_user,valor):
+    for rol in roles_user:
+        if rol.nombre == valor:
+            flash("El usuario ya posee el rol")
+            return False
+    return True
 
 
 def buscar_usuario():
@@ -167,3 +189,30 @@ def buscar_usuario():
 
     return render_template("gestion_usuarios.html", user=results)
 
+def validar_rol_eliminar (roles_user,valor):
+    encontre = True
+    for rol in roles_user:
+        if rol.nombre == valor:
+            encontre = False
+            return False
+    if encontre:
+        flash("El rol seleccionado no lo tiene asignado el usuario")
+    else:
+        flash("Se elimino el rol satisfactoriamente")
+    return True
+
+def eliminar_rol(id):
+    user = Usuario.get_user_by_id(id)
+    roles_usuario = list(user.roles)
+    cantidad_roles =len(roles_usuario)
+    if request.method == "POST":
+        valor_select = request.form.get('roles')
+        print(Rol.obtener_rol(valor_select))
+        if not validar_rol_eliminar(roles_usuario,valor_select):
+            if cantidad_roles > 1 and cantidad_roles <= 3:
+                rol = Rol.obtener_rol(valor_select)
+                user.roles.remove(rol)
+                user.register_user_database()
+            else:
+                flash("No se puede eliminar el rol ya que elimino la cantidad de roles maxima")
+    return redirect(url_for("gestion_usuarios"))

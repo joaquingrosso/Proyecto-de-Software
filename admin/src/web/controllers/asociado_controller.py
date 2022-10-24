@@ -3,8 +3,7 @@ from src.core.models.asociado_model import Asociado
 from flask import render_template, request, redirect , url_for, flash, make_response, Response
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
-#from src.core.models.config_model import ProductionConfig, DevelopmentConfig
-from src.core.config import Config
+from src.core.models.config_model import Config
 import pdfkit
 import io
 import xlwt
@@ -102,6 +101,7 @@ def verify_asociado(doc, doc_type):
         flash("Ya existe un asociado con ese documento")
         return True
     return False   
+
 
 def verify_asociado_not_actual(asoc_id, doc, doc_type):
     asoc = Asociado.get_asociado_by_document(doc, doc_type)    

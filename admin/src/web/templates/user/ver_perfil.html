@@ -1,27 +1,29 @@
 {% extends "index.html" %}
 
-
 {% block content %}
 
+<br>
 <h1>Datos del perfil</h1> 
 <br>
-<div id="header">
-    <h3>Nombre de usuario: </h3> {{ user.username }}
+
+<div class="row">
+    <div class="col-md-6 col-lg-4 my-3">
+    </div>
+    <div class="col-md-6 col-lg-4 my-3">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
+            Nombre de usuario: <b> {{ user.username }}   </b>
+            <p></p>
+            Correo: <b>{{ user.email }} </b>
+            <p></p>
+            Nombre: <b> {{ user.first_name }}  </b> 
+            <p></p>
+            Apellido: <b> {{ user.last_name }} </b>  
+          </p>
+        </div>
+  </div>
 </div>
-<hr/>
-<div id="header">
-    <h3>Correo: </h3> {{ user.email }}
-</div>
-<hr/>
-<div id="header">
-    <h3>Nombre: </h3>  {{ user.first_name }}
-</div>
-<hr/>
-<div id="header">
-    <h3>Apellido: </h3> {{ user.last_name }}
-</div>
-</div>
-<hr/>
 
 
 {% endblock %}

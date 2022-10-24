@@ -16,6 +16,7 @@ from src.web.controllers import index_controller
 from src.web.controllers.api.club import disciplines
 from src.web.controllers.api.me import disciplinas
 from src.web.controllers.api.me import profile
+from src.web.controllers.api.me import pagos_de_un_asociado
 from src.web.controllers import asociado_controller
 from src.web.controllers import config_controller
 
@@ -92,7 +93,9 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/eliminar_usuario/<id>', 'eliminar_usuario', usuarios_controller.eliminar_usuario)
     app.add_url_rule('/modificar_usuario/<id>', 'modificar_usuario', usuarios_controller.modificar_usuario, methods=["POST", "GET"])
     app.add_url_rule('/activar_desactivar/<id>', 'activar_desactivar', usuarios_controller.activar_desactivar)
-
+    app.add_url_rule('/agregar_rol/<id>', 'agregar_rol', usuarios_controller.agregar_rol , methods=["POST", "GET"])
+    app.add_url_rule('/eliminar_rol/<id>', 'eliminar_rol', usuarios_controller.eliminar_rol, methods=["POST", "GET"])
+    
     #Operaciones Disciplina
     app.add_url_rule('/crear_disciplina', 'crear_disciplina', disciplina_controller.crear_disciplina, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_disciplina/<id>', 'eliminar_disciplina', disciplina_controller.eliminar_disciplina)
@@ -125,6 +128,7 @@ def create_app(env="development", static_folder="static"):
      # Endpoints para la api de usuario
     app.add_url_rule('/api/me/discipline/<int:id>', 'mostrar_disciplinas_de_un_asociado', disciplinas.mostrar_disciplinas_de_un_asociado, methods=['GET'])
     app.add_url_rule('/api/me/profile/<int:id>', 'mostrar_usuario', profile.mostrar_usuario, methods=['GET'])
+    app.add_url_rule('/api/me/payments/<int:id>', 'mostrar_pagos_de_un_asociado', pagos_de_un_asociado.mostrar_pagos_de_un_asociado, methods=['GET'])
 
     @app.cli.command(name="resetdb")
     def resetdb():

@@ -32,17 +32,24 @@ class Cuota(db.Model):
         self.periodo = periodo,
         self.estado = "No-Paga"
     
-    # def __repr__(self):
-    #     return "<cuota(first_name='%s', last_name='%s', member_number='%s' )>" % (
-    #         self.first_name,
-    #         self.last_name,
-    #         self.member_number,
-    #     )
+    def __repr__(self):
+        return "<cuota(asociado_id='%s', disciplina_id='%s', periodo='%s', monto='%s', estado='%s' )>" % (
+            self.asociado_id,
+            self.disciplina_id,
+            self.periodo,
+            self.monto,
+            self.estado,
+
+        )
 
     @classmethod
     def get_cuota_by_id(self, cuota_id):
         return Cuota.query.filter(self.id == cuota_id).first()
-    
+   
+    # @classmethod
+    # def cuota_Paga(self):
+    #     return Cuota.query.filter(self.estado == "Paga").all()
+
     @classmethod
     def get_cuotas_by_disciplina_asociado(self, disciplina_id, asociado_id):
         return Cuota.query.filter(self.disciplina_id == disciplina_id, self.asociado_id == asociado_id).order_by(self.id)
@@ -71,6 +78,7 @@ class Cuota(db.Model):
     def cuota_disciplina(self, id):
         return Cuota.query.filter(self.disciplina_id == id).all() 
             
+
     @classmethod
     def eliminar_disciplinas_cuota_asociado(self,id):
         disciplina = Cuota.cuota_disciplina(id)
@@ -78,10 +86,12 @@ class Cuota(db.Model):
             for d in disciplina:
                 Pago.eliminar_pagos(d.id)
                 d.delete()
-        
+
+
     def get_nombre_asociado(self):
         return Asociado.get_nombre_by_id(self.asociado_id)
     
+
     def get_nombre_disciplina(self):
         return Disciplina.get_nombre_by_id(self.disciplina_id)
 

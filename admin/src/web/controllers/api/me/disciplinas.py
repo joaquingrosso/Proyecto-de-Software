@@ -34,4 +34,3 @@ def mostrar_disciplinas_de_un_asociado(id):
     
    resp= {'datos y disciplinas del asociado':dic }
    return jsonify(resp), 200
-   # return "imprimir disciplinas del usuario logueado"
