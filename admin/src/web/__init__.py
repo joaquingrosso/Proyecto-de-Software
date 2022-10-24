@@ -92,7 +92,9 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/eliminar_usuario/<id>', 'eliminar_usuario', usuarios_controller.eliminar_usuario)
     app.add_url_rule('/modificar_usuario/<id>', 'modificar_usuario', usuarios_controller.modificar_usuario, methods=["POST", "GET"])
     app.add_url_rule('/activar_desactivar/<id>', 'activar_desactivar', usuarios_controller.activar_desactivar)
-
+    app.add_url_rule('/agregar_rol/<id>', 'agregar_rol', usuarios_controller.agregar_rol , methods=["POST", "GET"])
+    app.add_url_rule('/eliminar_rol/<id>', 'eliminar_rol', usuarios_controller.eliminar_rol, methods=["POST", "GET"])
+    
     #Operaciones Disciplina
     app.add_url_rule('/crear_disciplina', 'crear_disciplina', disciplina_controller.crear_disciplina, methods=["POST", "GET"])
     app.add_url_rule('/eliminar_disciplina/<id>', 'eliminar_disciplina', disciplina_controller.eliminar_disciplina)
