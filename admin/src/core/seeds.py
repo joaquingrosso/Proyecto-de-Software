@@ -10,6 +10,9 @@ def run():
     permiso3 = models.crear_permisos(nombre="destroy")
     permiso4 = models.crear_permisos(nombre="update")
     permiso5 = models.crear_permisos(nombre="show")
+    permiso6 = models.crear_permisos(nombre="rol")
+    permiso7 = models.crear_permisos(nombre="ver_socio")
+    permiso8 = models.crear_permisos(nombre="config")
     
     #creacion roles
     rol1 = models.crear_roles(nombre="Administrador")
@@ -40,5 +43,6 @@ def run():
     models.asignar_usuario(admin,[rol1,rol2]) #ademas va a tener el rol asociado porque todos los usuarios se crean con ese rol
     
     #asignacion de roles y permisos
-    models.asignar_permisos(rol1, [permiso1, permiso2, permiso3, permiso4, permiso5])
+    models.asignar_permisos(rol1, [permiso1, permiso2, permiso3, permiso4, permiso5, permiso6 , permiso8])
     models.asignar_permisos(rol2, [permiso1, permiso2, permiso4,permiso5])
+    models.asignar_permisos(rol3, [permiso7])

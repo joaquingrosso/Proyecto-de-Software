@@ -14,6 +14,7 @@ def inicio():
 
 #@login_required
 def gestion_usuarios(nombre=' ' ):
+    
     config = Config.get_self(Config, 1)
     page = request.args.get('page', 1, type=int)
     usuariosActualesActivos = Usuario.list_usuarios(page,config.cant)

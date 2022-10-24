@@ -31,7 +31,7 @@ index
 
       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          
+          {% if validar_permisos(session["id"],"index") %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('gestion_usuarios') }}">Gestionar Usuarios</a>
           </li>
@@ -41,13 +41,24 @@ index
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('gestion_disciplinas') }}">Gestionar Disciplinas</a>
           </li>
+          
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('pago_cuotas') }}">Gestion de Asociado-Disciplinas</a>
           </li>
+          {% endif %}
+          {% if validar_permisos(session["id"],"config") %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('configuracion') }}">Configuracion</a>
           </li>
-         
+          {% endif %}
+          {% if validar_permisos(session["id"],"ver_socio") %}
+          <li class="nav-item">
+            <a class="nav-link" href="">Ver Disciplinas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">Ver Cuotas Pagas</a>
+          </li>
+          {% endif %}
         </ul>
         <li class="nav-item dropdown" class="navbar-text">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">

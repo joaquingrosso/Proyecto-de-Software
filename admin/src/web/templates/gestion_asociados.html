@@ -35,9 +35,12 @@
     <p>
     <div class="col-sm-10">
         <table>
+            
             <th>
+                {% if validar_permisos(session["id"],"new") %}
                 <a href="{{ url_for('crear_asociado') }}"> <button type="button" class="btn btn-warning "><i
                     class="fa-solid fa-user-plus"></i> Agregar Asociado</button> </a>
+                {% endif %}
             </th>
             <th></th>
             <th> 
@@ -53,11 +56,7 @@
     </div>
     
     </p>
-
-    
-
-    
-
+    {% if validar_permisos(session["id"],"show") %}
     <div class="col-md-10">
         <table class="table table-striped table-bordered">
             <thead>
@@ -82,13 +81,17 @@
                     <td> {{ a.state }} </td>
                     <td> {{ a.email }} </td>
                     <td align="center">
+                        {% if validar_permisos(session["id"],"update") %}
                         <button type="button" class="btn btn-white" data-bs-toggle="modal"
                             data-bs-target="#modaledit{{a.id}}">
                             <i class="fa-solid fa-pen-to-square"></i> Editar
                         </button>
+                        {% endif %}
+                        {% if validar_permisos(session["id"],"destroy") %}
                         <a href="{{ url_for('eliminar_asociado',id = a.id )  }}" class="text-danger"
                             onClick="return confirm('¿Esta seguro que desea eliminar el asociado?');"><i
                                 class="fa fa-fw fa-trash"></i> Eliminar</a>
+                        {% endif %}
                         <a href="{{ url_for( 'habilitar_deshabilitarA',id = a.id )  }}"  onClick="return confirm('¿Esta seguro que desea cambiar el estado del asociado?');"><i class="fa fa-fw fa-trash"></i> Habilitar/Deshabilitar</a>  <!--  -->
                         {% if a.state == "No-Activo" %}
                         <button type="button" class="btn btn-white" disabled="true">
@@ -262,6 +265,7 @@
     </div>
 </div>
 <!-- fin de tabla -->
+{% endif %}
 <div>
     {% with messages = get_flashed_messages() %}
 
