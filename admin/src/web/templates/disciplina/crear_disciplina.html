@@ -8,59 +8,61 @@
 <!-- Iconos fontawesome -->
 <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.css') }}">
 
-<p><h1 class="h3 mb-3 fw-normal"> Formulario de Creación de Disciplina</h1></p>
+<p>
+<h1 class="h3 mb-3 fw-normal"> Formulario de Creación de Disciplina</h1>
+</p>
 
-    {% with messages = get_flashed_messages() %}
+{% with messages = get_flashed_messages() %}
 
-    {% if messages %}
-    <br />
-    {% for message in messages %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>{{ message }}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+{% if messages %}
+<br />
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>{{ message }}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+{% endwith %}
+<form action="{{ url_for('crear_disciplina') }}" method="POST" id="form_crear" name="form_crear">
+  <div class="row mb-4">
+    <div class="col">
+      <div class="form-outline shadow-sm p-1 mb-1 bg-white rounded">
+        <label class="form-label" for="name"> <b> Nombre </b> </label>
+        <input type="text" id="name" name="name" class="form-control" required />
+      </div>
     </div>
-    {% endfor %}
-    {% endif %}
-
-    {% endwith %}
-    <form action="{{ url_for('crear_disciplina') }}" method="POST"  id="form_crear" name="form_crear">
-        <div class="row mb-4">
-            <div class="col">
-            <div class="form-outline shadow-sm p-1 mb-1 bg-white rounded">
-                <label class="form-label" for="name"> <b> Nombre </b> </label>
-                <input type="text" id="name" name="name" class="form-control" required />
-            </div>
-            </div>
-            <div class="col">
-            <div class="form-outline shadow-sm p-1 mb-1 bg-white rounded">
-                <label class="form-label" for="category"> <b> Categoria </b> </label>
-                <input type="text" id="category" name="category" class="form-control" required />
-            </div>
-            </div>
-        </div>
-    
-      <!-- e-mail input -->
-      <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
-        <label class="form-label" for="instructors"> <b> Instructores  </b> </label>
-        <input type="text" id="instructors" name="instructors" class="form-control" required />
+    <div class="col">
+      <div class="form-outline shadow-sm p-1 mb-1 bg-white rounded">
+        <label class="form-label" for="category"> <b> Categoria </b> </label>
+        <input type="text" id="category" name="category" class="form-control" required />
       </div>
-    
-      <!-- password input -->
-      <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
-        <label class="form-label" for="date_time">  <b> Dia y hora  </b> </label>
-        <input type="text" id="date_time" name="date_time" class="form-control" />
-      </div>
+    </div>
+  </div>
 
-       <!-- text input -->
-       <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
-        <label class="form-label" for="monthly_cost"> <b> Costo Mensual  </b> </label>
-        <input type="text" id="monthly_cost" name="monthly_cost" class="form-control" />
-      </div>
+  <!-- e-mail input -->
+  <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
+    <label class="form-label" for="instructors"> <b> Instructores </b> </label>
+    <input type="text" id="instructors" name="instructors" class="form-control" required />
+  </div>
 
-      
-      <button type="submit" class="btn btn-success btn-lg btn-block"><i class="fa fa-save"></i> CREAR</button>      
-      <a class="btn btn-primary btn-lg btn-block" href="{{ url_for('gestion_disciplinas') }}" role="button">RETROCEDER</a> 
-    
-    </form>
-    
+  <!-- password input -->
+  <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
+    <label class="form-label" for="date_time"> <b> Dia y hora </b> </label>
+    <input type="text" id="date_time" name="date_time" class="form-control" />
+  </div>
+
+  <!-- text input -->
+  <div class="form-outline mb-4 shadow-sm p-1 mb-1 bg-white rounded">
+    <label class="form-label" for="monthly_cost"> <b> Costo Mensual </b> </label>
+    <input type="text" id="monthly_cost" name="monthly_cost" class="form-control" />
+  </div>
+
+
+  <button type="submit" class="btn btn-success btn-lg btn-block"><i class="fa fa-save"></i> CREAR</button>
+  <a class="btn btn-primary btn-lg btn-block" href="{{ url_for('gestion_disciplinas') }}" role="button">RETROCEDER</a>
+
+</form>
+
 {% endblock %}

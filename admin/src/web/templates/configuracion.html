@@ -1,8 +1,53 @@
 {% extends "index.html" %}
 
+{% block title %} Configuracion {% endblock %}
 
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/login.css') }}">
+{% endblock %}
 
 {% block content %}
-    <h1>Configuracion</h1>
+
+    <form class="form-config" action="{{url_for('config_update')}}" method="post">
+        <br><br>
+        <h1>Configuracion</h1>
+
+        <div class="config" >
+            <label for="">Ingrese num de paginacion:</label>
+            <input type="number" class="form-control" name="cant" value="{{ config.cant }}" placeholder= "..." >
+        </div>
+        <br>
+        <div class="form-row">
+            <label>Tabla de pagos:</label>
+            <select class="s-input" name="estado_pagos">
+              
+              <option value="1">Habilitar</option>
+              <option value="2">Desabilitar</option>
+            </select>
+        </div>
+        <br>
+        <div class="config" >
+            <label for="">Informacion de contacto:</label>
+            <input type="text" class="form-control" name="info_contacto" value="{{ config.info_contacto }}" placeholder="..." >
+        </div>
+
+        <div class="config" >
+            <label for="">Texto encabezado recibo de pago:</label>
+            <input type="text" class="form-control" name="texto_encabezado" value="{{ config.texto_encabezado }}" placeholder="..." >
+        </div>
+
+        <div class="config" >
+            <label for="">Valor de cuota mensual base:</label>
+            <input type="text" class="form-control" name="valor_cuota" value="{{ config.valor_cuota }}" placeholder="..." >
+        </div>
+
+        <div class="config" >
+            <label for="">Porcentaje de recargo de cuotas:</label>
+            <input type="text" class="form-control" name="recargo_cuota" value="{{ config.recargo_cuota }}" placeholder="..." >
+        </div>
+        <br>
+        <input class="action-btn" type="submit" value="Confirmar" >
+
+    </form>
 
 {% endblock %}

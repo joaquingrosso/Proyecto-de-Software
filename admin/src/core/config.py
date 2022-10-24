@@ -2,7 +2,7 @@ from os import environ
 
 class Config(object):
     """Base configuration."""
-
+    
     DB_HOST = "bd_name"
     DB_USER = "db_user"
     DB_PASS = "db_pass"
@@ -11,7 +11,7 @@ class Config(object):
 
 class ProductionConfig(Config):
     """Production configuration."""
-
+    ENV_NAME = "prod"
     DB_HOST = environ.get("DB_HOST", "localhost")
     DB_USER = environ.get("DB_USER", "MY_DB_USER")
     DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
@@ -23,7 +23,7 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     """Development configuration."""
-
+    ENV_NAME = "dev"
     DB_HOST = environ.get("DB_HOST", "localhost")
     DB_USER = environ.get("DB_USER", "postgres")
     DB_PASS = environ.get("DB_PASS", "1234")

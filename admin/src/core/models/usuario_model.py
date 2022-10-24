@@ -1,6 +1,9 @@
 from datetime import datetime
 from src.core.database import db
+from src.core.models.rol_model import Rol
 from werkzeug.security import generate_password_hash , check_password_hash
+from src.core.models.rol_model import Rol
+from sqlalchemy import Column, Boolean
 
 
 roles = db.Table('usuario_tiene_rol',
@@ -19,11 +22,11 @@ class Usuario(db.Model):
     email = db.Column(db.String(50))
     first_name = db.Column(db.String(30))
     last_name = db.Column(db.String(30))
-    activo = db.Column(db.Integer) #0 moroso (no) - 1 activo (si)
+    activo = db.Column(db.String(10)) #activo no-activo
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
     created_at = db.Column(db.DateTime, default=datetime.now())
     roles = db.relationship('Rol', secondary=roles, backref=db.backref(
-        'usuarios_con_el_rol', lazy=True), lazy='subquery')
+        'usuarios_con_el_rol', lazy=False), lazy='dynamic')
     
     def __init__(
             self, email, username, password, first_name, last_name
@@ -33,7 +36,9 @@ class Usuario(db.Model):
         self.password = password
         self.first_name = first_name
         self.last_name = last_name
-        self.activo = 1
+        self.activo = "Activo"
+        rol = Rol.get_rol_Socio()
+        self.roles.extend([rol])
 
     def __repr__(self):
         return "<user(username='%s',email='%s', first_name='%s', last_name='%s' )>" % (
@@ -50,15 +55,17 @@ class Usuario(db.Model):
         print("listar roles",aux)
         return aux
     
+    @classmethod
+    def get_estado_activo(self):
+        return "Activo"
+
+    @classmethod
+    def get_estado_no_activo(self):
+        return "Desactivo"
     
     @classmethod
     def get_user_by_id(self, user_id):
-        return Usuario.query.filter(self.id == user_id).first()
-    
-  
-    def verify_password(self, password):
-        passwd = self.password
-        return check_password_hash(passwd, password)
+        return Usuario.query.filter(self.id == user_id).first()            
         
     @classmethod
     def get_user_by_username_and_password(self, username, password):
@@ -67,6 +74,10 @@ class Usuario(db.Model):
     @classmethod
     def get_user_by_username(self, username):
         return Usuario.query.filter(self.username == username).first()
+
+    def verify_password(self, password):
+        passwd = self.password
+        return check_password_hash(passwd, password)
 
     def register_user_database(self):
         db.session.add(self)
@@ -82,8 +93,9 @@ class Usuario(db.Model):
     def is_valid(self):
         return self.activo and not self.baja
 
-    def list_usuarios():
-        return Usuario.query.all()
+    def list_usuarios(page,cant):
+        return Usuario.query.filter_by().paginate(page,cant)
+    
     
     def existe_usuario(username):
         return Usuario.query.filter_by(username=username).first()
@@ -98,3 +110,25 @@ class Usuario(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+        
+    @classmethod
+    def tiene_rol(self,id,permiso):
+        valido = False
+        user= Usuario.get_user_by_id(id)
+        roles = user.roles.all()
+        for rol in roles:
+           if Rol.tiene_permiso(rol.nombre,permiso):
+               valido = True
+               break
+        #return bool(user.roles.filter_by(id=id).first().permisos.filter_by(nombre=permiso))
+        return valido
+
+
+    def search_by_status(estado,page,cant):
+        if estado == 'all':
+            return Usuario.query.filter_by()
+        return Usuario.query.filter_by(activo=estado) 
+
+    def get_paginated(self, query, page, cant):
+        return query.filter_by().paginate(page=page, per_page=cant)
+

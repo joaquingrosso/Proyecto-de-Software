@@ -10,7 +10,21 @@
 {% block body %}
 
 <form class="form-signin" action="{{ url_for('login') }}" method="POST">
-    <a href="{{ url_for('home') }}"><img class="mb-4" src="{{ url_for('static', filename='img/logo2.png') }}" alt="" width="150" height="150"></a>
+    <a href="{{ url_for('home') }}"><img class="mb-4" src="{{ url_for('static', filename='img/logo2.png') }}" alt=""
+            width="150" height="150"></a>
+    
+
+    <h1 class="h3 mb-3 fw-normal">Ingresar Sesion</h1>
+    <div class="form-floating">
+        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+        <label for="username">Ingrese su Usuario</label>
+    </div>
+    <div class="form-floating mt-2">
+        <input type="password" class="form-control" name="password" placeholder="Password" required>
+        <label for="password">Ingrese su Clave</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
     {% with messages = get_flashed_messages() %}
 
     {% if messages %}
@@ -24,23 +38,14 @@
     {% endif %}
 
     {% endwith %}
-
-    <h1 class="h3 mb-3 fw-normal">Ingresar Sesion</h1>
-    <div class="form-floating">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required >
-        <label for="username">Ingrese su Usuario</label>
-    </div>
-    <div class="form-floating mt-2">
-        <input type="password" class="form-control" name="password" placeholder="Password" required>
-        <label for="password">Ingrese su Clave</label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
 </form>
+
+
+
 {% endblock %}
 
-  <!--SECTION FOOTER -->
-  <div class="footer">
+<!--SECTION FOOTER -->
+<div class="footer">
     <p>Footer</p>
-  </div>
- <!--SECTION FOOTER -->
+</div>
+<!--SECTION FOOTER -->

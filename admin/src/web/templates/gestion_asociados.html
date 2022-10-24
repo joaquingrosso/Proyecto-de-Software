@@ -3,7 +3,7 @@
 {% block content %}
 <!-- para el buscador -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- para el buscador -->
 <h1>Gestion Asociados</h1>
 
@@ -13,20 +13,50 @@
 
 <!-- tabla asociados  -->
 <div class="container">
-     <!-- buscador  -->
-  <div class="row">
-    <div class="col-sm-10">
-      <input class="form-control" id="myInput" type="text" placeholder="Search..">
-    </div>  
-  </div>
-  <!-- buscador -->
+    <!-- buscador  -->
+    <div class="row">
+        <div class="col-sm-10">
+            <input class="form-control" id="myInput" type="text" placeholder="Search..">
+        </div>
+    </div>
+    <!-- buscador -->
+<br>
+    <div class="col-md-2">
+        <form action="{{ url_for('buscar_usuario_asociado')}}"  method="GET" >
+          <select name="estado"  class="btn btn-secondary" onchange="this.form.submit()">
+            <option selected="selected">Filtrar</option>
+            <option value="all">Todos</option>
+            <option value="No-Activo">No-Activo</option>
+            <option value="Activo">Activo</option>
+          </select>
+        </form>
+    </div>
 
     <p>
-    <div class="col-sm-2">
-        <a href="{{ url_for('crear_asociado') }}"> <button type="button" class="btn btn-warning "><i
+    <div class="col-sm-10">
+        <table>
+            
+            <th>
+                {% if validar_permisos(session["id"],"new") %}
+                <a href="{{ url_for('crear_asociado') }}"> <button type="button" class="btn btn-warning "><i
                     class="fa-solid fa-user-plus"></i> Agregar Asociado</button> </a>
+                {% endif %}
+            </th>
+            <th></th>
+            <th> 
+                <a href="{{ url_for('export_pdf') }}"> <button type="button" class="btn btn-danger ">
+                    <i class="fa-sharp fa-solid fa-file-pdf"></i> Exportar PDF</button> </a>
+            </th>
+            <th></th>
+            <th> 
+                <a href="{{ url_for('export_csv') }}"> <button type="button" class="btn btn-success ">
+                    <i class="fa-solid fa-file-csv"></i></i> Exportar CSV</button> </a>
+            </th>
+        </table>                
     </div>
+    
     </p>
+    {% if validar_permisos(session["id"],"show") %}
     <div class="col-md-10">
         <table class="table table-striped table-bordered">
             <thead>
@@ -35,29 +65,45 @@
                     <th>Apellido</th>
                     <th>Documento</th>
                     <th>Genero</th>
-                    <th>Numero de socio</th>
+                    <th>Estado</th>
                     <th>Email</th>
                     <th class="text-center">Operaciones</th>
                 </tr>
             </thead>
             <tbody id="myTable">
                 <!-- print({{ user }}) -->
-                {% for a in asoc %}
+                {% for a in asoc.items %}
                 <tr>
                     <td> {{ a.first_name }}</td>
                     <td> {{ a.last_name }} </td>
-                    <td> {{ a.document }} </td>
+                    <td> {{a.document_type}} - {{ a.document }} </td>
                     <td> {{ a.gender }} </td>
-                    <td> {{ a.member_number }} </td>
+                    <td> {{ a.state }} </td>
                     <td> {{ a.email }} </td>
                     <td align="center">
+                        {% if validar_permisos(session["id"],"update") %}
                         <button type="button" class="btn btn-white" data-bs-toggle="modal"
                             data-bs-target="#modaledit{{a.id}}">
                             <i class="fa-solid fa-pen-to-square"></i> Editar
                         </button>
-                        <a href="{{ url_for( 'eliminar_asociado',id = a.id )  }}" class="text-danger"
+                        {% endif %}
+                        {% if validar_permisos(session["id"],"destroy") %}
+                        <a href="{{ url_for('eliminar_asociado',id = a.id )  }}" class="text-danger"
                             onClick="return confirm('¿Esta seguro que desea eliminar el asociado?');"><i
                                 class="fa fa-fw fa-trash"></i> Eliminar</a>
+                        {% endif %}
+                        <a href="{{ url_for( 'habilitar_deshabilitarA',id = a.id )  }}"  onClick="return confirm('¿Esta seguro que desea cambiar el estado del asociado?');"><i class="fa fa-fw fa-trash"></i> Habilitar/Deshabilitar</a>  <!--  -->
+                        {% if a.state == "No-Activo" %}
+                        <button type="button" class="btn btn-white" disabled="true">
+                            <a href="{{ url_for('inscribir_asociado_disciplina', id = a.id )  }}">
+                            <i class="fa-sharp fa-solid fa-medal"></i> Inscribir Disciplina</a>
+                        </button>
+                        {% else %} 
+                        <button type="button" class="btn btn-white">
+                            <a href="{{ url_for('inscribir_asociado_disciplina', id = a.id )  }}">
+                            <i class="fa-sharp fa-solid fa-medal"></i> Inscribir Disciplina</a>
+                        </button>
+                        {% endif %}
                     </td>
                 </tr>
 
@@ -80,51 +126,81 @@
                                             class="form-control" />
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="last_name" style="float: left;"> <b> Apellido </b> 
+                                        <label class="form-label" for="last_name" style="float: left;"> <b> Apellido
+                                            </b>
                                         </label>
                                         <input type="text" id="last_name" name="last_name" value="{{a.last_name}}"
                                             class="form-control" />
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="document_type" style="float: left;"> <b> Tipo Documento </b> 
+                                        <label class="form-label" for="document_type" style="float: left;"> <b> Tipo
+                                                Documento </b>
                                         </label>
-                                        <input type="text" id="document_type" name="document_type" value="{{a.document_type}}"
-                                            class="form-control" />
+                                        <!-- <input type="text" id="document_type" name="document_type"
+                                            value="{{a.document_type}}" class="form-control" /> -->
+                                        <select id="document_type" name="document_type" class="selectpicker form-control">
+                                            <option value="{{a.document_type}}">{{a.document_type}}</option>
+                                            {% if a.document_type != "CUIL" %}
+                                                <option value="CUIL">CUIL</option>
+                                            {% endif %}
+                                            {% if a.document_type != "DNI" %}
+                                                <option value="DNI">DNI</option>
+                                            {% endif %}
+                                            {% if a.document_type != "LC" %}
+                                                <option value="LC">LC</option>
+                                            {% endif %}
+                                            {% if a.document_type != "LE" %}
+                                                <option value="LE">LE</option>
+                                            {% endif %}                                            
+                                        </select>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="document" style="float: left;"> <b> Documento </b> 
+                                        <label class="form-label" for="document" style="float: left;"> <b> Documento
+                                            </b>
                                         </label>
                                         <input type="text" id="document" name="document" value="{{a.document}}"
                                             class="form-control" />
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="gender" style="float: left;"> <b> Genero </b> 
+                                        <label class="form-label" for="gender" style="float: left;"> <b> Genero </b>
+                                        </label>                                        
+                                        <select id="gender" name="gender" value="{{a.gender}}" class="selectpicker form-control">
+                                            <option value="{{a.gender}}">{{a.gender}}</option>
+                                            {% if a.gender != "Masculino" %}
+                                                <option value="Masculino">Masculino</option>
+                                            {% endif %}
+                                            {% if a.gender != "Femenino" %}
+                                                <option value="Femenino">Femenino</option>
+                                            {% endif %}
+                                            {% if a.gender != "Otro" %}
+                                                <option value="Otro">Otro</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <!-- <div class="form-group">
+                                        <label class="form-label" for="member_number" style="float: left;"> <b> Numero
+                                                de socio </b>
                                         </label>
-                                        <input type="text" id="gender" name="gender" value="{{a.gender}}" 
+                                        <input type="number" id="member_number" name="member_number"
+                                            value="{{a.member_number}}" class="form-control" />
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label class="form-label" for="adress" style="float: left;"> <b> Direccion </b>
+                                        </label>
+                                        <input type="text" id="adress" name="adress" value="{{a.adress}}"
                                             class="form-control" />
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="member_number" style="float: left;"> <b> Numero de socio </b> 
+                                        <label class="form-label" for="phone_number" style="float: left;"> <b> Numero
+                                                telefono </b>
                                         </label>
-                                        <input type="number" id="member_number" name="member_number" value="{{a.member_number}}" 
-                                            class="form-control" />
+                                        <input type="text" id="phone_number" name="phone_number"
+                                            value="{{a.phone_number}}" class="form-control" maxlength="9"/>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label" for="adress" style="float: left;"> <b> Direccion </b> 
+                                        <label class="form-label" for="email" style="float: left;"> <b> Email </b>
                                         </label>
-                                        <input type="text" id="adress" name="adress" value="{{a.adress}}" 
-                                            class="form-control" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="phone_number" style="float: left;"> <b> Numero telefono </b> 
-                                        </label>
-                                        <input type="text" id="phone_number" name="phone_number" value="{{a.phone_number}}" 
-                                            class="form-control" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="email" style="float: left;"> <b> Email </b> 
-                                        </label>
-                                        <input type="email" id="email" name="email" value="{{a.email}}" 
+                                        <input type="email" id="email" name="email" value="{{a.email}}"
                                             class="form-control" />
                                     </div>
                                     <div>
@@ -139,24 +215,83 @@
                         </div>
                     </div>
                 </div>
+
+                
+
                 {% endfor %}
             </tbody>
         </table>
+
+        
+         <!-- Enlaces de paginación -->
+         <div class="text-right">
+            <a href="{{ url_for('gestion_asociados', page=asoc.prev_num) }}"
+               class="btn btn-outline-dark
+              {% if asoc.page == 1 %}disabled{% endif %}">
+                &laquo;
+            </a>
+         <!-- Recorra el número de páginas para mostrar un enlace para cada vista-->
+         {% for page_num in asoc.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+         {% if page_num %}
+         <!-- Verifique la página activa y establezca el enlace en "Activo"-->
+             {% if asoc.page == page_num %}
+             <a href="{{ url_for('gestion_asociados', page=page_num) }}"
+                class="btn btn-dark">
+                {{ page_num }}
+             </a>
+             {% else %}
+             <a href="{{ url_for('gestion_asociados', page=page_num) }}"
+                class="btn btn-outline-dark">
+                 {{ page_num }}
+             </a>
+             {% endif %}
+         {% else %}
+                ...
+         {% endif %}
+       {% endfor %}
+       <a href="{{ url_for('gestion_asociados', page=asoc.next_num) }}"
+           class="btn btn-outline-dark
+          {% if asoc.page == asoc.pages %}disabled{% endif %}">
+           &raquo;
+       </a>
+       </div>
+      <p class="text-right mt-3">
+          pagina {{ asoc.page }} de {{ asoc.pages }}
+       </p>
+  
+        </div>
+
+
     </div>
 </div>
 <!-- fin de tabla -->
+{% endif %}
+<div>
+    {% with messages = get_flashed_messages() %}
 
-<!-- script para el buscador --> 
+    {% if messages %}
+    <br />
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% endwith %}
+</div>
+<!-- script para el buscador -->
 <script>
-    $(document).ready(function(){
-      $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
         });
-      });
     });
-    </script>
-  <!-- script para el buscador --> 
+</script>
+<!-- script para el buscador -->
 
 {% endblock %}

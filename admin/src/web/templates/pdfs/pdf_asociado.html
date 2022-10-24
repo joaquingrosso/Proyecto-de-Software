@@ -1,0 +1,45 @@
+
+<!-- bootstsrap -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>mostrar PDF</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+<h1>Listado de asociados</h1>
+
+<hr>   
+<div class="table-responsive">
+    <table class="table table-bordered"> 
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col" >Apellido</th>
+                <th scope="col" >Documento</th>
+                <th scope="col" >Genero</th>
+                <th scope="col" >Estado</th>
+                <th scope="col" >Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in asociados %}
+            <tr>
+                <td style="text-align: center; vertical-align: middle;"  > {{ a.first_name }}</td>
+                <td style="text-align: center; vertical-align: middle;" > {{ a.last_name }} </td>
+                <td style="text-align: center; vertical-align: middle;" > {{ a.document_type}} - {{ a.document }} </td>
+                <td style="text-align: center; vertical-align: middle;" > {{ a.gender }} </td>
+                <td style="text-align: center; vertical-align: middle;" > {{ a.state }} </td>
+                <td style="text-align: center; vertical-align: middle;" > {{ a.email }} </td>                
+            </tr>        
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+        

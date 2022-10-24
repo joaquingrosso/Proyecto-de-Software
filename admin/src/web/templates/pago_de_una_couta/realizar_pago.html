@@ -1,0 +1,80 @@
+{% extends "index.html" %}
+
+
+{% block content %}
+
+<h1>Listado de cuotas de la disciplina de un Asociado</h1>
+
+
+<!-- tabla asociados  -->
+<div class="container">
+    
+    <br>
+
+    <div>
+        {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+        <br />
+        {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% endwith %}
+    </div>
+
+    <div class="col-md-10">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>Periodo</th> 
+                    <th>Asociado</th>
+                    <th>Disciplina</th>
+                    <th>Monto</th>                    
+                    <th>Estado</th>                   
+                    <th class="text-center">Operaciones</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for c in cuotas %}
+                <tr>   
+                    <td> {{ c.periodo }} </td>                                                        
+                    <td> {{ c.get_nombre_asociado() }} </td>
+                    <td> {{ c.get_nombre_disciplina() }} </td>
+                    <td> {{ c.monto }} </td>                    
+                    <td> {{ c.estado }} </td>
+                    <td align="center">
+                        {% if c.estado == "Paga" %}
+                        <button type="button" class="btn btn-white" disabled="true">
+                            <a href="{{ url_for( 'pagar_cuota',id_c = c.id, monto = c.monto, id_d = c.disciplina_id, id_a = c.asociado_id  )  }}" 
+                                onClick="return confirm('¿Esta seguro que desea pagar esta cuota?');">
+                                <i class="fa-solid fa-money-bill"></i> Pagar
+                            </a>    
+                        </button>
+                        {% else %}                        
+                        <button type="button" class="btn btn-white" >
+                            <a href="{{ url_for( 'pagar_cuota',id_c = c.id, monto = c.monto, id_d = c.disciplina_id, id_a = c.asociado_id  )  }}" 
+                                onClick="return confirm('¿Esta seguro que desea pagar esta cuota?');">
+                                <i class="fa-solid fa-money-bill"></i> Pagar
+                            </a>    
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>                     
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    
+</div>
+<!-- fin de tabla -->
+
+
+{% endblock %}
