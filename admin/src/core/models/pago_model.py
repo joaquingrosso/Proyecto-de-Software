@@ -14,6 +14,14 @@ class Pago(db.Model):
         self.cuota_id = cuota_id,
         self.monto = monto,
         self.periodo = periodo
+
+    def __repr__(self):
+        return "<id='%s', cuota_id='%s', monto='%s', periodo='%s')>" % (
+            self.id,
+            self.cuota_id,
+            self.monto,
+            self.periodo,
+        )
     
     @classmethod
     def pago_asociado(self, id):
