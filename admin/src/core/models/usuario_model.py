@@ -124,10 +124,10 @@ class Usuario(db.Model):
         return valido
 
 
-    def search_by_status(estado):
+    def search_by_status(estado,page,cant):
         if estado == 'all':
-            return Usuario.query_all(Usuario)
-        return Usuario.query.filter_by(activo=estado)
+            return Usuario.query.filter_by()
+        return Usuario.query.filter_by(activo=estado) 
 
     def get_paginated(self, query, page, cant):
         return query.filter_by().paginate(page=page, per_page=cant)

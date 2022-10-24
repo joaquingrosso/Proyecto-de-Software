@@ -184,7 +184,7 @@ def buscar_usuario():
     page = request.args.get('page', 1, type=int)
     config = Config.get_self(Config, 1)
 
-    lista_usuario = Usuario.search_by_status(request.args['estado'])
+    lista_usuario = Usuario.search_by_status(request.args['estado'],page,config.cant)
     results = Usuario.get_paginated(Usuario, lista_usuario, page, config.cant)
 
     return render_template("gestion_usuarios.html", user=results)

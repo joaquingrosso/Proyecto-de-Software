@@ -120,3 +120,11 @@ class Asociado(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    def search_by_status(estado,page,cant):
+        if estado == 'all':
+            return Asociado.query.filter_by()
+        return Asociado.query.filter_by(state=estado) 
+
+    def get_paginated(self, query, page, cant):
+        return query.filter_by().paginate(page=page, per_page=cant)

@@ -209,3 +209,12 @@ def export_csv():
     workbook.save(output)
     output.seek(0)
     return Response(output, mimetype="application/ms-Excel", headers= {"Content-Disposition":"attachment;filename=Lista de asociados.csv"})
+
+def buscar_usuario_asociado():
+    page = request.args.get('page', 1, type=int)
+    config = Config.get_self(Config, 1)
+
+    lista_usuario = Asociado.search_by_status(request.args['estado'],page,config.cant)
+    results = Asociado.get_paginated(Asociado, lista_usuario, page, config.cant)
+
+    return render_template("gestion_asociados.html", asoc=results)
