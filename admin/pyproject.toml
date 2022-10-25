@@ -15,6 +15,7 @@ Flask-Session = "^0.4.0"
 Jinja2 = "^3.1.2"
 fastapi-csrf-protect = "^0.2.2"
 psycopg2 = "^2.9.4"
+pdfkit = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.1.3"
