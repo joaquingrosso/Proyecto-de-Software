@@ -8,7 +8,8 @@ class Config(object):
     DB_PASS = "db_pass"
     DB_NAME = "db_name"
     SECRET_KEY = "secret"
-
+    WKHTML_CUSTOM_PATH = environ.get("WKHTML_CUSTOM_PATH", "")
+    USE_WKHTML_CUSTOM_PATH = bool(environ.get("USE_WKHTML_CUSTOM_PATH", 0))
 class ProductionConfig(Config):
     """Production configuration."""
     ENV_NAME = "prod"
@@ -31,7 +32,8 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"
     ) 
-
+    WKHTML_CUSTOM_PATH = environ.get("WKHTML_CUSTOM_PATH", r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")
+    USE_WKHTML_CUSTOM_PATH = bool(environ.get("USE_WKHTML_CUSTOM_PATH", 1))
 class TestingConfig(Config):
     """Testing configuration."""
 
