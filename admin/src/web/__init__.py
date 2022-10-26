@@ -33,7 +33,7 @@ from src.core.models.cuota_model import Cuota
 from src.core.models.config_model import Config
 from src.core.models.pago_model import Pago
 
-from src.web.helpers.permiso import validar_permisos
+from src.web.helpers.permiso import validar_permisos, es_admin
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import seeds
@@ -154,5 +154,5 @@ def create_app(env="development", static_folder="static"):
         print('Auto imported ', [i[0] for i in modules.items()])
         return modules 
     app.jinja_env.globals.update(validar_permisos=validar_permisos)
-
+    app.jinja_env.globals.update(es_admin=es_admin)
     return app
