@@ -8,6 +8,15 @@ def validar_permisos(id,permiso):
 
 
 ########   Funciones auxiliares   ########
+def es_admin(id):
+	valido = False
+	user = Usuario.get_user_by_id(id)
+	roles = user.roles
+	for r in roles:
+		if r.nombre != "Administrador":
+			valido = True
+		break
+	return valido
 
 def no_es_admin():
 	return not (authenticated(session) and Usuario.tiene_rol(session["usuario"], 'admin'))

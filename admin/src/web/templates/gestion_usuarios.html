@@ -45,7 +45,7 @@
   </div>
   {% endif %}
   </p>
-  {% if validar_permisos(session["id"],"show") %}
+  
   <div class="col-md-15">
     <table class="table table-striped table-bordered">
       <thead>
@@ -64,7 +64,13 @@
         <!-- print({{ user }}) -->
         {% for u in user.items %}
         <tr>
-          <td> {{ u.username }}</td>
+          <td> {{ u.username }}
+            {% if validar_permisos(session["id"],"show") %}
+            <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modalshow{{u.id}}" style="float: right;">
+              <i class="fa-sharp fa-solid fa-magnifying-glass fa-lg"></i>
+            </button>
+            {% endif %}
+          </td>
           <td> {{ u.first_name }} </td>
           <td> {{ u.last_name }} </td>
           <td> {{ u.email }} </td>
@@ -87,7 +93,7 @@
               Eliminar</a> <!--  -->
             {% endif %}
           {% for r in u.roles %}
-          {% if r.nombre != "Administrador"  %}
+          {% if es_admin(u.id)  %}
           <button type="button" class="btn btn-white" >
             <a href="{{ url_for( 'activar_desactivar',id = u.id )  }}"
               onClick="return confirm('¿Esta seguro que desea cambiar el estado del usuario?');"><i
@@ -208,6 +214,52 @@
     </div>
   </div>
 
+  <!-- Modal para el Show de cada persona -->
+  <div class="modal fade" id="modalshow{{u.id}}" tabindex="-1" aria-labelledby="modalshow" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalshow">Informacion Usuario</h5>
+        </div>
+        <div class="modal-body">
+          <form >
+            <div class="form-group">
+              <label class="form-label" for="first_name" style="float: left;"> <b> Nombre </b> </label>
+              <input type="text" id="first_name" name="first_name" value="{{u.first_name}}"
+                class="form-control" />
+            </div>
+            <div class="form-group mt-3">
+              <label class="form-label" for="last_name" style="float: left;"> <b> Apellido </b> </label>
+              <input type="text" id="last_name" name="last_name" value="{{u.last_name}}" class="form-control" />
+            </div>
+            <div class="form-group mt-3">
+              <label class="form-label" for="email" style="float: left;"> <b> E-mail </b> </label>
+              <input type="email" id="email" name="email" value="{{u.email}}" class="form-control" />
+            </div>
+            <div class="form-group mt-3">
+              <label class="form-label" for="username" style="float: left;"> <b> Username </b> </label>
+              <input type="text" id="username" name="username" value="{{u.username}}" class="form-control" />
+            </div>
+            <div class="form-group mt-3">
+              <label class="form-label" for="activo" style="float: left;"> <b> Activo </b> </label>
+              <input type="text" id="activo" name="activo" value="{{u.activo}}" class="form-control" />
+            </div>
+            <div class="form-group mt-3" style="align-items: center;">
+              <label class="form-label" for="username" style="float: left;"> <b> Roles </b> </label>
+              {% for r in u.roles %}
+              <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off" aria-selected="true">
+              <label class="btn btn-outline-danger " for="danger-outlined">{{r.nombre}}</label>
+              {% endfor %}
+            </div>
+            <div>
+              <button type="button" class="btn btn-secondary btn-lg mt-3" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   
     {% endfor %}
     </tbody>
@@ -245,7 +297,7 @@
       pagina {{ user.page }} de {{ user.pages }}
     </p>
 <!-- fin de tabla -->
-{% endif %}
+
 <div>
   {% with messages = get_flashed_messages() %}
 
