@@ -5,6 +5,7 @@ from src.core.database import db
 from src.core.models.asociado_model import Asociado
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.pago_model import Pago
+from src.core.models.config_model import Config
 
 cuotas_asociados = db.Table('usuario_tiene_cuota',
                  db.Column('asociado_id', db.Integer, db.ForeignKey(

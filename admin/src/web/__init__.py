@@ -116,6 +116,7 @@ def create_app(env="development", static_folder="static"):
     #Operaciones Couta
     app.add_url_rule('/realizar_pago/<id_a><id_d>', 'realizar_pago', cuota_controller.realizar_pago, methods=["POST", "GET"])
     app.add_url_rule('/pagar_cuota/<id_c> <monto><id_d> <id_a> ', 'pagar_cuota', cuota_controller.pagar_cuota)
+    app.add_url_rule('/ver_recibo_cuota<cuota_id>', 'ver_recibo_cuota', cuota_controller.ver_recibo_cuota)
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)

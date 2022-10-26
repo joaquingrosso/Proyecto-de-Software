@@ -25,7 +25,7 @@ def crear_asociado():
         email = request.form.get('email')
         
         #se chequea que el usuario no exista y que no tenca campos vacios
-        if not verify_asociado(document, document_type)and verify_lenghts(first_name, last_name, document, adress, email): 
+        if verify_format(document, phone_number) and not verify_asociado(document, document_type)and verify_lenghts(first_name, last_name, document, adress, email, phone_number): 
             register_database(first_name, last_name, document_type, document, gender, adress, state, phone_number, email)
             return redirect(url_for("gestion_asociados"))  
     return render_template('asociado/crear_asociado.html')
@@ -56,8 +56,9 @@ def modificar_asociado(id):
         phone_number = request.form.get('phone_number')
         email = request.form.get('email')
         #validaciones de modificar
+        
         if valido:    
-            if verify_lenghts(first_name, last_name, document, adress, email) and not verify_asociado_not_actual(id, document, document_type):
+            if verify_format(document, phone_number) and verify_lenghts(first_name, last_name, document, adress, email, phone_number) and not verify_asociado_not_actual(id, document, document_type):
                 asoc.update_asociado_database(first_name, last_name, document_type, document, gender, adress, phone_number, email)
                 return redirect(url_for("gestion_asociados")) 
         # return render_template('/user/modificar_usuario.html', usu=usu) 
@@ -112,44 +113,87 @@ def verify_asociado_not_actual(asoc_id, doc, doc_type):
             return True
     return False   
 
-def verify_lenghts(first_name, last_name, document, adress, email):
-    #name
-    if len(first_name) > 30:
-        flash("Nombre muy largo")
+def verify_format(document, phone_number):
+    try: 
+        document = int(document)        
+    except ValueError:
+        flash("Solo puede ingresar numeros en el documento")
         return False
-    elif len(first_name) < 5:
-        flash("Nombremuy corto")
-        return False   
-    #last_name
-    if len(last_name) > 30:
-        flash("Apellido muy largo")
+    try: 
+        phone_number = int(phone_number)            
+    except ValueError:
+        flash("Solo puede ingresar numeros en el numero de telefono")
         return False
-    elif len(last_name) < 5:
-        flash("Apellido muy corto")
-        return False            
-    #document
-    if len(document) > 15:
-        flash("Documento muy largo")
-        return False
-    elif len(document) < 8:
-        flash("Documento muy corto")
-        return False 
-    #adress
-    if len(adress) > 50:
-        flash("Direccion muy larga")
-        return False
-    elif len(adress) < 5:
-        flash("Direccion muy corta")
-        return False 
-    #phone_number
-    if len(email) > 50:
-        flash("email muy largo")
-        return False
-    elif len(email) < 15:
-        flash("email muy corto")
-        return False 
     return True
 
+
+def verify_lenghts(first_name, last_name, document, adress, email, phone_number):
+    #name
+    if len(first_name) == 0:
+        flash("Nombre vacio, complete el campo")
+        return False
+    else:
+        if len(first_name) > 30:
+            flash("Nombre muy largo")
+            return False
+        elif len(first_name) < 5:
+            flash("Nombre muy corto")
+            return False   
+    #last_name
+    if len(last_name) == 0:
+        flash("Apellido vacio, complete el campo")
+        return False
+    else:
+        if len(last_name) > 30:
+            flash("Apellido muy largo")
+            return False
+        elif len(last_name) < 5:
+            flash("Apellido muy corto")
+            return False            
+    #document
+    if len(document) == 0:
+        flash("Documento vacio, complete el campo")
+        return False
+    else:
+        if len(document) > 15:
+            flash("Documento muy largo")
+            return False
+        elif len(document) < 8:
+            flash("Documento muy corto")
+            return False 
+    #adress
+    if len(adress) == 0:
+        flash("Direccion vacio, complete el campo")
+        return False
+    else:
+        if len(adress) > 50:
+            flash("Direccion muy larga")
+            return False
+        elif len(adress) < 5:
+            flash("Direccion muy corta")
+            return False 
+    #email
+    if len(email) == 0:
+        flash("Email vacio, complete el campo")
+        return False
+    else:
+        if len(email) > 50:
+            flash("Email muy largo")
+            return False
+        elif len(email) < 15:
+            flash("Email muy corto")
+            return False 
+    #phone_number
+    if len(phone_number) == 0:
+        flash("Numero de telefono vacio, complete el campo")
+        return False
+    else:        
+        if len(phone_number)!=9:
+            flash("El numero de telefono debe ser de 9 digitos")
+            return False 
+    return True
+
+# def verify_empty(first_name, last_name, document_type, document, gender, adress, state , phone_number , email):
     
 
 def register_database(first_name, last_name, document_type, document, gender, adress, state , phone_number , email):

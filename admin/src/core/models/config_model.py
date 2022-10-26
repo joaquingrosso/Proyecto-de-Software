@@ -24,6 +24,11 @@ class Config(db.Model):
         self.valor_cuota = ((valor_cuota),)
         self.recargo_cuota = ((recargo_cuota),)
 
+    @classmethod
+    def get_valor_cuota(self):
+        valor_cuota_base = Config.get_configuration()
+        print("Valor de cuota base", valor_cuota_base)
+        return valor_cuota_base.valor_cuota
 
     def get_configuration():
         return Config.query.order_by(Config.id.desc()).first()
