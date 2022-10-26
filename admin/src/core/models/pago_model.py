@@ -34,6 +34,7 @@ class Pago(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit() 
+        
     @classmethod        
     def eliminar_pagos(self, cuota_id):
         pagos = Pago.pago_asociado(cuota_id)
