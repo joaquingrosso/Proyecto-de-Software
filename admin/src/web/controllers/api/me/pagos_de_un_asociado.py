@@ -12,7 +12,7 @@ def mostrar_pagos_de_un_asociado(id):
         cuotas = Cuota.cuota_asociado(id)
         for cuota in cuotas:
           pago_cuota = Pago.pago_asociado(cuota.id)
-          print(pago_cuota)
+          # print(pago_cuota)
           if pago_cuota is not None:
                c = {   
                          "periodo" : cuota.periodo, 
@@ -32,7 +32,7 @@ def mostrar_pagos_de_un_asociado(id):
             "nombre del Asociado": asociado_actual.first_name,
            }
     
-   resp= {'datos del asociado':dic, 'pagos': lista }
+   resp= {'datos del asociado':dic, 'pagos del asociado ': lista }
    return jsonify(resp), 200
 
 

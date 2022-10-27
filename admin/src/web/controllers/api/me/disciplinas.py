@@ -5,14 +5,17 @@ from src.core.models.asociado_model import Asociado
 def mostrar_disciplinas_de_un_asociado(id):
    try:
         asociado_actual = Asociado.query.get(id)
+        if not asociado_actual:
+          return jsonify({"error": "404 el id no existe"}), 404  
         disciplinas = asociado_actual.disciplinas
-        print(disciplinas)
+        
+     #    print(disciplinas)
       #   disciplinas_del_asociado_actual = Asociado.tiene_disciplina((id))
    except:
         return jsonify({"error": "500 Internal server Error"}), 500
+
+  
     
-   if not asociado_actual:
-        return jsonify({"error": "404 el id no existe"}), 404
    lista_disciplinas = []
    for d in disciplinas:
         disciplina = {
