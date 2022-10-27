@@ -21,21 +21,10 @@
     </div>
     <!-- buscador -->
 <br>
-    <div class="col-md-2">
-        <form action="{{ url_for('buscar_usuario_asociado')}}"  method="GET" >
-          <select name="estado"  class="btn btn-secondary" onchange="this.form.submit()">
-            <option selected="selected">Filtrar</option>
-            <option value="all">Todos</option>
-            <option value="No-Activo">No-Activo</option>
-            <option value="Activo">Activo</option>
-          </select>
-        </form>
-    </div>
-
+    
     <p>
     <div class="col-sm-10">
         <table>
-            
             <th>
                 {% if validar_permisos(session["id"],"new") %}
                 <a href="{{ url_for('crear_asociado') }}"> <button type="button" class="btn btn-warning "><i
@@ -52,6 +41,18 @@
                 <a href="{{ url_for('export_csv') }}"> <button type="button" class="btn btn-success ">
                     <i class="fa-solid fa-file-csv"></i></i> Exportar CSV</button> </a>
             </th>
+            <th></th>
+            <th>
+                <form action="{{ url_for('buscar_usuario_asociado')}}"  method="GET" >
+                    <select name="estado"  class="btn btn-secondary" onchange="this.form.submit()">
+                      <option selected="selected">Filtrar</option>
+                      <option value="all">Todos</option>
+                      <option value="No-Activo">No-Activo</option>
+                      <option value="Activo">Activo</option>
+                    </select>
+                  </form>
+            </th>
+            
         </table>                
     </div>
     

@@ -40,3 +40,13 @@ class Pago(db.Model):
         pagos = Pago.pago_asociado(cuota_id)
         if pagos != None:
             self.delete(pagos)
+
+    
+    def actualizar_pago(self, monto , periodo):
+        self.monto = monto
+        self.periodo = periodo
+        db.session.commit()
+    
+    @classmethod
+    def pago_de_una_cuota(self,id_c):
+        return Pago.query.filter_by(cuota_id = id_c).first()

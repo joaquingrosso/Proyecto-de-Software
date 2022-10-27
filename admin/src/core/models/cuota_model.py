@@ -118,6 +118,4 @@ class Cuota(db.Model):
 
     def list_cuota():
         return Cuota.query.all()
-    
-   
-        
+
