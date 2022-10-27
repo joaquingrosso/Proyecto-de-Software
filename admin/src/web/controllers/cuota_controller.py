@@ -58,7 +58,10 @@ def ver_recibo_cuota(cuota_id):
     asociado = cuota.get_nombre_asociado()
     print(encabezado)
     fecha_hoy = datetime.now()
-    fecha=fecha_hoy.strftime('%d','%m','%Y')
+    dia = fecha_hoy.strftime('%d')
+    mes = fecha_hoy.strftime('%m')
+    año = fecha_hoy.strftime('%Y')
+    fecha = dia +"/" + mes + "/" + año
     path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
     config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
     html = render_template('/pdfs/pdf_recibo_cuota.html', pago = pago, encabezado = encabezado, asociado=asociado, fecha=fecha)
