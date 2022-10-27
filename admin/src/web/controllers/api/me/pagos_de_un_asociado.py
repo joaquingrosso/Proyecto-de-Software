@@ -38,18 +38,13 @@ def mostrar_pagos_de_un_asociado(id):
 def cargar_pago(id):
      cuota_actual = Cuota.query.get(id)
      cuota_actual = Cuota.get_cuota_by_id(id)
-     # asociado_actual = Asociado.get_asociado_by_id(cuota_actual.asociado_id) 
-     # print(asociado_actual) 
      try:
           if not cuota_actual:
                return jsonify({"error": "404 el id no existe"}), 404
           if request.method == "POST" :
                monto = request.json['monto']
-               periodo = request.json['periodo'] 
-               # print(monto)
-               # print(periodo)     
+               periodo = request.json['periodo']     
                pago = Pago.pago_de_una_cuota(id)
-               # print(pago)
                pago.actualizar_pago(monto,periodo)
           # return jsonify(request), 201 
           return "pago la cuota con exito"

@@ -8,6 +8,7 @@ import pdfkit
 import base64
 from datetime import datetime 
 from src.core.models.config_model import Config
+from flask import current_app as app
 
 @login_required
 def realizar_pago(id_a, id_d):
@@ -56,16 +57,20 @@ def ver_recibo_cuota(cuota_id):
     encabezado = Config.get_self(Config, 1).texto_encabezado
     cuota = Cuota.get_cuota_by_id(cuota_id)
     asociado = cuota.get_nombre_asociado()
-    print(encabezado)
     fecha_hoy = datetime.now()
     dia = fecha_hoy.strftime('%d')
     mes = fecha_hoy.strftime('%m')
     año = fecha_hoy.strftime('%Y')
     fecha = dia +"/" + mes + "/" + año
-    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-    html = render_template('/pdfs/pdf_recibo_cuota.html', pago = pago, encabezado = encabezado, asociado=asociado, fecha=fecha)
-    pdf = pdfkit.from_string(html,False,configuration=config)
+    if app.config.get("USE_WKHTML_CUSTOM_PATH") == True:
+        path_wkhtmltopdf = app.config.get("WKHTML_CUSTOM_PATH")
+        config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)    
+        html = render_template('/pdfs/pdf_recibo_cuota.html', pago = pago, encabezado = encabezado, asociado=asociado, fecha=fecha)
+        pdf = pdfkit.from_string(html,False,configuration=config)
+        
+    else:
+        html = render_template('/pdfs/pdf_recibo_cuota.html', pago = pago, encabezado = encabezado, asociado=asociado, fecha=fecha)
+        pdf =pdfkit.from_string(html,False)
     resp = make_response(pdf)
     resp.headers["Content-Type"] = "aplication/pdf"
     resp.headers["Content-Disposition"] = "inline;filename=recibo_cuota.pdf"

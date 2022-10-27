@@ -219,22 +219,13 @@ def eliminar_cuota_asociado(id):
 
 def export_pdf():
     lista_asociados = Asociado.list_asociados()
-    #path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    #config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
     html = render_template('/pdfs/pdf_asociado.html', asociados=lista_asociados)
-    print(app.config.get("USE_WKHTML_CUSTOM_PATH"))
-    print(app.config.get("WKHTML_CUSTOM_PATH"))
     if app.config.get("USE_WKHTML_CUSTOM_PATH") == True:
-        # breakpoint()
         path_wkhtmltopdf = app.config.get("WKHTML_CUSTOM_PATH")
         config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)    
         pdf = pdfkit.from_string(html,False,configuration=config)
-        
     else:
-        
         pdf =pdfkit.from_string(html,False)
-   
-    #pdf = pdfkit.from_string(html,False,configuration=config)
     resp = make_response(pdf)
     resp.headers["Content-Type"] = "aplication/pdf"
     resp.headers["Content-Disposition"] = "inline;filename=asociados.pdf"
