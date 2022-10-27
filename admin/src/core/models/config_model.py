@@ -30,6 +30,11 @@ class Config(db.Model):
         print("Valor de cuota base", valor_cuota_base)
         return valor_cuota_base.valor_cuota
 
+    @classmethod
+    def get_valor_porcentaje(self):
+        valor_recargo = Config.get_configuration()
+        return valor_recargo.recargo_cuota
+    
     def get_configuration():
         return Config.query.order_by(Config.id.desc()).first()
 

@@ -1,5 +1,6 @@
-from flask import redirect, render_template, request, url_for, session
+from flask import redirect, render_template, request, url_for, session,flash
 from src.core.models.config_model import Config
+from src.core.models.cuota_model import Cuota
 
 
 
@@ -18,7 +19,9 @@ def update():
       valor_cuota = request.form['valor_cuota']
    if request.form['recargo_cuota']:
       recargo_cuota = request.form['recargo_cuota']
-   
+   if Config.get_valor_cuota() != valor_cuota:
+      Cuota.actualizar_monto_cuotas_impagas(valor_cuota)
+      flash("Se actualizo el valor de las cuotas no pagas de todas las disciplinas")
    config.update_config_database(cant,estado_pagos,info_contacto,texto_encabezado,valor_cuota,recargo_cuota)
 
 

@@ -6,8 +6,8 @@ from flask import render_template ,request, redirect, url_for ,flash, make_respo
 from src.web.controllers import login_required
 import pdfkit
 import base64
-
-
+from datetime import datetime 
+from src.core.models.config_model import Config
 
 @login_required
 def realizar_pago(id_a, id_d):
@@ -16,12 +16,26 @@ def realizar_pago(id_a, id_d):
 
 @login_required
 def pagar_cuota(id_c, monto, id_d, id_a):
+    dic_mes={ "Enero":1, "Febrero":2, "Marzo":3, "Abril":4, "Mayo":5, "Junio":6,
+             "Julio":7, "Agosto":8, "Septembre":9, "Octubre":10, "Noviembre":11, "Diciembre":12}
     cuo = Cuota.get_cuota_by_id(id_c)
     cuo.estado = Cuota.get_estado_paga()
-    cuo.register_cuota_database()
-
-    register_pago_database(id_c, monto, cuo.periodo)
-
+    fecha_hoy = datetime.now()
+    recargo_cuota = Config.get_valor_porcentaje()
+    print("el recargo es:", recargo_cuota)
+    dia_actual=int(fecha_hoy.strftime('%d'))
+    mes_actual=int(fecha_hoy.strftime('%m'))
+    if dic_mes.get(cuo.periodo) <= mes_actual:
+        if dia_actual >= 1 and dia_actual <= 10:
+            # cuo.register_cuota_database()
+            # register_pago_database(id_c, monto, cuo.periodo)
+            print("no es")
+        else:
+            print("es moroso")
+    else:
+        print("se fue al else")
+    # cuo.register_cuota_database()
+    # register_pago_database(id_c, monto, cuo.periodo)
     cuotas = Cuota.get_cuotas_by_disciplina_asociado(id_d, id_a)
     return render_template("pago_de_una_couta/realizar_pago.html", cuotas = cuotas) 
 

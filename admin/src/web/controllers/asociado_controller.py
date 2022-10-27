@@ -68,7 +68,7 @@ def modificar_asociado(id):
 def inscribir_asociado_disciplina(id):    
     config = Config.get_self(Config, 1)
     page = request.args.get('page', 1, type=int)
-    disciplinasActuales = Disciplina.list_disciplina(page,config.cant)
+    disciplinasActuales = Disciplina.list_disciplinas_activas(page,config.cant)
     return render_template("asociado/inscribir_asociado_disciplina.html", id=id, disciplinas = disciplinasActuales )
 
 @login_required
@@ -84,16 +84,19 @@ def habilitar_deshabilitar(id):
 def realizar_inscripcion(id_a, id_d):
     asociado = Asociado.get_asociado_by_id(id_a)
     disciplina = Disciplina.get_disciplina_by_id(id_d)
-
-    if Asociado.tiene_disciplina(id_a, id_d):
-        flash("Ya esta inscripto en esta disciplina")
+    monto_base = Config.get_valor_cuota()
+    if asociado.state == "Activo":
+        if Asociado.tiene_disciplina(id_a, id_d):
+            flash("Ya esta inscripto en esta disciplina")
+        else:
+            Asociado.inscribir_disciplina(asociado, disciplina)
+            #generar cuotas
+            periodos = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septembre", "Octubre", "Noviembre", "Diciembre"]
+            for i in range(0, 12):
+                cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos[i])
+                cuo.register_cuota_database()
     else:
-        Asociado.inscribir_disciplina(asociado, disciplina)
-        #generar cuotas
-        periodos = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septembre", "Octubre", "Noviembre", "Diciembre"]
-        for i in range(0, 12):
-            cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost, periodos[i])
-            cuo.register_cuota_database()
+        flash("El usuario al que desea inscribir se encuentra con el estado moroso")
     return redirect(url_for("gestion_asociados"))
 
 def verify_asociado(doc, doc_type):

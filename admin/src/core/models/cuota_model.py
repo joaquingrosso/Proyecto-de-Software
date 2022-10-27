@@ -88,7 +88,16 @@ class Cuota(db.Model):
                 Pago.eliminar_pagos(d.id)
                 d.delete()
 
-
+    @classmethod
+    def actualizar_monto_cuotas_impagas(self,monto_config):
+        print("entro al actualizar_monto_cuotas_impagas")
+        cuotas_impagas = Cuota.query.filter_by(estado = "No-Paga").all()
+        for cuotas in cuotas_impagas:
+            disciplina = Disciplina.get_disciplina_by_id(cuotas.disciplina_id)
+            cuotas.monto = disciplina.monthly_cost + float(monto_config)
+        db.session.commit()
+            
+        
     def get_nombre_asociado(self):
         return Asociado.get_nombre_by_id(self.asociado_id)
     

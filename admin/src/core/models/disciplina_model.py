@@ -78,6 +78,9 @@ class Disciplina(db.Model):
     def list_disciplina(page,cant):
         return Disciplina.query.filter_by().paginate(page,cant)
 
+    def list_disciplinas_activas(page,cant):
+        return Disciplina.query.filter_by(enabled = True ).paginate(page,cant)
+
     def delete(self):        
         db.session.delete(self)
         db.session.commit()
