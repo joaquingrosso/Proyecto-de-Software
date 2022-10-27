@@ -8,7 +8,7 @@ class Pago(db.Model):
     cuota_id = db.Column(db.Integer, db.ForeignKey('cuota.id'),nullable=False)
     monto = db.Column(db.Integer)
     periodo = db.Column(db.String, unique=False, nullable=False)
-    
+    #created_at = db.Column(db.DateTime, default=datetime.now())
 
     def __init__(self, cuota_id, monto, periodo):
         self.cuota_id = cuota_id,

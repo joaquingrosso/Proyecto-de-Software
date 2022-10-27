@@ -10,26 +10,16 @@
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <hr>
+    <h1> {{ encabezado }} </h1>
+    
+    <hr>
+    
+    <h2> Recibo #{{ pago.id }} </h1>
 
-
-
-    <h1> Recibo cuota </h1>
-
-
-
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr class="bg-primary text-white">
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Documento</th>
-            </tr>
-        </thead>
-        <tbody id="myTable">
-            <tr>
-                <td> {{ cuota.periodo }}</td>
-                <td> {{ cuota.monto }}</td>
-                <td> {{ cuota.estado }}</td>
-            </tr>
+    <p> Recibimos de {{ asociado }} </p>
+    <p> el importe en pesos ${{ pago.monto }} </p>
+    <p> Por el concepto de cuota sociertaria del periodo </p>
+    <p> {{ pago.periodo }} </p>
 
 </body>

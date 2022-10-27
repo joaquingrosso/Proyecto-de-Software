@@ -41,8 +41,8 @@ class Config(db.Model):
     def get_page_rows():
         return Config.get_configuration().page_size
 
-    def get_self(self, disip_id):
-        return Config.query.filter(self.id == disip_id).first()    
+    def get_self(self, id):
+        return Config.query.filter(self.id == id).first()    
 
     def update_config_database(self, cant, estado_pagos, info_contacto, texto_encabezado, valor_cuota, recargo_cuota ):
         self.cant = cant
