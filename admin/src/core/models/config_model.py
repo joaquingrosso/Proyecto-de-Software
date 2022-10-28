@@ -24,15 +24,24 @@ class Config(db.Model):
         self.valor_cuota = ((valor_cuota),)
         self.recargo_cuota = ((recargo_cuota),)
 
+    @classmethod
+    def get_valor_cuota(self):
+        valor_cuota_base = Config.get_configuration()
+        return valor_cuota_base.valor_cuota
 
+    @classmethod
+    def get_valor_porcentaje(self):
+        valor_recargo = Config.get_configuration()
+        return valor_recargo.recargo_cuota
+    
     def get_configuration():
         return Config.query.order_by(Config.id.desc()).first()
 
     def get_page_rows():
         return Config.get_configuration().page_size
 
-    def get_self(self, disip_id):
-        return Config.query.filter(self.id == disip_id).first()    
+    def get_self(self, id):
+        return Config.query.filter(self.id == id).first()    
 
     def update_config_database(self, cant, estado_pagos, info_contacto, texto_encabezado, valor_cuota, recargo_cuota ):
         self.cant = cant

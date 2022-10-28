@@ -1,4 +1,6 @@
+from unittest import result
 from flask import jsonify
+from flask import request
 from src.core.models.pago_model import Pago
 from src.core.models.asociado_model import Asociado
 from src.core.models.cuota_model import Cuota
@@ -10,7 +12,6 @@ def mostrar_pagos_de_un_asociado(id):
         cuotas = Cuota.cuota_asociado(id)
         for cuota in cuotas:
           pago_cuota = Pago.pago_asociado(cuota.id)
-          print(pago_cuota)
           if pago_cuota is not None:
                c = {   
                          "periodo" : cuota.periodo, 
@@ -18,7 +19,6 @@ def mostrar_pagos_de_un_asociado(id):
                          "monto": pago_cuota.monto                                                 
                     }
                lista.append(c)
-        print(lista)
    except:
         return jsonify({"error": "500 Internal server Error"}), 500
     
@@ -28,8 +28,26 @@ def mostrar_pagos_de_un_asociado(id):
 
             "id" : asociado_actual.id,
             "nombre del Asociado": asociado_actual.first_name,
-            "apellido del Asociado" : asociado_actual.last_name,
            }
     
-   resp= {'pagos del asociado':dic, 'pagos': lista }
+   resp= {'datos del asociado':dic, 'pagos': lista }
    return jsonify(resp), 200
+
+
+#pago de un asociado
+def cargar_pago(id):
+     cuota_actual = Cuota.query.get(id)
+     cuota_actual = Cuota.get_cuota_by_id(id)
+     try:
+          if not cuota_actual:
+               return jsonify({"error": "404 el id no existe"}), 404
+          if request.method == "POST" :
+               monto = request.json['monto']
+               periodo = request.json['periodo']     
+               pago = Pago.pago_de_una_cuota(id)
+               pago.actualizar_pago(monto,periodo)
+          # return jsonify(request), 201 
+          return "pago la cuota con exito"
+     except:
+          return jsonify({"error": " al cargar datos"}), 404
+     

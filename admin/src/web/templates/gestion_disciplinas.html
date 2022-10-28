@@ -44,7 +44,13 @@
                 <!-- print({{ user }}) -->
                 {% for d in discip.items %}
                 <tr>
-                    <td> {{ d.name  }}</td>
+                    <td> {{ d.name  }}
+                      {% if validar_permisos(session["id"],"show") %}
+                      <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modalshow{{d.id}}" style="float: right;">
+                        <i class="fa-sharp fa-solid fa-magnifying-glass fa-lg"></i>
+                      </button>
+                      {% endif %}
+                    </td>
                     <td> {{ d.category }} </td>
                     <td> {{ d.instructors }} </td>
                     <td> {{ d.date_time }} </td>
@@ -104,6 +110,50 @@
                           </div>
                           
                             </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Modal para el Show de cada disciplina -->
+                  <div class="modal fade" id="modalshow{{d.id}}" tabindex="-1" aria-labelledby="modalshow" aria-hidden="true">
+                    <div class="modal-dialog modal-md modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modalshow">Informacion Usuario</h5>
+                        </div>
+                        <div class="modal-body">
+                          <form >
+                            <div class="form-group">
+                              <label class="form-label" for="name" style="float: left;"> <b> Nombre Disciplina</b> </label>
+                              <input type="text" id="name" name="name" value="{{d.name}}"
+                                class="form-control" />
+                            </div>
+                            <div class="form-group mt-3">
+                              <label class="form-label" for="category" style="float: left;"> <b> Categoria </b> </label>
+                              <input type="text" id="category" name="category" value="{{d.category}}" class="form-control" />
+                            </div>
+                            <div class="form-group mt-3">
+                              <label class="form-label" for="instructors" style="float: left;"> <b> Instructores </b> </label>
+                              <input type="instructors" id="instructors" name="instructors" value="{{d.instructors}}" class="form-control" />
+                            </div>
+                            <div class="form-group mt-3">
+                              <label class="form-label" for="date_time" style="float: left;"> <b> Dia y hora </b> </label>
+                              <input type="text" id="date_time" name="date_time" value="{{d.date_time}}" class="form-control" />
+                            </div>
+                            <div class="form-group mt-3">
+                              <label class="form-label" for="monthly_cost" style="float: left;"> <b> Costo Mensual </b> </label>
+                              <input type="text" id="monthly_cost" name="monthly_cost" value="{{d.monthly_cost}}" class="form-control" />
+                            </div>
+                            <div class="form-group mt-3">
+                              <label class="form-label" for="enabled" style="float: left;"> <b> Estado Disciplina</b> </label>
+                              <input type="text" id="enabled" name="enabled" value="{{d.enabled}}" class="form-control" />
+                            </div>
+                            <div>
+                              <button type="button" class="btn btn-secondary btn-lg mt-3" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+
+                          </form>
                         </div>
                       </div>
                     </div>

@@ -33,7 +33,7 @@ from src.core.models.cuota_model import Cuota
 from src.core.models.config_model import Config
 from src.core.models.pago_model import Pago
 
-from src.web.helpers.permiso import validar_permisos
+from src.web.helpers.permiso import validar_permisos, es_admin
 from src.web.helpers import handlers
 from src.core.config import config
 from src.core import seeds
@@ -116,6 +116,7 @@ def create_app(env="development", static_folder="static"):
     #Operaciones Couta
     app.add_url_rule('/realizar_pago/<id_a><id_d>', 'realizar_pago', cuota_controller.realizar_pago, methods=["POST", "GET"])
     app.add_url_rule('/pagar_cuota/<id_c> <monto><id_d> <id_a> ', 'pagar_cuota', cuota_controller.pagar_cuota)
+    app.add_url_rule('/ver_recibo_cuota<cuota_id>', 'ver_recibo_cuota', cuota_controller.ver_recibo_cuota)
     #manejo de errores
     app.register_error_handler(404, handlers.not_found_error)
     app.register_error_handler(401, handlers.not_authorize)
@@ -132,6 +133,8 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/api/me/discipline/<int:id>', 'mostrar_disciplinas_de_un_asociado', disciplinas.mostrar_disciplinas_de_un_asociado, methods=['GET'])
     app.add_url_rule('/api/me/profile/<int:id>', 'mostrar_usuario', profile.mostrar_usuario, methods=['GET'])
     app.add_url_rule('/api/me/payments/<int:id>', 'mostrar_pagos_de_un_asociado', pagos_de_un_asociado.mostrar_pagos_de_un_asociado, methods=['GET'])
+    app.add_url_rule('/api/me/payments/cuota/<int:id>', 'cargar_pago', pagos_de_un_asociado.cargar_pago, methods=["POST", "GET"])
+
 
     @app.cli.command(name="resetdb")
     def resetdb():
@@ -150,9 +153,7 @@ def create_app(env="development", static_folder="static"):
         # ipdb.set_trace() #breakpoint
         for modulename in modelsmodule.__dict__:
             modules[modulename] = getattr(modelsmodule, modulename)
-            
-        print('Auto imported ', [i[0] for i in modules.items()])
         return modules 
     app.jinja_env.globals.update(validar_permisos=validar_permisos)
-
+    app.jinja_env.globals.update(es_admin=es_admin)
     return app

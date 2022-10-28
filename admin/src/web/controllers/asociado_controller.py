@@ -9,6 +9,7 @@ import pdfkit
 import io
 import xlwt
 from src.web.controllers import login_required
+from datetime import datetime
 
 
 @login_required
@@ -26,7 +27,7 @@ def crear_asociado():
         email = request.form.get('email')
         
         #se chequea que el usuario no exista y que no tenca campos vacios
-        if not verify_asociado(document, document_type)and verify_lenghts(first_name, last_name, document, adress, email): 
+        if verify_format(document, phone_number) and not verify_asociado(document, document_type)and verify_lenghts(first_name, last_name, document, adress, email, phone_number): 
             register_database(first_name, last_name, document_type, document, gender, adress, state, phone_number, email)
             return redirect(url_for("gestion_asociados"))  
     return render_template('asociado/crear_asociado.html')
@@ -57,8 +58,9 @@ def modificar_asociado(id):
         phone_number = request.form.get('phone_number')
         email = request.form.get('email')
         #validaciones de modificar
+        
         if valido:    
-            if verify_lenghts(first_name, last_name, document, adress, email) and not verify_asociado_not_actual(id, document, document_type):
+            if verify_format(document, phone_number) and verify_lenghts(first_name, last_name, document, adress, email, phone_number) and not verify_asociado_not_actual(id, document, document_type):
                 asoc.update_asociado_database(first_name, last_name, document_type, document, gender, adress, phone_number, email)
                 return redirect(url_for("gestion_asociados")) 
         # return render_template('/user/modificar_usuario.html', usu=usu) 
@@ -68,7 +70,7 @@ def modificar_asociado(id):
 def inscribir_asociado_disciplina(id):    
     config = Config.get_self(Config, 1)
     page = request.args.get('page', 1, type=int)
-    disciplinasActuales = Disciplina.list_disciplina(page,config.cant)
+    disciplinasActuales = Disciplina.list_disciplinas_activas(page,config.cant)
     return render_template("asociado/inscribir_asociado_disciplina.html", id=id, disciplinas = disciplinasActuales )
 
 @login_required
@@ -84,16 +86,24 @@ def habilitar_deshabilitar(id):
 def realizar_inscripcion(id_a, id_d):
     asociado = Asociado.get_asociado_by_id(id_a)
     disciplina = Disciplina.get_disciplina_by_id(id_d)
-
-    if Asociado.tiene_disciplina(id_a, id_d):
-        flash("Ya esta inscripto en esta disciplina")
+    monto_base = Config.get_valor_cuota()
+    if asociado.state == "Activo":
+        if Asociado.tiene_disciplina(id_a, id_d):
+            flash("Ya esta inscripto en esta disciplina")
+        else:
+            Asociado.inscribir_disciplina(asociado, disciplina)
+            #generar cuotas
+            #periodos = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septembre", "Octubre", "Noviembre", "Diciembre"]
+            periodos={ 1:"Enero", 2:"Febrero", 3:"Marzo", 4:"Abril", 5:"Mayo", 6:"Junio",
+             7:"Julio",8: "Agosto", 9:"Septiembre",10: "Octubre", 11:"Noviembre",12:"Diciembre"}
+            fecha_hoy = datetime.now()
+            mes_actual=int(fecha_hoy.strftime('%m'))
+            año_actual=fecha_hoy.strftime('%Y')
+            for i in range(mes_actual+1, 13):
+                cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos.get(i)+ " " + año_actual)
+                cuo.register_cuota_database()
     else:
-        Asociado.inscribir_disciplina(asociado, disciplina)
-        #generar cuotas
-        periodos = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septembre", "Octubre", "Noviembre", "Diciembre"]
-        for i in range(0, 12):
-            cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost, periodos[i])
-            cuo.register_cuota_database()
+        flash("El usuario al que desea inscribir se encuentra con el estado moroso")
     return redirect(url_for("gestion_asociados"))
 
 def verify_asociado(doc, doc_type):
@@ -113,44 +123,87 @@ def verify_asociado_not_actual(asoc_id, doc, doc_type):
             return True
     return False   
 
-def verify_lenghts(first_name, last_name, document, adress, email):
-    #name
-    if len(first_name) > 30:
-        flash("Nombre muy largo")
+def verify_format(document, phone_number):
+    try: 
+        document = int(document)        
+    except ValueError:
+        flash("Solo puede ingresar numeros en el documento")
         return False
-    elif len(first_name) < 5:
-        flash("Nombremuy corto")
-        return False   
-    #last_name
-    if len(last_name) > 30:
-        flash("Apellido muy largo")
+    try: 
+        phone_number = int(phone_number)            
+    except ValueError:
+        flash("Solo puede ingresar numeros en el numero de telefono")
         return False
-    elif len(last_name) < 5:
-        flash("Apellido muy corto")
-        return False            
-    #document
-    if len(document) > 15:
-        flash("Documento muy largo")
-        return False
-    elif len(document) < 8:
-        flash("Documento muy corto")
-        return False 
-    #adress
-    if len(adress) > 50:
-        flash("Direccion muy larga")
-        return False
-    elif len(adress) < 5:
-        flash("Direccion muy corta")
-        return False 
-    #phone_number
-    if len(email) > 50:
-        flash("email muy largo")
-        return False
-    elif len(email) < 15:
-        flash("email muy corto")
-        return False 
     return True
 
+
+def verify_lenghts(first_name, last_name, document, adress, email, phone_number):
+    #name
+    if len(first_name) == 0:
+        flash("Nombre vacio, complete el campo")
+        return False
+    else:
+        if len(first_name) > 30:
+            flash("Nombre muy largo")
+            return False
+        elif len(first_name) < 5:
+            flash("Nombre muy corto")
+            return False   
+    #last_name
+    if len(last_name) == 0:
+        flash("Apellido vacio, complete el campo")
+        return False
+    else:
+        if len(last_name) > 30:
+            flash("Apellido muy largo")
+            return False
+        elif len(last_name) < 5:
+            flash("Apellido muy corto")
+            return False            
+    #document
+    if len(document) == 0:
+        flash("Documento vacio, complete el campo")
+        return False
+    else:
+        if len(document) > 15:
+            flash("Documento muy largo")
+            return False
+        elif len(document) < 8:
+            flash("Documento muy corto")
+            return False 
+    #adress
+    if len(adress) == 0:
+        flash("Direccion vacio, complete el campo")
+        return False
+    else:
+        if len(adress) > 50:
+            flash("Direccion muy larga")
+            return False
+        elif len(adress) < 5:
+            flash("Direccion muy corta")
+            return False 
+    #email
+    if len(email) == 0:
+        flash("Email vacio, complete el campo")
+        return False
+    else:
+        if len(email) > 50:
+            flash("Email muy largo")
+            return False
+        elif len(email) < 15:
+            flash("Email muy corto")
+            return False 
+    #phone_number
+    if len(phone_number) == 0:
+        flash("Numero de telefono vacio, complete el campo")
+        return False
+    else:        
+        if len(phone_number)!=9:
+            flash("El numero de telefono debe ser de 9 digitos")
+            return False 
+    return True
+
+# def verify_empty(first_name, last_name, document_type, document, gender, adress, state , phone_number , email):
     
 
 def register_database(first_name, last_name, document_type, document, gender, adress, state , phone_number , email):
@@ -163,28 +216,21 @@ def eliminar_cuota_asociado(id):
     return True
 
 
+
 def export_pdf():
     lista_asociados = Asociado.list_asociados()
-    #path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    #config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
     html = render_template('/pdfs/pdf_asociado.html', asociados=lista_asociados)
-    print(app.config.get("USE_WKHTML_CUSTOM_PATH"))
-    print(app.config.get("WKHTML_CUSTOM_PATH"))
     if app.config.get("USE_WKHTML_CUSTOM_PATH") == True:
-        breakpoint()
         path_wkhtmltopdf = app.config.get("WKHTML_CUSTOM_PATH")
         config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)    
         pdf = pdfkit.from_string(html,False,configuration=config)
-        
     else:
-        
         pdf =pdfkit.from_string(html,False)
-   
-    #pdf = pdfkit.from_string(html,False,configuration=config)
     resp = make_response(pdf)
     resp.headers["Content-Type"] = "aplication/pdf"
     resp.headers["Content-Disposition"] = "inline;filename=asociados.pdf"
     return resp
+
     
 
 def export_csv():

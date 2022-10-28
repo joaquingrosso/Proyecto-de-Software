@@ -5,6 +5,7 @@ from src.core.database import db
 from src.core.models.asociado_model import Asociado
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.pago_model import Pago
+from src.core.models.config_model import Config
 
 cuotas_asociados = db.Table('usuario_tiene_cuota',
                  db.Column('asociado_id', db.Integer, db.ForeignKey(
@@ -87,7 +88,19 @@ class Cuota(db.Model):
                 Pago.eliminar_pagos(d.id)
                 d.delete()
 
-
+    @classmethod
+    def actualizar_monto_cuotas_impagas(self,monto_config):
+        cuotas_impagas = Cuota.query.filter_by(estado = "No-Paga").all()
+        for cuotas in cuotas_impagas:
+            disciplina = Disciplina.get_disciplina_by_id(cuotas.disciplina_id)
+            cuotas.monto = disciplina.monthly_cost + float(monto_config)
+        db.session.commit()
+        
+    def actualizar_monto_con_recargo(id,recargo_cuota):
+        cuota = Cuota.get_cuota_by_id(cuota_id)
+        cuota.monto = (cuota.monto * recargo_cuota)/100
+        db.session.commit()     
+        
     def get_nombre_asociado(self):
         return Asociado.get_nombre_by_id(self.asociado_id)
     
@@ -108,6 +121,13 @@ class Cuota(db.Model):
 
     def list_cuota():
         return Cuota.query.all()
-    
-   
-        
+
+    def validar_periodo_actual(self):
+        periodos={ 1:"Enero", 2:"Febrero", 3:"Marzo", 4:"Abril", 5:"Mayo", 6:"Junio",
+             7:"Julio",8: "Agosto", 9:"Septiembre",10: "Octubre", 11:"Noviembre",12:"Diciembre"}
+        fecha_hoy = datetime.now()
+        mes_actual=int(fecha_hoy.strftime('%m'))
+        mes = self.periodo.split(" ")
+        if mes[0] == periodos.get(mes_actual):
+            return True
+        return False

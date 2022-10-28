@@ -8,7 +8,7 @@ class Pago(db.Model):
     cuota_id = db.Column(db.Integer, db.ForeignKey('cuota.id'),nullable=False)
     monto = db.Column(db.Integer)
     periodo = db.Column(db.String, unique=False, nullable=False)
-    
+    #created_at = db.Column(db.DateTime, default=datetime.now())
 
     def __init__(self, cuota_id, monto, periodo):
         self.cuota_id = cuota_id,
@@ -34,8 +34,19 @@ class Pago(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit() 
+        
     @classmethod        
     def eliminar_pagos(self, cuota_id):
         pagos = Pago.pago_asociado(cuota_id)
         if pagos != None:
             self.delete(pagos)
+
+    
+    def actualizar_pago(self, monto , periodo):
+        self.monto = monto
+        self.periodo = periodo
+        db.session.commit()
+    
+    @classmethod
+    def pago_de_una_cuota(self,id_c):
+        return Pago.query.filter_by(cuota_id = id_c).first()

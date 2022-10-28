@@ -13,8 +13,7 @@ def login():
         #usuario = Usuario.get_by_username_and_pass(request.form['username'], request.form['password'])
         user = Usuario.query.filter_by(username=username).first()        
         if user == None or password == None:
-            flash("el nombre de usuario o contraseña es incorrecto")
-        print(user)        
+            flash("el nombre de usuario o contraseña es incorrecto")     
         if user:
             session["id"] = user.id
             pass1 = user.password

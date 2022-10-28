@@ -97,7 +97,6 @@ def verify_user(username,email):
 
 def verify_username(username):    
     usuario = Usuario.query.filter_by(username=username).first()
-    print(usuario)
     if usuario is not None:
         flash("El usuario ingresado ya existe")
         return True
@@ -112,14 +111,18 @@ def verify_email(email):
 
 def verify_lenghts(username, password, email, first_name, last_name):
     #username
-    if len(username) > 30:
-        flash("Nombre de usuario muy largo")
+    if len(username) == 0:
+        flash("Nombre de usuario vacio, complete el campo")
         return False
-    elif len(username) < 5:
-        flash("Nombre de usuario muy corto")
-        return False   
+    else:
+        if len(username) > 30:
+            flash("Nombre de usuario muy largo")
+            return False
+        elif len(username) < 5:
+            flash("Nombre de usuario muy corto")
+            return False   
     #password
-    if password is not None:
+    if password == 0:
         if len(password) > 20:
             flash("Contraseña muy larga")
             return False
@@ -127,26 +130,38 @@ def verify_lenghts(username, password, email, first_name, last_name):
             flash("Contraseña muy corta")
             return False       
     #email
-    if len(email) > 50:
-        flash("Email muy largo")
+    if len(email) == 0:
+        flash("Email de usuario vacio, complete el campo")
         return False
-    elif len(email) < 15:
-        flash("Email muy corto")
-        return False   
+    else:
+        if len(email) > 50:
+            flash("Email muy largo")
+            return False
+        elif len(email) < 15:
+            flash("Email muy corto")
+            return False   
     #nombre
-    if len(first_name) > 10:
-        flash("Nombre muy largo")
+    if len(first_name) == 0:
+        flash("Nombre vacio, complete el campo")
         return False
-    elif len(first_name) < 5:
-        flash("Nombre muy corto")
-        return False 
+    else:
+        if len(first_name) > 10:
+            flash("Nombre muy largo")
+            return False
+        elif len(first_name) < 5:
+            flash("Nombre muy corto")
+            return False 
     #apellido
-    if len(last_name) > 30:
-        flash("Apellido muy largo")
+    if len(last_name) == 0:
+        flash("Apellido vacio, complete el campo")
         return False
-    elif len(last_name) < 5:
-       flash("Apellido muy corto")
-       return False 
+    else:
+        if len(last_name) > 30:
+            flash("Apellido muy largo")
+            return False
+        elif len(last_name) < 5:
+            flash("Apellido muy corto")
+            return False 
 
     return True
 
@@ -207,7 +222,6 @@ def eliminar_rol(id):
     cantidad_roles =len(roles_usuario)
     if request.method == "POST":
         valor_select = request.form.get('roles')
-        print(Rol.obtener_rol(valor_select))
         if not validar_rol_eliminar(roles_usuario,valor_select):
             if cantidad_roles > 1 and cantidad_roles <= 3:
                 rol = Rol.obtener_rol(valor_select)
