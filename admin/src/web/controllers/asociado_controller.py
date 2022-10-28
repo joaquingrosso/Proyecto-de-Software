@@ -129,11 +129,6 @@ def verify_format(document, phone_number):
     except ValueError:
         flash("Solo puede ingresar numeros en el documento")
         return False
-    try: 
-        phone_number = int(phone_number)            
-    except ValueError:
-        flash("Solo puede ingresar numeros en el numero de telefono")
-        return False
     return True
 
 
@@ -183,10 +178,7 @@ def verify_lenghts(first_name, last_name, document, adress, email, phone_number)
             flash("Direccion muy corta")
             return False 
     #email
-    if len(email) == 0:
-        flash("Email vacio, complete el campo")
-        return False
-    else:
+    if len(email) != 0:
         if len(email) > 50:
             flash("Email muy largo")
             return False
@@ -194,10 +186,7 @@ def verify_lenghts(first_name, last_name, document, adress, email, phone_number)
             flash("Email muy corto")
             return False 
     #phone_number
-    if len(phone_number) == 0:
-        flash("Numero de telefono vacio, complete el campo")
-        return False
-    else:        
+    if len(phone_number) != 0:      
         if len(phone_number)!=9:
             flash("El numero de telefono debe ser de 9 digitos")
             return False 

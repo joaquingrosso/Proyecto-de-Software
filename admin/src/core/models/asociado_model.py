@@ -29,7 +29,7 @@ class Asociado(db.Model):
     #member_number = db.Column(db.Integer, unique=True) representado con el id
     adress = db.Column(db.String(50))
     state = db.Column(db.String(10))
-    phone_number = db.Column(db.Integer)
+    phone_number = db.Column(db.String(10))
     email = db.Column(db.String(50))
     disciplinas = db.relationship('Disciplina', secondary=asociado_disciplina, backref=db.backref('asociado_realiza_disciplina', lazy = False), lazy='dynamic')
     inserted_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now)
