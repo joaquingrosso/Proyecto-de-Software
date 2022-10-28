@@ -45,10 +45,12 @@ def modificar_asociado(id):
     if request.method == "POST":
         valido = True
         for clave,valor in request.form.items():
-            if valor == '':
-                msg_error = f"El campo {clave} esta vacio"
-                flash(msg_error)
-                valido = False
+            if valor == '' :
+                if clave != "phone_number":
+                    if clave != "email":
+                        msg_error = f"El campo {clave} esta vacio"
+                        flash(msg_error)
+                        valido = False
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
         document_type = request.form.get('document_type')   
@@ -87,6 +89,9 @@ def realizar_inscripcion(id_a, id_d):
     asociado = Asociado.get_asociado_by_id(id_a)
     disciplina = Disciplina.get_disciplina_by_id(id_d)
     monto_base = Config.get_valor_cuota()
+    if asociado is None:
+        flash("el asociado no existe")
+        return redirect(url_for("gestion_asociados"))
     if asociado.state == "Activo":
         if Asociado.tiene_disciplina(id_a, id_d):
             flash("Ya esta inscripto en esta disciplina")
@@ -128,11 +133,6 @@ def verify_format(document, phone_number):
         document = int(document)        
     except ValueError:
         flash("Solo puede ingresar numeros en el documento")
-        return False
-    try: 
-        phone_number = int(phone_number)            
-    except ValueError:
-        flash("Solo puede ingresar numeros en el numero de telefono")
         return False
     return True
 
@@ -183,10 +183,7 @@ def verify_lenghts(first_name, last_name, document, adress, email, phone_number)
             flash("Direccion muy corta")
             return False 
     #email
-    if len(email) == 0:
-        flash("Email vacio, complete el campo")
-        return False
-    else:
+    if len(email) != 0:
         if len(email) > 50:
             flash("Email muy largo")
             return False
@@ -194,10 +191,7 @@ def verify_lenghts(first_name, last_name, document, adress, email, phone_number)
             flash("Email muy corto")
             return False 
     #phone_number
-    if len(phone_number) == 0:
-        flash("Numero de telefono vacio, complete el campo")
-        return False
-    else:        
+    if len(phone_number) != 0:      
         if len(phone_number)!=9:
             flash("El numero de telefono debe ser de 9 digitos")
             return False 

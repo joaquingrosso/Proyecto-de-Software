@@ -29,17 +29,18 @@ def eliminar_usuario(id):
 def modificar_usuario(id):
     usu = Usuario.get_user_by_id(id)
     if request.method == "POST":
-        valido = True
+        vacio = True
         for clave,valor in request.form.items():
             if valor == '':
                 msg_error = f"El campo {clave} esta vacio"
                 flash(msg_error)
-                valido = False
+                vacio = False
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         email = request.form['email']
         username = request.form['username']
-        if valido:
+        if vacio:
+            valido = True
             if usu.username != username:
                 if verify_username(username):
                     valido = False
@@ -47,7 +48,7 @@ def modificar_usuario(id):
             if usu.email != email:
                 if verify_email(email):
                     valido = False
-            if verify_lenghts(username, None, email, first_name , last_name):
+            if verify_lenghts(username, None, email, first_name , last_name) and valido:
                 usu.update_user_database(first_name,last_name,email,username)
                 return redirect(url_for("gestion_usuarios"))  
     # return render_template('/user/modificar_usuario.html', usu=usu) 
