@@ -30,11 +30,7 @@
         
         <th>
             {% if validar_permisos(session["id"],"new") %}
-<<<<<<< HEAD
-            <a href="{{ url_for('crear_asociado') }}"> <button type="button" class="btn btn-warning "><i
-=======
             <a href="{{ url_for('crear_usuario') }}"> <button type="button" class="btn btn-warning "><i
->>>>>>> development
                 class="fa-solid fa-user-plus"></i> Agregar Usuario</button> </a>
             {% endif %}
         </th>
