@@ -45,10 +45,12 @@ def modificar_asociado(id):
     if request.method == "POST":
         valido = True
         for clave,valor in request.form.items():
-            if valor == '':
-                msg_error = f"El campo {clave} esta vacio"
-                flash(msg_error)
-                valido = False
+            if valor == '' :
+                if clave != "phone_number":
+                    if clave != "email":
+                        msg_error = f"El campo {clave} esta vacio"
+                        flash(msg_error)
+                        valido = False
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
         document_type = request.form.get('document_type')   
@@ -87,6 +89,9 @@ def realizar_inscripcion(id_a, id_d):
     asociado = Asociado.get_asociado_by_id(id_a)
     disciplina = Disciplina.get_disciplina_by_id(id_d)
     monto_base = Config.get_valor_cuota()
+    if asociado is None:
+        flash("el asociado no existe")
+        return redirect(url_for("gestion_asociados"))
     if asociado.state == "Activo":
         if Asociado.tiene_disciplina(id_a, id_d):
             flash("Ya esta inscripto en esta disciplina")
