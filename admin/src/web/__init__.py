@@ -83,7 +83,9 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/gestion_disciplinas', 'gestion_disciplinas', index_controller.gestion_disciplinas) 
     app.add_url_rule('/pago_cuotas', 'pago_cuotas', index_controller.pago_cuotas) 
     app.add_url_rule('/configuracion', 'configuracion', index_controller.configuracion)
-    app.add_url_rule('/ver_perfil', 'ver_perfil',index_controller.ver_perfil, methods=['POST', 'GET']) 
+    app.add_url_rule('/ver_perfil', 'ver_perfil',index_controller.ver_perfil, methods=['POST', 'GET'])
+    app.add_url_rule('/ver_disciplinas', 'ver_disciplinas', index_controller.ver_disciplinas) 
+    app.add_url_rule('/ver_cuotas_pagas', 'ver_cuotas_pagas', index_controller.ver_cuotas_pagas)
 
     #Configuracion
     app.add_url_rule("/configuracion", "config_update", config_controller.update, methods=["POST"])
@@ -112,7 +114,8 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/export_pdf', 'export_pdf', asociado_controller.export_pdf)
     app.add_url_rule('/export_csv', 'export_csv', asociado_controller.export_csv) 
     app.add_url_rule("/bhuscar_usaurio", "buscar_usuario_asociado", asociado_controller.buscar_usuario_asociado, methods=["GET"])
-
+    
+    
     #Operaciones Couta
     app.add_url_rule('/realizar_pago/<id_a><id_d>', 'realizar_pago', cuota_controller.realizar_pago, methods=["POST", "GET"])
     app.add_url_rule('/pagar_cuota/<id_c> <monto><id_d> <id_a> ', 'pagar_cuota', cuota_controller.pagar_cuota)

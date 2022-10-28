@@ -53,10 +53,10 @@ index
           {% endif %}
           {% if validar_permisos(session["id"],"ver_socio") %}
           <li class="nav-item">
-            <a class="nav-link" href="">Ver Disciplinas</a>
+            <a class="nav-link" href="{{ url_for('ver_disciplinas')}}">Ver Disciplinas</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Ver Cuotas Pagas</a>
+            <a class="nav-link" href="{{ url_for('ver_cuotas_pagas')}}">Ver Cuotas Pagas</a>
           </li>
           {% endif %}
         </ul>

@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<h1>Disciplinas Inscriptas</h1>
+<br>
+
+
+
+<!-- tabla disciplinas  -->
+<div class="container">
+    <div class="col-md-10">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Instructores</th>
+                    <th>Dia y Hora</th>
+                    <th>Costo mensual</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+       
+<!-- fin de tabla -->
+
+{% endblock %}
