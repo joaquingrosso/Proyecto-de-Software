@@ -47,23 +47,25 @@ def cargar_pago(id):
           if cuota_actual is None:
                return jsonify({"error": "404 la cuota no existe"}), 404
           if request.method == "POST" :
-               monto = request.json['monto']
-               periodo = request.json['periodo']
-               cuota_actual.estado = Cuota.get_estado_paga()
-               fecha_hoy = datetime.now()
-               recargo_cuota = Config.get_valor_porcentaje()
-               dia_actual=int(fecha_hoy.strftime('%d'))
-               mes_actual=int(fecha_hoy.strftime('%m'))
-               if dia_actual >= 1 and dia_actual <= 10:
-                    cuota_actual.register_cuota_database()
-                    cuota_controller.register_pago_database(id, monto, periodo)
-               else:
-                    recargo = (cuota_actual.monto * recargo_cuota)/100
-                    monto_recargo = cuota_actual.monto + recargo
-                    cuota_actual.monto = monto_recargo
-                    cuota_actual.register_cuota_database()
-                    cuota_controller.register_pago_database(id, monto_recargo, cuota_actual.periodo)
-          #return jsonify(request), 201 
+               if Pago.pago_de_una_cuota(cuota_actual.id) is None:
+                    monto = request.json['monto']
+                    periodo = request.json['periodo']
+                    cuota_actual.estado = Cuota.get_estado_paga()
+                    fecha_hoy = datetime.now()
+                    recargo_cuota = Config.get_valor_porcentaje()
+                    dia_actual=int(fecha_hoy.strftime('%d'))
+                    mes_actual=int(fecha_hoy.strftime('%m'))
+                    if dia_actual >= 1 and dia_actual <= 10:
+                         cuota_actual.register_cuota_database()
+                         cuota_controller.register_pago_database(id, monto, periodo)
+                    else:
+                         recargo = (cuota_actual.monto * recargo_cuota)/100
+                         monto_recargo = cuota_actual.monto + recargo
+                         cuota_actual.monto = monto_recargo
+                         cuota_actual.register_cuota_database()
+                         cuota_controller.register_pago_database(id, monto_recargo, cuota_actual.periodo)
+               else: 
+                    return "la cuota ya fue pagada"
           return "pago la cuota con exito"
      except:
           return jsonify({"error": " al cargar datos"}), 404
