@@ -4,7 +4,8 @@ import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
 <template>
-  <header>
+  
+  <!-- <header>
     <img
       alt="Vue logo"
       class="logo"
@@ -23,69 +24,180 @@ import HelloWorld from "./components/HelloWorld.vue";
     </div>
   </header>
 
-  <RouterView />
+  <RouterView /> -->
+
+  <div id="cabecera" class="content">
+    <div class="box_logo">
+      <a href=""><img src="../public/img/logo2.png"></a>
+    </div>
+    <div class="box_title">
+      <h1>Club Deportivo Villa Elisa</h1>
+    </div>
+    <div class="box_buttons">
+      <a href=""><button type="button" class="btn btn-primary">Iniciar Sesion</button></a>
+      <a href=""><button type="button" class="btn btn-primary">Registrarse</button></a>
+    </div>
+  
+  </div>
+  
+  
+  <!-- Menu -->
+  
+  
+  <nav class="nav_bar">
+    <div id="menu" class="nav_header">
+  
+      <ul>
+        <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Disciplinas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Descripcion</a></li>
+      </ul>
+  
+    </div>
+  </nav>
+  
+  
+  <div class="box_content">
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="../../../public/img/image_slider/slider1.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="../../../public/img/image_slider/slider2.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="../public/img/image_slider/slider3.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="../public/img/image_slider/slider4.jpg" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  </div>
+
+
+
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
+<style>
+  #cabecera{
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+    width: 100%;
+    height: 11.5rem;
+    padding: 0 1rem;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  #carouselExampleControls{
+    width: 50%;
+    height: 50%;
+    
   }
 
-  header .wrapper {
+  .box_content{
     display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
   }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+  .box_logo img{
+    width: 75%;
   }
-}
+
+
+  .box_title h1{
+    font-size: 70px;
+  }
+
+  .box_buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+  }
+  
+  .box_buttons a{
+    text-decoration: none;
+  }
+
+
+
+  .box_buttons button{
+    width: 12rem;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .btn-primary{
+    font-size: 25px;
+  }
+
+  .nav_bar{
+    border-top: 5px ridge rgb(3, 2, 2);
+    margin: 1rem 0;
+    padding: 1.5rem 0;
+  }
+
+  .nav_header ul{  
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 2rem; 
+    background-color: rgba(0, 0, 0, 0.068);
+    padding: 1.7rem 0;
+  }
+  
+  .nav_header li{  
+    border: 2px solid rgb(0, 0, 0);
+    width: 12rem;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.842);
+
+  }
+
+  .nav-item a{
+    font-size: 1.5rem;
+    color:rgb(255, 255, 255);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    letter-spacing: 1px;
+    transition: all .3s ease;
+  }
+
+  .nav_header li:hover{
+    scale: 1.05;
+    transition: all .3s ease;
+  }
+
+  .nav-item a:hover{
+    color: white;
+    font-weight: bold;
+    transition: all .3s ease;
+  }
+
+
+
+
 </style>
