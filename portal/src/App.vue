@@ -1,30 +1,8 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
-<template>
-  
-  <!-- <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView /> -->
+<template>  
 
   <div id="cabecera" class="content">
     <div class="box_logo">
@@ -42,54 +20,28 @@ import HelloWorld from "./components/HelloWorld.vue";
   
   
   <!-- Menu -->
-  
-  
-  <nav class="nav_bar">
+ <nav class="nav_bar">
     <div id="menu" class="nav_header">
   
       <ul>
-        <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Disciplinas</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Descripcion</a></li>
+        <RouterLink to="/"><li class="nav-item">Inicio</li></RouterLink>
+        <RouterLink to="/disciplinas"><li class="nav-item">Disciplinas</li></RouterLink>
+        <RouterLink to="/contacto"><li class="nav-item">Contacto</li></RouterLink>
+        <RouterLink to="/descripcion"><li class="nav-item">Descripcion</li></RouterLink>
       </ul>
   
     </div>
   </nav>
   
-  
-  <div class="box_content">
-  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="../../../public/img/image_slider/slider1.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="../../../public/img/image_slider/slider2.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="../public/img/image_slider/slider3.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="../public/img/image_slider/slider4.jpg" class="d-block w-100" alt="...">
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-  </div>
-
+ 
+  <RouterView/>
 
 
 </template>
 
 <style>
+  
+
   #cabecera{
     display: flex;
     justify-content: space-between;
@@ -106,11 +58,7 @@ import HelloWorld from "./components/HelloWorld.vue";
     
   }
 
-  .box_content{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  
 
   .box_logo img{
     width: 75%;
@@ -132,8 +80,6 @@ import HelloWorld from "./components/HelloWorld.vue";
   .box_buttons a{
     text-decoration: none;
   }
-
-
 
   .box_buttons button{
     width: 12rem;
@@ -164,6 +110,16 @@ import HelloWorld from "./components/HelloWorld.vue";
     gap: 2rem; 
     background-color: rgba(0, 0, 0, 0.068);
     padding: 1.7rem 0;
+    
+  }
+
+  .nav_header ul a{  
+    text-decoration: none;
+    font-size: 1.5rem;
+    color:rgb(255, 255, 255);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    letter-spacing: 1px;
+    transition: all .3s ease;
   }
   
   .nav_header li{  
@@ -175,25 +131,19 @@ import HelloWorld from "./components/HelloWorld.vue";
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.842);
-
+    cursor: pointer;
   }
 
-  .nav-item a{
-    font-size: 1.5rem;
-    color:rgb(255, 255, 255);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    letter-spacing: 1px;
-    transition: all .3s ease;
-  }
 
   .nav_header li:hover{
     scale: 1.05;
     transition: all .3s ease;
   }
 
-  .nav-item a:hover{
+  .nav_header ul a:hover{
     color: white;
     font-weight: bold;
+    cursor: pointer;
     transition: all .3s ease;
   }
 
