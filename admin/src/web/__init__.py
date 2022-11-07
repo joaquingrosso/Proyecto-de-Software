@@ -43,7 +43,7 @@ from src.core.database import db
 from flask_sqlalchemy import SQLAlchemy
 from flask_session.__init__ import Session
 from os import error
-
+from flask_cors import CORS
 # from routes import auth
 
 
@@ -51,7 +51,7 @@ from os import error
 def create_app(env="development", static_folder="static"):
     app = Flask(__name__, static_folder=static_folder)
     app.config.from_object(config[env])
-
+    CORS(app)
     # configuracion de la bd
     database.init_app(app)
     app.secret_key= "holamundo"
