@@ -1,9 +1,9 @@
-<script setup>
+<!-- <script setup>
 import ListadoDisciplinas from "../components/ListadoDisciplinas.vue";
 import axios from  "axios"
-</script>
+</script> -->
 
-<template>
+<!-- <template>
     <main>
         <div class="box_content_disciplinas">
             <h1 class="title"> Disciplinas </h1>
@@ -23,4 +23,42 @@ import axios from  "axios"
         flex-direction: column;
     }  
 
-</style>
+</style> -->
+
+<template>
+  <div>
+    <p>{{ mensaje }}</p>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+export default {
+  name: 'Main',
+  data () {
+    return {
+      // mensaje: ' '
+      mensaje: ['nombre', 'instructores', 'monto'],
+        id: "",
+        nombre: "",
+        instructores: "",
+        monto: "",   
+        postres: [], // Creamos este array para almacenar los datos JSON 
+    }
+  },
+  methods: {
+    getMensaje () {
+      const path = 'http://127.0.0.1:5000/api/club/disciplines'
+      axios.get(path).then((respuesta) => {
+        this.mensaje = respuesta.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+  },
+  created () {
+    this.getMensaje()
+  }
+}
+</script>

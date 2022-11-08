@@ -10,6 +10,18 @@ const router = createRouter({
       component: InicioView,
       // component: () => import("../views/AboutView.vue"),
     },
+    // ruta al login
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("../views/LoginView.vue"),
+    },
+       // ruta al register
+       {
+        path: "/register",
+        name: "register",
+        component: () => import("../views/RegisterView.vue"),
+      },
     {
       path: "/disciplinas",
       name: "disciplinas",      

@@ -12,8 +12,8 @@ import { RouterLink, RouterView } from "vue-router";
       <h1>Club Deportivo Villa Elisa</h1>
     </div>
     <div class="box_buttons">
-      <a href=""><button type="button" class="btn btn-primary">Iniciar Sesion</button></a>
-      <a href=""><button type="button" class="btn btn-primary">Registrarse</button></a>
+      <a href="/login"><button type="button" class="btn btn-primary">Iniciar Sesion</button></a>
+      <a href="/register"><button type="button" class="btn btn-primary">Registrarse</button></a>
     </div>
   
   </div>
