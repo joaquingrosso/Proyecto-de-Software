@@ -1,6 +1,8 @@
 
 <template>
+   
     <form>
+
       <h1 class="h3 mb-3 fw-normal">Inicio Sesion</h1>
   
       <input type="email" class="form-control" placeholder="Email" required>
@@ -9,4 +11,5 @@
   
       <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
     </form>
+  
   </template>

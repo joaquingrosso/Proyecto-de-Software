@@ -1,4 +1,5 @@
 <script setup>
+// import { RouterLink, RouterView } from "vue-router";
 import { RouterLink, RouterView } from "vue-router";
 </script>
 
@@ -12,6 +13,7 @@ import { RouterLink, RouterView } from "vue-router";
       <h1>Club Deportivo Villa Elisa</h1>
     </div>
     <div class="box_buttons">
+      <router-link to="/services" class="nav-link">Services</router-link>
       <a href="/login"><button type="button" class="btn btn-primary">Iniciar Sesion</button></a>
       <a href="/register"><button type="button" class="btn btn-primary">Registrarse</button></a>
     </div>
@@ -32,9 +34,8 @@ import { RouterLink, RouterView } from "vue-router";
   
     </div>
   </nav>
-  
- 
-  <RouterView/>
+
+ <RouterView/>
 
 
 </template>

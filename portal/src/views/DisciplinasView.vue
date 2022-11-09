@@ -37,14 +37,8 @@ export default {
   name: 'Main',
   data () {
     return {
-      // mensaje: ' '
-      mensaje: ['nombre', 'instructores', 'monto'],
-        id: "",
-        nombre: "",
-        instructores: "",
-        monto: "",   
-        postres: [], // Creamos este array para almacenar los datos JSON 
-    }
+        mensaje: ' '
+      }
   },
   methods: {
     getMensaje () {
