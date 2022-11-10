@@ -22,20 +22,20 @@ def pagar_cuota(id_c, monto, id_d, id_a):
     cuo.estado = Cuota.get_estado_paga()
     fecha_hoy = datetime.now()
     recargo_cuota = Config.get_valor_porcentaje()
-    print("el recargo es:", recargo_cuota)
     dia_actual=int(fecha_hoy.strftime('%d'))
     mes_actual=int(fecha_hoy.strftime('%m'))
-    if dic_mes.get(cuo.periodo) <= mes_actual:
-        if dia_actual >= 1 and dia_actual <= 10:
-            # cuo.register_cuota_database()
-            # register_pago_database(id_c, monto, cuo.periodo)
-            print("no es")
-        else:
-            print("es moroso")
+    if dia_actual >= 1 and dia_actual <= 10:
+        cuo.register_cuota_database()
+        register_pago_database(id_c, monto, cuo.periodo)
+        flash("Se realizo el pago correctamente")
     else:
-        print("se fue al else")
-    cuo.register_cuota_database()
-    register_pago_database(id_c, monto, cuo.periodo)
+        recargo = (cuo.monto * recargo_cuota)/100
+        monto_recargo = cuo.monto + recargo
+        msg= f"Al realizar el pago con vencimiento aplicandose el %{recargo_cuota} de interes quedando su valor en: {monto_recargo}"
+        flash(msg)
+        cuo.monto = monto_recargo
+        cuo.register_cuota_database()
+        register_pago_database(id_c, monto_recargo, cuo.periodo)
     cuotas = Cuota.get_cuotas_by_disciplina_asociado(id_d, id_a)
     return render_template("pago_de_una_couta/realizar_pago.html", cuotas = cuotas) 
 
@@ -57,10 +57,11 @@ def ver_recibo_cuota(cuota_id):
     cuota = Cuota.get_cuota_by_id(cuota_id)
     asociado = cuota.get_nombre_asociado()
     print(encabezado)
-
+    fecha_hoy = datetime.now()
+    fecha=fecha_hoy.strftime('%d','%m','%Y')
     path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
     config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-    html = render_template('/pdfs/pdf_recibo_cuota.html', pago = pago, encabezado = encabezado, asociado=asociado)
+    html = render_template('/pdfs/pdf_recibo_cuota.html', pago = pago, encabezado = encabezado, asociado=asociado, fecha=fecha)
     pdf = pdfkit.from_string(html,False,configuration=config)
     resp = make_response(pdf)
     resp.headers["Content-Type"] = "aplication/pdf"

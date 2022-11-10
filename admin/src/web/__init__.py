@@ -153,8 +153,6 @@ def create_app(env="development", static_folder="static"):
         # ipdb.set_trace() #breakpoint
         for modulename in modelsmodule.__dict__:
             modules[modulename] = getattr(modelsmodule, modulename)
-            
-        print('Auto imported ', [i[0] for i in modules.items()])
         return modules 
     app.jinja_env.globals.update(validar_permisos=validar_permisos)
     app.jinja_env.globals.update(es_admin=es_admin)

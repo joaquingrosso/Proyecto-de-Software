@@ -27,7 +27,6 @@ class Config(db.Model):
     @classmethod
     def get_valor_cuota(self):
         valor_cuota_base = Config.get_configuration()
-        print("Valor de cuota base", valor_cuota_base)
         return valor_cuota_base.valor_cuota
 
     @classmethod

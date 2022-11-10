@@ -6,7 +6,6 @@ def mostrar_disciplinas_de_un_asociado(id):
    try:
         asociado_actual = Asociado.query.get(id)
         disciplinas = asociado_actual.disciplinas
-        print(disciplinas)
       #   disciplinas_del_asociado_actual = Asociado.tiene_disciplina((id))
    except:
         return jsonify({"error": "500 Internal server Error"}), 500

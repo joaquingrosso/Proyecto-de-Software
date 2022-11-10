@@ -97,7 +97,6 @@ def verify_user(username,email):
 
 def verify_username(username):    
     usuario = Usuario.query.filter_by(username=username).first()
-    print(usuario)
     if usuario is not None:
         flash("El usuario ingresado ya existe")
         return True
@@ -223,7 +222,6 @@ def eliminar_rol(id):
     cantidad_roles =len(roles_usuario)
     if request.method == "POST":
         valor_select = request.form.get('roles')
-        print(Rol.obtener_rol(valor_select))
         if not validar_rol_eliminar(roles_usuario,valor_select):
             if cantidad_roles > 1 and cantidad_roles <= 3:
                 rol = Rol.obtener_rol(valor_select)

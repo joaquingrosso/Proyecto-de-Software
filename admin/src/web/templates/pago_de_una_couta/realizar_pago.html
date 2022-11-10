@@ -54,14 +54,24 @@
                                 <i class="fa-solid fa-money-bill"></i> Ver Recibo
                             </a>    
                         </button>
-                        {% else %}                        
+                        {% else %}
+                        {% if c.validar_periodo_actual() %}                        
                         <button type="button" class="btn btn-white" >
+                            <a href="{{ url_for( 'pagar_cuota',id_c = c.id, monto = c.monto, id_d = c.disciplina_id, id_a = c.asociado_id  )  }}" 
+                                onClick="return confirm('¿Esta seguro que desea pagar esta cuota?');" >
+                                <i class="fa-solid fa-money-bill"></i> Pagar
+                            </a> 
+                               
+                        </button>
+                        {% else %}
+                        <button type="button" class="btn btn-white" disabled>
                             <a href="{{ url_for( 'pagar_cuota',id_c = c.id, monto = c.monto, id_d = c.disciplina_id, id_a = c.asociado_id  )  }}" 
                                 onClick="return confirm('¿Esta seguro que desea pagar esta cuota?');">
                                 <i class="fa-solid fa-money-bill"></i> Pagar
-                            </a>    
+                            </a> 
+                               
                         </button>
-                        
+                        {% endif %}
                         {% endif %}
                     </td>
                 </tr>                     

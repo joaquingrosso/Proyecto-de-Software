@@ -53,7 +53,6 @@ def modificar_disciplina(id):
 @login_required
 def habilitar_deshabilitar(id):
     disc = Disciplina.get_disciplina_by_id(id)
-    print(disc)
     if disc.enabled == Disciplina.get_disciplina_enebled():
         disc.enabled = Disciplina.get_disciplina_disabled()
     else:

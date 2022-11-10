@@ -8,6 +8,7 @@ import pdfkit
 import io
 import xlwt
 from src.web.controllers import login_required
+from datetime import datetime
 
 
 @login_required
@@ -91,9 +92,14 @@ def realizar_inscripcion(id_a, id_d):
         else:
             Asociado.inscribir_disciplina(asociado, disciplina)
             #generar cuotas
-            periodos = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septembre", "Octubre", "Noviembre", "Diciembre"]
-            for i in range(0, 12):
-                cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos[i])
+            #periodos = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septembre", "Octubre", "Noviembre", "Diciembre"]
+            periodos={ 1:"Enero", 2:"Febrero", 3:"Marzo", 4:"Abril", 5:"Mayo", 6:"Junio",
+             7:"Julio",8: "Agosto", 9:"Septiembre",10: "Octubre", 11:"Noviembre",12:"Diciembre"}
+            fecha_hoy = datetime.now()
+            mes_actual=int(fecha_hoy.strftime('%m'))
+            año_actual=fecha_hoy.strftime('%Y')
+            for i in range(mes_actual+1, 13):
+                cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos.get(i)+ " " + año_actual)
                 cuo.register_cuota_database()
     else:
         flash("El usuario al que desea inscribir se encuentra con el estado moroso")

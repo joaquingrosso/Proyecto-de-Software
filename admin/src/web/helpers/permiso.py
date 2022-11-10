@@ -3,7 +3,6 @@ from src.web.helpers.auth import authenticated
 from src.core.models.usuario_model import Usuario
 
 def validar_permisos(id,permiso):
-	print("entro a validar")
 	return Usuario.tiene_rol(id, permiso)
 
 

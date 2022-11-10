@@ -49,10 +49,8 @@ class Usuario(db.Model):
         )
         
     def listar_roles(self):
-        print("entro")
         for rol in roles:
             aux = rol.getNombre()   
-        print("listar roles",aux)
         return aux
     
     @classmethod
