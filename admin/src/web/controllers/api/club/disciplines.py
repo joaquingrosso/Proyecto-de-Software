@@ -24,18 +24,17 @@ def mostrar_disciplina(id):
 
 
 def mostrar_disciplinas():
-    config = Config.get_self(Config, 1)
-    page = request.args.get('page', 1, type=int)
-    disciplinas = Disciplina.list_disciplina(page,config.cant)
+    disciplinas = Disciplina.list_disciplina()
     lista = []
-    for disciplina in disciplinas.items:
+    for disciplina in disciplinas:
         dic= { 
               "id" : disciplina.id,
               "nombre": disciplina.name,
-              "dia y hora": disciplina.date_time,
+              "dia_y_hora": disciplina.date_time,
               "instructores": disciplina.instructors
              }
         lista.append(dic)
-    resp= {'disciplinas': lista, 'pagina': page, 'total de disciplinas': config.cant }
+    #resp= {'disciplinas': lista, 'pagina': page, 'total de disciplinas': config.cant }
+    resp= lista
     return jsonify(resp), 200
 
