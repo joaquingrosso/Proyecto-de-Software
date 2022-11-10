@@ -1,48 +1,14 @@
 <script setup>
-// import { RouterLink, RouterView } from "vue-router";
 import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>  
 
-  <div id="cabecera" class="content">
-    <div class="box_logo">
-      <a href=""><img src="../public/img/logo2.png"></a>
-    </div>
-    <div class="box_title">
-      <h1>Club Deportivo Villa Elisa</h1>
-    </div>
-    <div class="box_buttons">
-      <router-link to="/services" class="nav-link">Services</router-link>
-      <a href="/login"><button type="button" class="btn btn-primary">Iniciar Sesion</button></a>
-      <a href="/register"><button type="button" class="btn btn-primary">Registrarse</button></a>
-    </div>
-  
-  </div>
-  
-  
-  <!-- Menu -->
- <nav class="nav_bar">
-    <div id="menu" class="nav_header">
-  
-      <ul>
-        <RouterLink to="/"><li class="nav-item">Inicio</li></RouterLink>
-        <RouterLink to="/disciplinas"><li class="nav-item">Disciplinas</li></RouterLink>
-        <RouterLink to="/contacto"><li class="nav-item">Contacto</li></RouterLink>
-        <RouterLink to="/descripcion"><li class="nav-item">Descripcion</li></RouterLink>
-      </ul>
-  
-    </div>
-  </nav>
-
  <RouterView/>
-
 
 </template>
 
 <style>
-  
-
   #cabecera{
     display: flex;
     justify-content: space-between;
