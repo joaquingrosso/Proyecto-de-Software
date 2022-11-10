@@ -24,7 +24,7 @@ def mostrar_disciplina(id):
 
 
 def mostrar_disciplinas():
-    disciplinas = Disciplina.list_disciplina()
+    disciplinas = Disciplina.listar_disciplinas()
     lista = []
     for disciplina in disciplinas:
         dic= { 
