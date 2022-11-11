@@ -21,6 +21,7 @@ def run():
     
     #creacion usuario administrador
     admin = models.crear_usuario(
+        public_id = "",
         username = "admin",
         password = generate_password_hash("1234"),     
         email = "admin@gmail.com",
