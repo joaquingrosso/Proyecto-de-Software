@@ -17,6 +17,7 @@ class Usuario(db.Model):
     
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key=True, unique=True)
+    public_id = db.Column(db.String(100), unique = True)
     username = db.Column(db.String(30))
     password = db.Column(db.String(500))    
     email = db.Column(db.String(50))
@@ -29,8 +30,9 @@ class Usuario(db.Model):
         'usuarios_con_el_rol', lazy=False), lazy='dynamic')
     
     def __init__(
-            self, email, username, password, first_name, last_name
+            self, public_id, email, username, password, first_name, last_name
     ):
+        self. public_id = public_id
         self.email = email
         self.username = username
         self.password = password

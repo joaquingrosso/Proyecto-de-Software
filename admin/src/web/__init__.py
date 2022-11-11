@@ -17,6 +17,7 @@ from src.web.controllers.api.club import disciplines
 from src.web.controllers.api.me import disciplinas
 from src.web.controllers.api.me import profile
 from src.web.controllers.api.me import pagos_de_un_asociado
+from src.web.controllers.api.auth import login_jwt
 from src.web.controllers import asociado_controller
 from src.web.controllers import config_controller
 
@@ -65,7 +66,9 @@ def create_app(env="development", static_folder="static"):
         #return redirect(url_for('login'))
          return render_template("home.html")  
 
-    
+     # jwt
+    app.add_url_rule('/api/auth/login_jwt', 'login_jwt', login_jwt.login_jwt, methods=["GET", "POST"])
+    app.add_url_rule('/api/auth/signup', 'signup', login_jwt.signup, methods=["GET", "POST"])
 
 
     # Register user
