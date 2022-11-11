@@ -1,5 +1,5 @@
 
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify, make_response, render_template, flash , session
 from flask_sqlalchemy import SQLAlchemy
 import uuid # for public id
 from  werkzeug.security import generate_password_hash, check_password_hash
@@ -73,9 +73,10 @@ def login_jwt():
             {'WWW-Authenticate' : 'Basic realm ="Login required !!"'}
         )
   
-    user = Usuario.query\
-        .filter_by(email = auth.get('email'))\
-        .first()
+    # user = Usuario.query\
+    #     .filter_by(email = auth.get('email'))\
+    #     .first()
+    user = Usuario.query.filter_by(email=auth.get('email')).first()
   
     if not user:
         # returns 401 if user does not exist
@@ -91,9 +92,13 @@ def login_jwt():
             'public_id': user.public_id,
             'exp' : datetime.utcnow() + timedelta(minutes = 30)
         }, app.config['SECRET_KEY'])
-  
-        return make_response(jsonify({'token' : token.decode('UTF-8')}), 201)
+        
+        #return render_template('inicio_privada.html')
+        #return "entro"
+        return make_response(jsonify
+        ({'token' : token.decode('UTF-8'), 'email' : user.email}), 201)
     # returns 403 if password is wrong
+    
     return make_response(
         'Could not verify',
         403,
