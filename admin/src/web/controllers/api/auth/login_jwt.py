@@ -61,7 +61,7 @@ def token_required(f):
 #     return jsonify({'users': output})
   
 # route for logging user in
-def login_jwt():
+def login_jwt_2():
     # creates dictionary of form data
     auth = request.form
   
