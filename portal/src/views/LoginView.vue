@@ -1,7 +1,5 @@
 
-
-
-<!-- <template>
+ <template>
 
   
   <div class="conteiner">
@@ -19,100 +17,43 @@
     </form>
   </div>
     
-</template> -->
-
-<template>
-  
-  
-    <form action class="form" @submit.prevent="login">
-      <label class="form-label" for="#user.email">Email:</label>
-      <input v-model="user.email" placeholder="Email" class="form-input" type="email" id="email" required>
-      <label class="form-label" for="#user.password">Password:</label>
-      <input v-model="user.password" placeholder="Password" type="password" autocomplete="on" class="form-input" id="password" required>
-      <p v-if="error" class="error">Has introducido mal el email o la contraseña.</p>
-      <input class="form-submit" type="submit" value="Login">
-    </form>
-</template>
+</template> 
 
 <script>
 
-import { mapActions, mapGetters } from 'vuex'
-  export default {
-    name: 'LoginView',
-    data: () => ({
-      error:false,
-      user: {
-        email: null,
-        password: null
-      }
-    }),
-        methods: {
-      ...mapActions('auth',['loginUser','logoutUser']),
+import axios from "axios";
+const path = "http://127.0.0.1:5000/api/auth";
+// var axios = require("axios");
 
-      async login() {
-        console.log("entro al login ")
-        await this.loginUser(this.user)
-          .catch(() => {
-              // Handle error
-              this.error=true;
-            }
-          );
-          //Cleaning
-          this.user = {
-                email: null,
-                password: null
-              }
-
-          if (this.isLoggedIn) {
-              this.$router.push('/login')
-          }
-      },
-      async logout() {
-        await this.logoutUser().catch((err) => {
-          console.log(err);
-        });
-        this.error=false;
-        this.user = {
-          email: null,
-          password: null
-        }
-        this.$router.push('/');
-      },
+// const axiosInstance = axios.create({
+//   headers: {
+    
+//   }
+// });
+export default {
+  data: () => ({
+    email: "",
+    password: ""
+  }),
+  methods: {
+    login() {
+      console.log(this.email);
+      console.log(this.password);
+      // this.$router.push({name:'disciplinas'})
+      axios.post(path,{email: this.email,password:this.password},{headers:{"Access-Control-Allow-Origin": "*"}}).then((response) => {
+        console.log(response.data)
+        console.log(response.status)
+        console.log("ok")
+       }).catch((data) => {
+        console.log(data)
+        console.log("error")
+       })
     }
+    
   }
-
-
-
-// import axios from "axios";
-
-// const ENDPOINT_PATH = "http://127.0.0.1:5000/api/auth/login_jwt";
-
-// export default {
-//   data: () => {
-//     return {
-//       email: '',
-//       password: '',
-//     };
-//   },
-//   methods: {
-//     login(email, password) {
-//     const user = { email, password };
-//     console.log(user)
-//     return axios.post(ENDPOINT_PATH + "login", user);
-//     // async login(){
-//     //   console.log("entrooooooo")
-//     //   console.log(this.email)
-//     //   var payload = {
-//     //     email: this.email,
-//     //     password: this.password
-//     //   };
-//     //   console.log(payload)
-//     // }
-//   },
-// },
-//}
-</script> 
-
+};
+</script>
+ 
 
 <style>
 
