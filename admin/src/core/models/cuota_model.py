@@ -46,7 +46,10 @@ class Cuota(db.Model):
     @classmethod
     def get_cuota_by_id(self, cuota_id):
         return Cuota.query.filter(self.id == cuota_id).first()
-   
+    
+    @classmethod
+    def get_cuota_by_id_asociado(self, asociado_id):
+        return Cuota.query.filter(self.asociado_id == asociado_id).order_by(self.id)
     # @classmethod
     # def cuota_Paga(self):
     #     return Cuota.query.filter(self.estado == "Paga").all()

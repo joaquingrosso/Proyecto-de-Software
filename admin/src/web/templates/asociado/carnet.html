@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/carnet.css') }}">
+
+{% endblock %}
+{% block content %}
+{% block body %}
+<div class="container">
+    <div id="header" >
+        <div id="titulo"><h1>Club Deportivo Villa Elisa</h1></div>
+    </div>
+    <div  id="body" >
+            <div id="img_estado"><img src="../../../../public/img/image_slider/slider1.jpg">
+                <div >Estado: </div>
+            </div>
+            <div >
+                <h3>{{asociado.last_name}} {{asociado.first_name}}</h3>
+                <h5>{{asociado.document_type}}: {{asociado.document}}</h5>
+                <h5># Socio: {{asociado.id}}</h5>
+                <h5>Fecha Alta: {{fecha}}</h5>
+                <div>
+                    QR
+                </div>
+            </div>
+    
+    </div>
+</div>
+
+{% endblock %}
+{% endblock %}

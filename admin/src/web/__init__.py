@@ -121,7 +121,7 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/export_pdf', 'export_pdf', asociado_controller.export_pdf)
     app.add_url_rule('/export_csv', 'export_csv', asociado_controller.export_csv) 
     app.add_url_rule("/bhuscar_usaurio", "buscar_usuario_asociado", asociado_controller.buscar_usuario_asociado, methods=["GET"])
-    
+    app.add_url_rule("/carnet_digital/<id>", "carnet_digital", asociado_controller.carnet_digital, methods=["GET"])
     
     #Operaciones Couta
     app.add_url_rule('/realizar_pago/<id_a><id_d>', 'realizar_pago', cuota_controller.realizar_pago, methods=["POST", "GET"])

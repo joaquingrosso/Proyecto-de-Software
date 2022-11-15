@@ -25,7 +25,8 @@ export default {
   },
   created () {
     this.getMensaje()
-  }
+    console.log(this.lista)
+    }
 }
 
 </script>

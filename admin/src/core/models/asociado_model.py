@@ -128,3 +128,6 @@ class Asociado(db.Model):
 
     def get_paginated(self, query, page, cant):
         return query.filter_by().paginate(page=page, per_page=cant)
+    
+    def get_fecha(self):
+        return self.created_at

@@ -3,12 +3,14 @@ import axios from "axios"
     export default {
         data(){
             return {
+                  
                 listItems: {}
+                
             }
         },
         created() {
             // Produccion
-            console.log("entro al")
+           
             axios
             .get(`http://127.0.0.1:5000/api/club/disciplines`)
             .then((result) => {this.getData(result.data)})
@@ -25,7 +27,8 @@ import axios from "axios"
                         id: disciplinas.id,
                         nombre: disciplinas.nombre,
                     }
-                    this.listItems.append(disciplina);    
+                    this.listItems.append(disciplina);  
+                    
         }
             }
         },

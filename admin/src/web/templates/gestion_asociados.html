@@ -69,6 +69,7 @@
                     <th>Estado</th>
                     <th>Email</th>
                     <th class="text-center">Operaciones</th>
+                    <th>Carnet Digital</th>
                 </tr>
             </thead>
             <tbody id="myTable">
@@ -111,6 +112,12 @@
                             <i class="fa-sharp fa-solid fa-medal"></i> Inscribir Disciplina</a>
                         </button>
                         {% endif %}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-white">
+                            <a href="{{ url_for('carnet_digital', id = a.id )  }}">
+                            <i class="fa-sharp fa-solid fa-id-card fa-lg"></i></a>
+                        </button>
                     </td>
                 </tr>
 

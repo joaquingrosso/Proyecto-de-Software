@@ -104,7 +104,7 @@ def realizar_inscripcion(id_a, id_d):
             fecha_hoy = datetime.now()
             mes_actual=int(fecha_hoy.strftime('%m'))
             año_actual=fecha_hoy.strftime('%Y')
-            for i in range(mes_actual+1, 13):
+            for i in range(mes_actual , 13):
                 cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos.get(i)+ " " + año_actual)
                 cuo.register_cuota_database()
     else:
@@ -271,3 +271,12 @@ def buscar_usuario_asociado():
     results = Asociado.get_paginated(Asociado, lista_usuario, page, config.cant)
 
     return render_template("gestion_asociados.html", asoc=results)
+
+def carnet_digital(id):
+    asociado = Asociado.get_asociado_by_id(id)
+    fecha = asociado.get_fecha()
+    dia_actual=fecha.strftime('%d')
+    mes_actual=fecha.strftime('%m')
+    año_actual=fecha.strftime('%Y')
+    fecha_ingreso= dia_actual+ "/" + mes_actual +"/"  + año_actual
+    return render_template("/asociado/carnet.html", asociado=asociado , fecha = fecha_ingreso)
