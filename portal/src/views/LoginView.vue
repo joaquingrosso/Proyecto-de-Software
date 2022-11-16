@@ -1,8 +1,13 @@
 
+
  <template>
 
-  
-  <div class="conteiner">
+<div v-if="boton">
+  <Header boton /> 
+ 
+</div>
+
+  <div class="conteiner" v-else>
     <form @submit.prevent="login" >
 
       <div class="imge"><img src="../../public/img/logo2.png"></div>
@@ -20,6 +25,7 @@
 </template> 
 
 <script>
+import Header from "./Header.vue"
 
 import axios from "axios";
 const path = "http://127.0.0.1:5000/api/auth";
@@ -32,6 +38,7 @@ const path = "http://127.0.0.1:5000/api/auth";
 // });
 export default {
   data: () => ({
+   boton : false,
     email: "",
     password: ""
   }),
@@ -39,7 +46,6 @@ export default {
     login() {
       console.log(this.email);
       console.log(this.password);
-      // this.$router.push({name:'disciplinas'})
       axios.post(path,{email: this.email,password:this.password},{headers:{"Access-Control-Allow-Origin": "*"}}).then((response) => {
         console.log(response.data)
         console.log(response.status)
@@ -47,7 +53,9 @@ export default {
        }).catch((data) => {
         console.log(data)
         console.log("error")
-       })
+       }),
+       this.boton = true;
+      //  this.$router.push({name:'disciplinas'});
     }
     
   }

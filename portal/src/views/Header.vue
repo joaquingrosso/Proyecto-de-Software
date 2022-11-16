@@ -10,7 +10,12 @@
       </div>
       <div class="box_buttons">
         <RouterLink to="/services"><button type="button" class="btn btn-primary">Services</button></RouterLink>
+        <div v-if="boton">
         <RouterLink to="/login"><button type="button" class="btn btn-primary">Iniciar Sesion</button></RouterLink>
+      </div>
+      <div v-else>
+        <button type="button" class="btn btn-primary">Cerrar Sesion</button>
+      </div>
       </div>
     </div>
 

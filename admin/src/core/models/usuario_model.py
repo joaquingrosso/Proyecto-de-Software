@@ -17,7 +17,6 @@ class Usuario(db.Model):
     
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    public_id = db.Column(db.String(100), unique = True)
     username = db.Column(db.String(30))
     password = db.Column(db.String(500))    
     email = db.Column(db.String(50))

@@ -10,13 +10,12 @@ def mostrar_usuario(current_user):
         return jsonify({"error": "404 el id no existe"}), 404
     
    dic= { 
-
-            "id" : current_user.id,
-            "nombre de usuario": current_user.username,
+            # "id" : current_user.id,
+            "user": current_user.username,
             "nombre" : current_user.first_name,
             "apellido": current_user.last_name,
             "email" : current_user.email,            
          }
     
-   resp= {'atributos del usuario logueado':dic }
+   resp= dic 
    return jsonify(resp), 200
