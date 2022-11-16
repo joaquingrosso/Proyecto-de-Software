@@ -4,6 +4,7 @@ const namespaced = true;
 
 const state = {
     user: {},
+    token:null,
     isLoggedIn: false
 };
 
@@ -11,19 +12,18 @@ const getters = {
     isLoggedIn: state => state.isLoggedIn,
     user: state => state.user
 };
-    
-console.log("lalala")
 
 const actions = {
     async loginUser({ dispatch }, user) {
-        console.log("entrooooo")
-        await apiService.post('/auth/login_jwt', user)
-        console.log("entrooooo 222")
+        console.log("entro en el auth")
+        await apiService.service.post('/auth', user).then((response)=>{
+             localStorage.setItem( 'token', JSON.stringify(response.data.token) );
+        }) //services para sin autenticacion
         await dispatch('fetchUser')
-        console.log("entrooooo 333")
     },
     async fetchUser({ commit }) {
-        await apiService.get('/auth/user_jwt')
+        console.log("entro al fetchUser")
+        await apiService.servicesAuth.get('/me/profile') // para las autenticaciones
             .then(({ data }) => commit('setUser', data))
     },
     async logoutUser({ commit }) {

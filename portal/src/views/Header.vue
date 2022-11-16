@@ -8,14 +8,11 @@
       <div class="box_title">
         <h1>Club Deportivo Villa Elisa</h1>
       </div>
-      <div class="box_buttons">
-        <RouterLink to="/services"><button type="button" class="btn btn-primary">Services</button></RouterLink>
-        <div v-if="boton">
+      <div class="box_buttons" v-if="isLogged">
+        <RouterLink to="/login"><button type="button" class="btn btn-primary">Cerrar Sesion</button></RouterLink>
+      </div>
+      <div class="box_buttons" v-else>
         <RouterLink to="/login"><button type="button" class="btn btn-primary">Iniciar Sesion</button></RouterLink>
-      </div>
-      <div v-else>
-        <button type="button" class="btn btn-primary">Cerrar Sesion</button>
-      </div>
       </div>
     </div>
 
@@ -45,7 +42,33 @@
   </main>
 </template>
 
+<script>
+import { mapGetters } from 'vuex'
 
+export default {
+  data () {
+    return {
+      isLogged: false,
+      }
+  },
+  computed: {
+      ...mapGetters({
+        isLoggedIn: 'auth/isLoggedIn'
+      })
+    },
+  methods: {
+    
+    setLogged(){
+      this.isLogged = this.isLoggedIn
+      console.log(this.isLogged)
+    }
+    },
+  
+  created () {
+    this.setLogged()
+  }
+}
+</script>
 <style>
 #cabecera {
   display: flex;

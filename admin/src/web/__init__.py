@@ -72,10 +72,10 @@ def create_app(env="development", static_folder="static"):
 
      # jwt
     app.add_url_rule('/api/auth', 'login_jwt_2', login_jwt.login_jwt_2, methods=["POST"])
-    app.add_url_rule('/api/auth/signup', 'signup', login_jwt.signup, methods=["GET", "POST"])
-    app.add_url_rule('/auth/logout_jwt', 'logout_jwt', auth_controller.logout_jwt, methods=["GET", "POST"])
-    app.add_url_rule('/auth/user_jwt', 'user_jwt', auth_controller.user_jwt, methods=["GET", "POST"])
-    app.add_url_rule('/api/auth/login_jwt', 'login_jwt', auth_controller.login_jwt, methods=["GET", "POST"])
+    #app.add_url_rule('/api/auth/getUser', 'signup', login_jwt.signup, methods=["GET"])
+    # app.add_url_rule('/auth/logout_jwt', 'logout_jwt', auth_controller.logout_jwt, methods=["GET", "POST"])
+    #app.add_url_rule('/api/auth/user_jwt', 'user_jwt', login_jwt.user_jwt, methods=["GET"])
+    # app.add_url_rule('/api/auth/login_jwt', 'login_jwt', auth_controller.login_jwt, methods=["GET", "POST"])
 
     # Register user
     app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register_validation, methods=["GET", "POST"])

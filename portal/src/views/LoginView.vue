@@ -2,59 +2,67 @@
 
  <template>
 
-<div v-if="boton">
-  <Header boton /> 
- 
-</div>
+  <div class="conteiner">
 
-  <div class="conteiner" v-else>
-    <form @submit.prevent="login" >
-
+    <form action class="form" @submit.prevent="login">
       <div class="imge"><img src="../../public/img/logo2.png"></div>
-
-      <h1 class="h3 mb-3 fw-normal">Inicio Sesion</h1>
-
-      <input v-model="email" type="email" class="form-control" placeholder="Email" required>
-
-      <input v-model="password"  type="password" class="form-control" placeholder="Password" required>
-
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar sesion</button>
+  
+      <input v-model="user.email" placeholder="Email" class="form-control" type="email" id="email" required>
+      
+      <input v-model="user.password" placeholder="Password" type="password" autocomplete="on" class="form-control" id="password" required>
+      <p v-if="error" class="error">Has introducido mal el email o la contraseña.</p>
+      <input class="w-100 btn btn-lg btn-primary" type="submit" value="Login">
     </form>
   </div>
     
 </template> 
 
 <script>
-import Header from "./Header.vue"
 
-import axios from "axios";
-const path = "http://127.0.0.1:5000/api/auth";
-// var axios = require("axios");
+import { mapActions , mapGetters } from 'vuex'
 
-// const axiosInstance = axios.create({
-//   headers: {
-    
-//   }
-// });
 export default {
   data: () => ({
-   boton : false,
-    email: "",
-    password: ""
+    error:false,
+    user: {
+      email: null,
+      password: null
+    }
   }),
+  computed: {
+      ...mapGetters({
+        authUser: 'auth/user',
+        isLoggedIn: 'auth/isLoggedIn'
+      })
+    },
   methods: {
-    login() {
-      console.log(this.email);
-      console.log(this.password);
-      axios.post(path,{email: this.email,password:this.password},{headers:{"Access-Control-Allow-Origin": "*"}}).then((response) => {
-        console.log(response.data)
-        console.log(response.status)
-        console.log("ok")
-       }).catch((data) => {
-        console.log(data)
-        console.log("error")
-       }),
-       this.boton = true;
+    ...mapActions('auth',['loginUser','logoutUser']),
+    async login() {
+      await this.loginUser(this.user)
+          .catch(() => {
+              // Handle error
+              this.error = true;
+            }
+          );
+          //Cleaning
+          this.user = {
+                email: null,
+                password: null
+              }
+          if (this.isLoggedIn) {
+            this.$router.push('/')
+          }
+      // axios.post(path,{email: this.email,password:this.password},{headers:{"Access-Control-Allow-Origin": "*"}}).then((response) => {
+      //   console.log(response.data)
+      //   console.log(response.status)
+      //   console.log("ok")
+      //   localStorage.setItem( 'token', JSON.stringify(response.data.token) );
+      //   console.log(localStorage.getItem('token'))
+
+      //  }).catch((data) => {
+      //   console.log(data)
+      //   console.log("error")
+      //  }),
       //  this.$router.push({name:'disciplinas'});
     }
     
