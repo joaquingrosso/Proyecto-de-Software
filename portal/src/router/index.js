@@ -36,7 +36,11 @@ const router = createRouter({
       name: "home",
       component: () => import("../views/HomeView.vue"),
     },
-    
+    {
+      path: "/inicioPublico",
+      name: "inicioPublico",
+      component: () => import("../views/InicioPublico.vue"),
+    },
   ],
 });
 

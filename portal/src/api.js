@@ -10,7 +10,7 @@ const apiService = {
     servicesAuth:axios.create({
         baseURL: 'http://localhost:5000/api/',
         withCredentials: true,
-        xsrfCookieName: 'csrf_access_token',
+        //xsrfCookieName: 'csrf_access_token',
         headers:{
             Authorization:`JWT ${token}`
         }

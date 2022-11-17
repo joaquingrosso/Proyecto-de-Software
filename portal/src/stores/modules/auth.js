@@ -27,7 +27,7 @@ const actions = {
             .then(({ data }) => commit('setUser', data))
     },
     async logoutUser({ commit }) {
-        await apiService.get('/auth/logout_jwt');
+        //await apiService.get('/auth/logout_jwt');
         commit('logoutUserState');
     }
 };

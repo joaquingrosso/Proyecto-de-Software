@@ -50,21 +50,10 @@ export default {
                 password: null
               }
           if (this.isLoggedIn) {
-            this.$router.push('/')
+            this.$router.push('/inicioPublico')
           }
-      // axios.post(path,{email: this.email,password:this.password},{headers:{"Access-Control-Allow-Origin": "*"}}).then((response) => {
-      //   console.log(response.data)
-      //   console.log(response.status)
-      //   console.log("ok")
-      //   localStorage.setItem( 'token', JSON.stringify(response.data.token) );
-      //   console.log(localStorage.getItem('token'))
-
-      //  }).catch((data) => {
-      //   console.log(data)
-      //   console.log("error")
-      //  }),
-      //  this.$router.push({name:'disciplinas'});
-    }
+    },
+    
     
   }
 };

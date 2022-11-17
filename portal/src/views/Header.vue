@@ -9,7 +9,7 @@
         <h1>Club Deportivo Villa Elisa</h1>
       </div>
       <div class="box_buttons" v-if="isLogged">
-        <RouterLink to="/login"><button type="button" class="btn btn-primary">Cerrar Sesion</button></RouterLink>
+        <button type="button" class="btn btn-primary" @click="logout">Cerrar Sesion</button>
       </div>
       <div class="box_buttons" v-else>
         <RouterLink to="/login"><button type="button" class="btn btn-primary">Iniciar Sesion</button></RouterLink>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters , mapActions } from 'vuex'
 
 export default {
   data () {
@@ -61,7 +61,18 @@ export default {
     setLogged(){
       this.isLogged = this.isLoggedIn
       console.log(this.isLogged)
-    }
+    },
+    ...mapActions('auth',['logoutUser']),
+    async logout() {
+        await this.logoutUser();
+        localStorage.removeItem('token');
+        this.error=false;
+        this.user = {
+          email: null,
+          password: null
+        }
+        this.$router.push('/');
+      },
     },
   
   created () {
