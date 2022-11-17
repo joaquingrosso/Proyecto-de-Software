@@ -3,6 +3,7 @@ from src.core.models.config_model import Config
 from src.core.models.permiso_model import Permiso
 from src.core.models.rol_model import Rol
 from src.core.models.usuario_model import Usuario
+from src.core.models.asociado_model import Asociado
 
 def crear_configuracion(**kwargs):
     config = Config(**kwargs)
@@ -28,6 +29,12 @@ def crear_usuario(**kwargs):
     db.session.commit()
     return user
 
+def crear_asociado(**kwargs):
+    asociado = Asociado(**kwargs)
+    db.session.add(asociado)
+    db.session.commit()
+    return asociado
+
 def asignar_permisos(rol,permisos):
     rol.permisos.extend(permisos)
     db.session.add(rol)
@@ -39,6 +46,8 @@ def asignar_usuario(usuario,rol1):
     db.session.add(usuario)
     db.session.commit()
     return usuario
+
+
 
 def asignar_asociado(asociado,disciplina):
     asociado.disciplinas.extend(disciplina)

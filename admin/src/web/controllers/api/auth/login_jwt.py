@@ -30,7 +30,7 @@ def token_required(f):
             # decoding the payload to fetch the stored details
             token = token.split(" ")[1]
             data = jwt.decode(token, app.config['SECRET_KEY'],algorithms=['HS256'])
-            # breakpoint()
+            #breakpoint()
             #chequear fecha sea mayor datetimeutcnow()
             current_user = Usuario.query\
             .get(int(data['id']))

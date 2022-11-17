@@ -7,21 +7,25 @@ from src.core.models.cuota_model import Cuota
 from src.core.models.config_model import Config
 from datetime import datetime
 from src.web.controllers import cuota_controller
+from src.web.controllers.api.auth.login_jwt import token_required
 
-def mostrar_pagos_de_un_asociado(id):
+@token_required
+def mostrar_pagos_de_un_asociado(current_user):
    try:
         lista = []
-        asociado_actual = Asociado.query.get(id)
-        cuotas = Cuota.cuota_asociado(id)
+        asociado_actual = Asociado.query.get(current_user.asociado_id)
+        cuotas = Cuota.cuota_asociado(current_user.asociado_id)
+        print(asociado_actual)
+        print(cuotas)
         for cuota in cuotas:
-          pago_cuota = Pago.pago_asociado(cuota.id)
-          if pago_cuota is not None:
-               c = {   
-                         "periodo" : cuota.periodo, 
-                         # "estado":   cuota.estado, 
-                         "monto": pago_cuota.monto                                                 
-                    }
-               lista.append(c)
+          #pago_cuota = Pago.pago_asociado(cuota.id)
+          #if pago_cuota is not None:
+          c = {   
+                    "periodo" : cuota.periodo, 
+                    #"estado":   cuota.estado, 
+                    "monto": cuota.monto                                                 
+               }
+          lista.append(c)
    except:
         return jsonify({"error": "500 Internal server Error"}), 500
     
@@ -34,7 +38,7 @@ def mostrar_pagos_de_un_asociado(id):
 #            }
     
 #   resp= {'datos del asociado':dic, 'pagos': lista }
-   resp= { 'pagos': lista }
+   resp= lista
    return jsonify(resp), 200
 
 
