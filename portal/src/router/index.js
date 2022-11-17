@@ -19,7 +19,7 @@ const router = createRouter({
     {
       path: "/disciplinas",
       name: "disciplinas",      
-      component: () => import("../views/DisciplinasView.vue"),
+      component: () => import("../components/Disciplinas.vue"),
     },
     {
       path: "/contacto",
@@ -40,6 +40,11 @@ const router = createRouter({
       path: "/inicioPublico",
       name: "inicioPublico",
       component: () => import("../views/InicioPublico.vue"),
+    },
+    {
+      path: "/cuotas",
+      name: "cuotas",
+      component: () => import("../components/Cuotas.vue"),
     },
   ],
 });
