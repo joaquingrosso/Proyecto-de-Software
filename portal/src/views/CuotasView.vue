@@ -3,7 +3,7 @@ import Header from "./Header.vue"
 </script>
 
 <script>
-import { mapActions , mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
     data: () => ({
@@ -23,11 +23,15 @@ export default {
         async verCuotasUsuario() {
             await this.cuotasUsuario(this.cuotas)
                 .catch(() => {
-                // Handle error
-                this.error = true;
-                
-            });
+                    // Handle error
+                    this.error = true;
+
+                });
+                console.log(this.cuotas);
         },
+    },
+    created() {
+        this.verCuotasUsuario();
     }
 };
 
@@ -38,7 +42,7 @@ export default {
     <main>
         <div class="box_content_desc">
             <div class="col-md-10">
-                {{cuotas}}
+                {{ cuotas }}
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr class="bg-primary text-white">
@@ -48,9 +52,9 @@ export default {
                         </tr>
                     </thead>
                     <tbody id="myTable">
-                        <tr v-for="(valor) in cuotas">
-                            <td> {{valor.periodo}} </td>
-                            <td> {{valor.monto}} </td>
+                        <tr v-for="(valor) in this.cuotas">
+                            <td> {{ valor?.periodo }} </td>
+                            <td> {{ valor?.monto }} </td>
                             <td> Operaciones </td>
 
                         </tr>

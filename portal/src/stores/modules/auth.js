@@ -1,4 +1,4 @@
-import { apiService } from '@/api'
+import { getApiService } from '@/api'
 
 const namespaced = true;
 
@@ -17,13 +17,13 @@ const getters = {
 
 const actions = {
     async loginUser({ dispatch }, user) {
-        await apiService.service.post('/auth', user).then((response)=>{
+        await getApiService().service.post('/auth', user).then((response)=>{
              localStorage.setItem( 'token', JSON.stringify(response.data.token) );
         }) //services para sin autenticacion
         await dispatch('fetchUser')
     },
     async fetchUser({ commit }) {
-        await apiService.servicesAuth.get('/me/profile') // para las autenticaciones
+        await getApiService().servicesAuth.get('/me/profile') // para las autenticaciones
             .then(({ data }) => commit('setUser', data))
     },
     async logoutUser({ commit }) {
@@ -31,10 +31,11 @@ const actions = {
         commit('logoutUserState');
     },
     async cuotasUsuario(cuota) {
-        await apiService.servicesAuth.get('/me/payments',cuota).then((response)=>{
-            commit('cuotasState', response.data);
+        await getApiService().servicesAuth.get('/me/payments',cuota).then((response)=>{
+            console.log(response.data);
+            commit('setCuotas', response.data);
         });
-
+        
     },
 
 };
@@ -48,8 +49,10 @@ const mutations = {
         state.isLoggedIn = false;
         state.user = {};
     },
-    cuotasState(state,cuota) {
+    setCuotas(state,cuota) {
         state.cuotas = cuota;
+        console.log(state.cuotas);
+        console.log(cuota);
     }
 };
 

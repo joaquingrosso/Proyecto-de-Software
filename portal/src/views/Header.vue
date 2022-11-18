@@ -77,7 +77,8 @@ export default {
           email: null,
           password: null
         }
-        this.$router.push('/');
+        this.$router.go(); // go para refrescar la pagina
+        //window.location.reload();
       },
     },
   

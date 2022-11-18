@@ -3,7 +3,7 @@
 <template>
 
     <div>
-        <nav class="nav_bar">
+        <!-- <nav class="nav_bar">
       <div id="menu" class="nav_header">
         
         <ul>
@@ -13,8 +13,29 @@
         </ul>
 
       </div>
-    </nav>
-    <Cuotas cuotas />
+    </nav> -->
+
+    <div class="col-md-10">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>Mes</th>
+                    <th>Monto</th>
+                    <th class="text-center">Operaciones</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                <tr >
+                    <td> {{cuotas.periodo}}</td>
+                    <td> {{cuotas.monto}} </td>
+                    <td>  </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+      </div> 
     </div>
 
 </template>
@@ -42,11 +63,12 @@ export default {
                 .catch(() => {
                 // Handle error
                 this.error = true;
-                
             });
         },
     },
-    components: { Cuotas }
+    created () {
+    this.verCuotasUsuario()
+  }
 };
 
 </script>

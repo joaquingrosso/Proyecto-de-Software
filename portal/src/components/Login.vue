@@ -31,12 +31,11 @@ export default {
   }),
   computed: {
       ...mapGetters({
-        authUser: 'auth/user',
         isLoggedIn: 'auth/isLoggedIn'
       })
     },
   methods: {
-    ...mapActions('auth',['loginUser','logoutUser']),
+    ...mapActions('auth',['loginUser']),
     async login() {
       await this.loginUser(this.user)
           .catch(() => {
