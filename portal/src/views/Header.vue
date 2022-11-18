@@ -34,6 +34,11 @@
           <RouterLink to="/descripcion">
             <li class="nav-item">Descripcion</li>
           </RouterLink>
+          <div v-if="isLogged">
+            <RouterLink to="/cuotas">
+              <li class="nav-item">Cuotas</li>
+            </RouterLink>
+          </div>
         </ul>
 
       </div>
@@ -53,7 +58,8 @@ export default {
   },
   computed: {
       ...mapGetters({
-        isLoggedIn: 'auth/isLoggedIn'
+        isLoggedIn: 'auth/isLoggedIn',
+        getUser: 'auth/user'
       })
     },
   methods: {
