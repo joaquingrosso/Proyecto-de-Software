@@ -47,10 +47,6 @@ from os import error
 from flask_cors import CORS
 # from routes import auth
 
-
-
-from flask_jwt_extended import JWTManager
-
 # def create_app(static_folder="static"):
 def create_app(env="development", static_folder="static"):
     app = Flask(__name__, static_folder=static_folder)
@@ -62,7 +58,7 @@ def create_app(env="development", static_folder="static"):
     # Server Side session
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
-    jwt = JWTManager(app)
+
     
 # #ruta al login 
     @app.route("/")
@@ -71,7 +67,7 @@ def create_app(env="development", static_folder="static"):
          return render_template("home.html")  
 
      # jwt
-    app.add_url_rule('/api/auth', 'login_jwt_2', login_jwt.login_jwt_2, methods=["POST"])
+    app.add_url_rule('/api/auth', 'login_jwt_2', login_jwt.login_jwt, methods=["POST"])
     #app.add_url_rule('/api/auth/getUser', 'signup', login_jwt.signup, methods=["GET"])
     # app.add_url_rule('/auth/logout_jwt', 'logout_jwt', auth_controller.logout_jwt, methods=["GET", "POST"])
     #app.add_url_rule('/api/auth/user_jwt', 'user_jwt', login_jwt.user_jwt, methods=["GET"])

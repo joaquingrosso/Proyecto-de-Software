@@ -11,7 +11,7 @@ from flask import current_app as app
 from src.core.models.usuario_model import Usuario
 from src.core.database import db
 import json
-from flask_jwt_extended import get_jwt_identity
+
 
 # decorator for verifying the JWT
 def token_required(f):
@@ -46,7 +46,7 @@ def token_required(f):
   
 
 # route for logging user in
-def login_jwt_2():
+def login_jwt():
     # creates dictionary of form data
     # breakpoint()
     auth = json.loads(request.data)
@@ -123,10 +123,3 @@ def signup():
         # returns 202 if user already exists
         return make_response('User already exists. Please Log in.', 202)
     
-@token_required
-def user_jwt():
-  breakpoint()
-  #current_user = get_jwt_identity()
-  user = Usuario.get_user_by_id(current_user)
-  response = jsonify(user)
-  return response, 200

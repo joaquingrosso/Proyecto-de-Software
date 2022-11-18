@@ -1,9 +1,7 @@
 from flask import redirect, render_template, request, url_for, session, flash, jsonify
 from src.core.models.usuario_model import Usuario
 from werkzeug.security import check_password_hash
-from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies
-from flask_jwt_extended import unset_jwt_cookies, jwt_required
-from flask_jwt_extended import get_jwt_identity
+
 
 def login():
     if request.method == 'POST':
@@ -37,32 +35,3 @@ def logout():
     session.clear()
     return redirect(url_for("home"))
 
-
-# def login_jwt():
-#   data = request.get_json()
-#   email = data['email']
-#   password = data['password']
-#   user = Usuario.find_user_by_email_and_pass(email, password)
-
-#   if user:
-#     access_token = create_access_token(identity=user.id)
-#     response = jsonify()
-#     set_access_cookies(response, access_token)
-#     return response, 201
-#   else:
-#     return jsonify(message="Unauthorized"), 401
-
-
-# @jwt_required( )
-# def logout_jwt():
-#   response = jsonify()
-#   unset_jwt_cookies(response)
-#   return response, 200
-
-
-# @jwt_required( )
-# def user_jwt():
-#   current_user = get_jwt_identity()
-#   user = Usuario.get_user_by_id(current_user)
-#   response = jsonify(user)
-#   return response, 200
