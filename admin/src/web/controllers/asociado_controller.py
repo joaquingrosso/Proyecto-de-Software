@@ -225,7 +225,26 @@ def export_pdf():
     resp.headers["Content-Disposition"] = "inline;filename=asociados.pdf"
     return resp
 
-    
+def export_pdf_carnet(id):
+    asociado = Asociado.get_asociado_by_id(id)
+    cuotas = Cuota.get_cuota_by_id_asociado(asociado.id)
+    fecha = asociado.get_fecha()
+    dia_actual=fecha.strftime('%d')
+    mes_actual=fecha.strftime('%m')
+    año_actual=fecha.strftime('%Y')
+    fecha_ingreso= dia_actual+ "/" + mes_actual +"/"  + año_actual
+    html =  render_template("/pdfs/pdf_carnet.html", asociado=asociado , fecha = fecha_ingreso , estado = Cuota.validar_deuda_cuota(cuotas))
+    if app.config.get("USE_WKHTML_CUSTOM_PATH") == True:
+        path_wkhtmltopdf = app.config.get("WKHTML_CUSTOM_PATH")
+        config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf) 
+        pdf = pdfkit.from_string(html,False,configuration=config)
+    else:
+        pdf =pdfkit.from_string(html,False)
+    print("saliod del if")
+    resp = make_response(pdf)
+    resp.headers["Content-Type"] = "aplication/pdf"
+    resp.headers["Content-Disposition"] = "inline;filename=carnet_digital.pdf"
+    return resp    
 
 def export_csv():
     '''Exportar un csv'''
@@ -274,9 +293,10 @@ def buscar_usuario_asociado():
 
 def carnet_digital(id):
     asociado = Asociado.get_asociado_by_id(id)
+    cuotas = Cuota.get_cuota_by_id_asociado(asociado.id)
     fecha = asociado.get_fecha()
     dia_actual=fecha.strftime('%d')
     mes_actual=fecha.strftime('%m')
     año_actual=fecha.strftime('%Y')
     fecha_ingreso= dia_actual+ "/" + mes_actual +"/"  + año_actual
-    return render_template("/asociado/carnet.html", asociado=asociado , fecha = fecha_ingreso)
+    return render_template("/asociado/carnet.html", asociado=asociado , fecha = fecha_ingreso , estado = Cuota.validar_deuda_cuota(cuotas))

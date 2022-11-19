@@ -120,7 +120,7 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/export_csv', 'export_csv', asociado_controller.export_csv) 
     app.add_url_rule("/bhuscar_usaurio", "buscar_usuario_asociado", asociado_controller.buscar_usuario_asociado, methods=["GET"])
     app.add_url_rule("/carnet_digital/<id>", "carnet_digital", asociado_controller.carnet_digital, methods=["GET"])
-    
+    app.add_url_rule('/export_pdf_carnet/<id>', 'export_pdf_carnet', asociado_controller.export_pdf_carnet)
     #Operaciones Couta
     app.add_url_rule('/realizar_pago/<id_a><id_d>', 'realizar_pago', cuota_controller.realizar_pago, methods=["POST", "GET"])
     app.add_url_rule('/pagar_cuota/<id_c> <monto><id_d> <id_a> ', 'pagar_cuota', cuota_controller.pagar_cuota)
@@ -142,7 +142,8 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/api/me/profile', 'mostrar_usuario', profile.mostrar_usuario, methods=['GET'])
     app.add_url_rule('/api/me/payments', 'mostrar_pagos_de_un_asociado', pagos_de_un_asociado.mostrar_pagos_de_un_asociado, methods=['GET'])
     app.add_url_rule('/api/me/payments/cuota/<int:id>', 'cargar_pago', pagos_de_un_asociado.cargar_pago, methods=["POST", "GET"])
-    app.add_url_rule('/api/me/license', 'carnet_digital', profile.carnet_digital, methods=["GET"])
+    #app.add_url_rule('/api/me/license', 'carnet_digital', profile.carnet_digital, methods=["GET"])
+    app.add_url_rule('/api/me/license', 'licencia_digital', profile.carnet_digital, methods= ["GET"])
 
     @app.cli.command(name="resetdb")
     def resetdb():

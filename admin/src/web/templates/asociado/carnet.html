@@ -6,23 +6,41 @@
 {% block content %}
 {% block body %}
 <div class="container">
-    <div id="header" >
-        <div id="titulo"><h1>Club Deportivo Villa Elisa</h1></div>
+    <table>
+        <th>
+            <a href=""> <button type="button" class="btn btn-warning "><i class="fa-solid fa-user-plus"></i> Agregar
+                    Imagen</button> </a>
+        </th>
+        <th></th>
+        <th>
+            <a href="{{ url_for('export_pdf_carnet', id=asociado.id) }}"> <button type="button" class="btn btn-danger ">
+                    <i class="fa-sharp fa-solid fa-file-pdf"></i> Exportar PDF</button> </a>
+        </th>
+        <th></th>
+
+
+    </table>
+    <div id="header">
+        <div id="titulo">
+            <h1>Club Deportivo Villa Elisa</h1>
+        </div>
     </div>
-    <div  id="body" >
-            <div id="img_estado"><img src="../../../../public/img/image_slider/slider1.jpg">
-                <div >Estado: </div>
+    <div id="body">
+        <div id="img_estado">
+            <img src="../../../../public/img/perfil.png">
+            <div>Estado: <h5>{{estado}}</h3>
+        </div>
+        </div>
+        <div>
+            <h3>{{asociado.last_name}} {{asociado.first_name}}</h3>
+            <h5>{{asociado.document_type}}: {{asociado.document}}</h5>
+            <h5># Socio: {{asociado.id}}</h5>
+            <h5>Fecha Alta: {{fecha}}</h5>
+            <div>
+                QR
             </div>
-            <div >
-                <h3>{{asociado.last_name}} {{asociado.first_name}}</h3>
-                <h5>{{asociado.document_type}}: {{asociado.document}}</h5>
-                <h5># Socio: {{asociado.id}}</h5>
-                <h5>Fecha Alta: {{fecha}}</h5>
-                <div>
-                    QR
-                </div>
-            </div>
-    
+        </div>
+
     </div>
 </div>
 
