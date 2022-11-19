@@ -104,11 +104,7 @@ def realizar_inscripcion(id_a, id_d):
             fecha_hoy = datetime.now()
             mes_actual=int(fecha_hoy.strftime('%m'))
             año_actual=fecha_hoy.strftime('%Y')
-<<<<<<< HEAD
-            for i in range(mes_actual , 13):
-=======
             for i in range(mes_actual, 13):
->>>>>>> development
                 cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos.get(i)+ " " + año_actual)
                 cuo.register_cuota_database()
     else:
