@@ -34,7 +34,8 @@ class Cuota(db.Model):
         self.estado = "No-Paga"
     
     def __repr__(self):
-        return "<cuota(asociado_id='%s', disciplina_id='%s', periodo='%s', monto='%s', estado='%s' )>" % (
+        return "<cuota(id='%s', asociado_id='%s', disciplina_id='%s', periodo='%s', monto='%s', estado='%s' )>" % (
+            self.id,
             self.asociado_id,
             self.disciplina_id,
             self.periodo,
@@ -121,7 +122,7 @@ class Cuota(db.Model):
 
     def list_cuota():
         return Cuota.query.all()
-
+    
     def validar_periodo_actual(self):
         periodos={ 1:"Enero", 2:"Febrero", 3:"Marzo", 4:"Abril", 5:"Mayo", 6:"Junio",
              7:"Julio",8: "Agosto", 9:"Septiembre",10: "Octubre", 11:"Noviembre",12:"Diciembre"}
@@ -131,3 +132,18 @@ class Cuota(db.Model):
         if mes[0] == periodos.get(mes_actual):
             return True
         return False
+    
+    
+    
+    @classmethod
+    def validar_deuda_cuota(self,cuota):
+        dic_mes={ "Enero":1, "Febrero":2, "Marzo":3, "Abril":4, "Mayo":5, "Junio":6,
+             "Julio":7, "Agosto":8, "Septembre":9, "Octubre":10, "Noviembre":11, "Diciembre":12}
+        fecha_hoy = datetime.now()
+        mes_actual=int(fecha_hoy.strftime('%m'))
+        for c in cuota:
+            mes = c.periodo.split(" ")
+            if dic_mes.get(mes[0]) <= mes_actual: 
+                if c.estado == "No-Paga":
+                    return "Se deben cuotas"
+        return "Al dia"
