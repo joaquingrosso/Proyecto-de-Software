@@ -43,11 +43,12 @@ class Usuario(db.Model):
         self.asociado_id= asociado_id
 
     def __repr__(self):
-        return "<user(username='%s',email='%s', first_name='%s', last_name='%s' )>" % (
+        return "<user(username='%s',email='%s', first_name='%s', last_name='%s',asociado_id='%s' )>" % (
             self.username,
             self.email,
             self.first_name,
             self.last_name,
+            self.asociado_id
         )
         
     def listar_roles(self):
@@ -78,7 +79,17 @@ class Usuario(db.Model):
     @classmethod
     def get_user_by_username(self, username):
         return Usuario.query.filter(self.username == username).first()
-
+    
+    @classmethod
+    def get_socios_activos(self):
+        usuarios_activos = Usuario.query.filter(self.activo == "Activo")
+        usuarios = []
+        for u in usuarios_activos:
+            for r in u.roles:
+                if r.nombre == "Socio":
+                    usuarios.append(u)
+            
+        return usuarios
     def verify_password(self, password):
         passwd = self.password
         return check_password_hash(passwd, password)
@@ -136,3 +147,9 @@ class Usuario(db.Model):
     def get_paginated(self, query, page, cant):
         return query.filter_by().paginate(page=page, per_page=cant)
 
+    def vincular_usuario_socio(self,asociado_id):
+        self.asociado_id = asociado_id
+        db.session.commit()
+        
+    def get_id_asociado():
+        return self.asociado_id

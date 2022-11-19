@@ -34,11 +34,12 @@
           <RouterLink to="/descripcion">
             <li class="nav-item">Descripcion</li>
           </RouterLink>
-          <div v-if="isLogged">
-            <RouterLink to="/cuotas">
-              <li class="nav-item">Cuotas</li>
-            </RouterLink>
-          </div>
+          <RouterLink to="/cuotas">
+            <li class="nav-item" v-if="isLogged">Cuotas</li>
+          </RouterLink>
+          <RouterLink to="/carnet">
+            <li class="nav-item" v-if="isLogged">Carnet</li>
+          </RouterLink>
         </ul>
 
       </div>
@@ -77,6 +78,7 @@ export default {
           email: null,
           password: null
         }
+        console.log()
         this.$router.go(); // go para refrescar la pagina
         //window.location.reload();
       },

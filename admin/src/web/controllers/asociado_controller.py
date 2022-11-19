@@ -4,6 +4,7 @@ from flask import render_template, request, redirect , url_for, flash, make_resp
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
 from src.core.models.config_model import Config
+from src.core.models.usuario_model import Usuario
 from flask import current_app as app
 import pdfkit
 import io
@@ -300,3 +301,20 @@ def carnet_digital(id):
     año_actual=fecha.strftime('%Y')
     fecha_ingreso= dia_actual+ "/" + mes_actual +"/"  + año_actual
     return render_template("/asociado/carnet.html", asociado=asociado , fecha = fecha_ingreso , estado = Cuota.validar_deuda_cuota(cuotas))
+
+def vincular_usuario(id):
+    usuarios = Usuario.query.all()
+    for user in usuarios:
+        if user.asociado_id == id:
+            flash("El usuario ya tiene un asociado vinculado")
+            return redirect(url_for("gestion_asociados"))
+    if request.method == "POST":
+        user_id = request.form.get('user') #saco el id de la seleccion del select del modal
+        usuario = Usuario.get_user_by_id(user_id)
+        print(usuario.get_id_asociado)
+        if usuario.asociado_id is None:
+            usuario.vincular_usuario_socio(id)
+            flash("Se vinculo correctamente el usuario")
+        else:
+            flash("Ya se encuenta vinculado este asociado")
+    return redirect(url_for("gestion_asociados"))

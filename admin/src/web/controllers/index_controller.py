@@ -24,12 +24,13 @@ def gestion_usuarios(nombre=' ' ):
 
 @login_required
 def gestion_asociados(nombre=' ' ):
+    socios = Usuario.get_socios_activos()
     config = Config.get_self(Config, 1)
     page = request.args.get('page', 1, type=int)
     asociadosActuales = Asociado.list_asociados_pag(page,config.cant)
     if request.method == 'GET':
         nombre = nombre
-    return render_template("gestion_asociados.html", asoc = asociadosActuales)
+    return render_template("gestion_asociados.html", asoc = asociadosActuales, socios = socios)
 
 @login_required
 def gestion_disciplinas(nombre=' '):

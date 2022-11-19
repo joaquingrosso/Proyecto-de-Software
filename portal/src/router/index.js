@@ -46,6 +46,11 @@ const router = createRouter({
       name: "cuotas",
       component: () => import("../views/CuotasView.vue"),
     },
+    {
+      path: "/carnet",
+      name: "carnet",
+      component: () => import("../views/CarnetView.vue"),
+    },
   ],
 });
 
