@@ -8,8 +8,10 @@
       <div class="box_title">
         <h1>Club Deportivo Villa Elisa</h1>
       </div>
-      <div class="box_buttons">
-        <RouterLink to="/services"><button type="button" class="btn btn-primary">Services</button></RouterLink>
+      <div class="box_buttons" v-if="isLogged">
+        <button type="button" class="btn btn-primary" @click="logout">Cerrar Sesion</button>
+      </div>
+      <div class="box_buttons" v-else>
         <RouterLink to="/login"><button type="button" class="btn btn-primary">Iniciar Sesion</button></RouterLink>
       </div>
     </div>
@@ -32,6 +34,11 @@
           <RouterLink to="/descripcion">
             <li class="nav-item">Descripcion</li>
           </RouterLink>
+          <div v-if="isLogged">
+            <RouterLink to="/cuotas">
+              <li class="nav-item">Cuotas</li>
+            </RouterLink>
+          </div>
         </ul>
 
       </div>
@@ -40,7 +47,46 @@
   </main>
 </template>
 
+<script>
+import { mapGetters , mapActions } from 'vuex'
 
+export default {
+  data () {
+    return {
+      isLogged: false,
+      }
+  },
+  computed: {
+      ...mapGetters({
+        isLoggedIn: 'auth/isLoggedIn',
+        getUser: 'auth/user'
+      })
+    },
+  methods: {
+    
+    setLogged(){
+      this.isLogged = this.isLoggedIn
+      console.log(this.isLogged)
+    },
+    ...mapActions('auth',['logoutUser']),
+    async logout() {
+        await this.logoutUser();
+        localStorage.removeItem('token');
+        this.error=false;
+        this.user = {
+          email: null,
+          password: null
+        }
+        this.$router.go(); // go para refrescar la pagina
+        //window.location.reload();
+      },
+    },
+  
+  created () {
+    this.setLogged()
+  }
+}
+</script>
 <style>
 #cabecera {
   display: flex;

@@ -14,7 +14,7 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: () => import("../components/Login.vue"),
+      component: () => import("../views/LoginView.vue"),
     },
     {
       path: "/disciplinas",
@@ -36,7 +36,16 @@ const router = createRouter({
       name: "home",
       component: () => import("../views/HomeView.vue"),
     },
-    
+    {
+      path: "/inicioPublico",
+      name: "inicioPublico",
+      component: () => import("../views/InicioPublico.vue"),
+    },
+    {
+      path: "/cuotas",
+      name: "cuotas",
+      component: () => import("../views/CuotasView.vue"),
+    },
   ],
 });
 

@@ -21,13 +21,33 @@ def run():
     
     #creacion usuario administrador
     admin = models.crear_usuario(
-        public_id = "",
         username = "admin",
         password = generate_password_hash("1234"),     
         email = "admin@gmail.com",
         first_name = "admin",
         last_name ="admin" 
         )
+    asociado_test = models.crear_asociado(
+        first_name = "asociado_test",
+        last_name = "asociado_test",
+        document_type = "DNI",
+        document = "12345678",
+        gender = "Masculino",
+        adress = "Calle 23 e/ 40 y 41",
+        state = "Activo",
+        phone_number = "221563213",
+        email = "asociado_test@gmail.com"
+    )
+    user_test = models.crear_usuario(
+        username = "user_test",
+        password = generate_password_hash("1234"),     
+        email = "user_test@gmail.com",
+        first_name = "user_test",
+        last_name ="user_test",
+        asociado_id = asociado_test.id
+        )
+    
+    
 
     #creacion registro configuracion
     config = models.crear_configuracion(
@@ -39,10 +59,10 @@ def run():
         recargo_cuota = 50
     
         )
-        
+       
     #asignacion usuario al rol
     models.asignar_usuario(admin,[rol1]) #ademas va a tener el rol asociado porque todos los usuarios se crean con ese rol
-    
+    models.asignar_usuario(user_test, [rol3])
     #asignacion de roles y permisos
     models.asignar_permisos(rol1, [permiso1, permiso2, permiso3, permiso4, permiso5, permiso6 , permiso8])
     models.asignar_permisos(rol2, [permiso1, permiso2, permiso4,permiso5])

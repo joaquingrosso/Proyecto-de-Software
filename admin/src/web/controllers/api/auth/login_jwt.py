@@ -10,6 +10,8 @@ from functools import wraps
 from flask import current_app as app
 from src.core.models.usuario_model import Usuario
 from src.core.database import db
+import json
+
 
 # decorator for verifying the JWT
 def token_required(f):
@@ -17,53 +19,37 @@ def token_required(f):
     def decorated(*args, **kwargs):
         token = None
         # jwt is passed in the request header
-        if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token']
+        # breakpoint()
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization']
         # return 401 if token is not passed
         if not token:
             return jsonify({'message' : 'Token is missing !!'}), 401
   
         try:
             # decoding the payload to fetch the stored details
-            data = jwt.decode(token, app.config['SECRET_KEY'])
+            token = token.split(" ")[1]
+            data = jwt.decode(token, app.config['SECRET_KEY'],algorithms=['HS256'])
+            #breakpoint()
+            #chequear fecha sea mayor datetimeutcnow()
             current_user = Usuario.query\
-                .filter_by(public_id = data['public_id'])\
-                .first()
+            .get(int(data['id']))
         except:
             return jsonify({
                 'message' : 'Token is invalid !!'
             }), 401
+        
         # returns the current logged in users contex to the routes
         return  f(current_user, *args, **kwargs)
-  
+    
     return decorated
   
-# User Database Route
-# this route sends back list of users
-# @app.route('/user', methods =['GET'])
-# @token_required
-# def get_all_users(current_user):
-#     # querying the database
-#     # for all the entries in it
-#     users = Usuario.query.all()
-#     # converting the query objects
-#     # to list of jsons
-#     output = []
-#     for user in users:
-#         # appending the user data json
-#         # to the response list
-#         output.append({
-#             'public_id': user.public_id,
-#             'name' : user.name,
-#             'email' : user.email
-#         })
-  
-#     return jsonify({'users': output})
-  
+
 # route for logging user in
-def login_jwt_2():
+def login_jwt():
     # creates dictionary of form data
-    auth = request.form
+    # breakpoint()
+    auth = json.loads(request.data)
   
     if not auth or not auth.get('email') or not auth.get('password'):
         # returns 401 if any email or / and password is missing
@@ -89,14 +75,14 @@ def login_jwt_2():
     if check_password_hash(user.password, auth.get('password')):
         # generates the JWT Token
         token = jwt.encode({
-            'public_id': user.public_id,
+            'id': user.id,
             'exp' : datetime.utcnow() + timedelta(minutes = 30)
         }, app.config['SECRET_KEY'])
         
         #return render_template('inicio_privada.html')
         #return "entro"
         return make_response(jsonify
-        ({'token' : token.decode('UTF-8'), 'email' : user.email}), 201)
+        ({'token' : token.decode('utf-8') }), 201)
     # returns 403 if password is wrong
     
     return make_response(
@@ -136,3 +122,4 @@ def signup():
     else:
         # returns 202 if user already exists
         return make_response('User already exists. Please Log in.', 202)
+    

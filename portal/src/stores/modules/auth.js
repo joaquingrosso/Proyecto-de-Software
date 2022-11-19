@@ -1,35 +1,43 @@
-import { apiService } from '@/api'
+import { getApiService } from '@/api'
 
 const namespaced = true;
 
 const state = {
     user: {},
-    isLoggedIn: false
+    token:null,
+    isLoggedIn: false,
+    cuotas:{}
 };
 
 const getters = {
     isLoggedIn: state => state.isLoggedIn,
-    user: state => state.user
+    user: state => state.user,
+    cuotas: state => state.cuotas
 };
-    
-console.log("lalala")
 
 const actions = {
     async loginUser({ dispatch }, user) {
-        console.log("entrooooo")
-        await apiService.post('/auth/login_jwt', user)
-        console.log("entrooooo 222")
+        await getApiService().service.post('/auth', user).then((response)=>{
+             localStorage.setItem( 'token', JSON.stringify(response.data.token) );
+        }) //services para sin autenticacion
         await dispatch('fetchUser')
-        console.log("entrooooo 333")
     },
     async fetchUser({ commit }) {
-        await apiService.get('/auth/user_jwt')
+        await getApiService().servicesAuth.get('/me/profile') // para las autenticaciones
             .then(({ data }) => commit('setUser', data))
     },
     async logoutUser({ commit }) {
-        await apiService.get('/auth/logout_jwt');
+        //await apiService.get('/auth/logout_jwt');
         commit('logoutUserState');
-    }
+    },
+    async cuotasUsuario(cuota) {
+        await getApiService().servicesAuth.get('/me/payments',cuota).then((response)=>{
+            console.log(response.data);
+            commit('setCuotas', response.data);
+        });
+        
+    },
+
 };
 
 const mutations = {
@@ -40,6 +48,11 @@ const mutations = {
     logoutUserState(state) {
         state.isLoggedIn = false;
         state.user = {};
+    },
+    setCuotas(state,cuota) {
+        state.cuotas = cuota;
+        console.log(state.cuotas);
+        console.log(cuota);
     }
 };
 

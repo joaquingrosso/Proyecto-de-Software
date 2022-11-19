@@ -27,9 +27,10 @@ class Usuario(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now())
     roles = db.relationship('Rol', secondary=roles, backref=db.backref(
         'usuarios_con_el_rol', lazy=False), lazy='dynamic')
+    asociado_id = db.Column(db.Integer, db.ForeignKey('asociado.id'),nullable=True)
     
     def __init__(
-            self, email, username, password, first_name, last_name
+            self, email, username, password, first_name, last_name , asociado_id = None, 
     ):
         self.email = email
         self.username = username
@@ -39,6 +40,7 @@ class Usuario(db.Model):
         self.activo = "Activo"
         rol = Rol.get_rol_Socio()
         self.roles.extend([rol])
+        self.asociado_id= asociado_id
 
     def __repr__(self):
         return "<user(username='%s',email='%s', first_name='%s', last_name='%s' )>" % (
@@ -52,6 +54,10 @@ class Usuario(db.Model):
         for rol in roles:
             aux = rol.getNombre()   
         return aux
+    
+    @classmethod
+    def set_asociado_id(self,id):
+        self.asociado_id = id
     
     @classmethod
     def get_estado_activo(self):

@@ -47,20 +47,18 @@ from os import error
 from flask_cors import CORS
 # from routes import auth
 
-from flask_jwt_extended import JWTManager
-
 # def create_app(static_folder="static"):
 def create_app(env="development", static_folder="static"):
     app = Flask(__name__, static_folder=static_folder)
     app.config.from_object(config[env])
-    CORS(app)
+    CORS(app, supports_credentials=True)
     # configuracion de la bd
     database.init_app(app)
     app.secret_key= "holamundo"
     # Server Side session
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
-    jwt = JWTManager(app)
+
     
 # #ruta al login 
     @app.route("/")
@@ -69,11 +67,11 @@ def create_app(env="development", static_folder="static"):
          return render_template("home.html")  
 
      # jwt
-    app.add_url_rule('/api/auth/login_jwt_2', 'login_jwt_2', login_jwt.login_jwt_2, methods=["GET", "POST"])
-    app.add_url_rule('/api/auth/signup', 'signup', login_jwt.signup, methods=["GET", "POST"])
-    app.add_url_rule('/auth/logout_jwt', 'logout_jwt', auth_controller.logout_jwt, methods=["GET", "POST"])
-    app.add_url_rule('/auth/user_jwt', 'user_jwt', auth_controller.user_jwt, methods=["GET", "POST"])
-    app.add_url_rule('/api/auth/login_jwt', 'login_jwt', auth_controller.login_jwt, methods=["GET", "POST"])
+    app.add_url_rule('/api/auth', 'login_jwt_2', login_jwt.login_jwt, methods=["POST"])
+    #app.add_url_rule('/api/auth/getUser', 'signup', login_jwt.signup, methods=["GET"])
+    # app.add_url_rule('/auth/logout_jwt', 'logout_jwt', auth_controller.logout_jwt, methods=["GET", "POST"])
+    #app.add_url_rule('/api/auth/user_jwt', 'user_jwt', login_jwt.user_jwt, methods=["GET"])
+    # app.add_url_rule('/api/auth/login_jwt', 'login_jwt', auth_controller.login_jwt, methods=["GET", "POST"])
 
     # Register user
     app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register_validation, methods=["GET", "POST"])
@@ -140,11 +138,11 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/api/club/disciplines', 'mostrar_disciplinas',disciplines.mostrar_disciplinas, methods=['GET'])
 
      # Endpoints para la api de usuario
-    app.add_url_rule('/api/me/discipline/<int:id>', 'mostrar_disciplinas_de_un_asociado', disciplinas.mostrar_disciplinas_de_un_asociado, methods=['GET'])
-    app.add_url_rule('/api/me/profile/<int:id>', 'mostrar_usuario', profile.mostrar_usuario, methods=['GET'])
-    app.add_url_rule('/api/me/payments/<int:id>', 'mostrar_pagos_de_un_asociado', pagos_de_un_asociado.mostrar_pagos_de_un_asociado, methods=['GET'])
+    app.add_url_rule('/api/me/disciplines', 'mostrar_disciplinas_de_un_asociado', disciplinas.mostrar_disciplinas_de_un_asociado, methods=['GET'])
+    app.add_url_rule('/api/me/profile', 'mostrar_usuario', profile.mostrar_usuario, methods=['GET'])
+    app.add_url_rule('/api/me/payments', 'mostrar_pagos_de_un_asociado', pagos_de_un_asociado.mostrar_pagos_de_un_asociado, methods=['GET'])
     app.add_url_rule('/api/me/payments/cuota/<int:id>', 'cargar_pago', pagos_de_un_asociado.cargar_pago, methods=["POST", "GET"])
-
+    app.add_url_rule('/api/me/license', 'carnet_digital', profile.carnet_digital, methods=["POST", "GET"])
 
     @app.cli.command(name="resetdb")
     def resetdb():
