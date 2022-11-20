@@ -20,6 +20,7 @@ from src.web.controllers.api.me import pagos_de_un_asociado
 from src.web.controllers.api.auth import login_jwt
 from src.web.controllers import asociado_controller
 from src.web.controllers import config_controller
+from src.web.controllers.api.club import info
 
 
 from src.web.controllers import cuota_controller
@@ -138,6 +139,7 @@ def create_app(env="development", static_folder="static"):
     # Endpoints para la api de disciplinas 
     app.add_url_rule('/api/club/discipline/<int:id>', 'mostrar_disciplina',disciplines.mostrar_disciplina, methods=['GET'])
     app.add_url_rule('/api/club/disciplines', 'mostrar_disciplinas',disciplines.mostrar_disciplinas, methods=['GET'])
+    app.add_url_rule('/api/club/info', 'mostrar_info',info.mostrar_info_club, methods=['GET'])
 
      # Endpoints para la api de usuario
     app.add_url_rule('/api/me/disciplines', 'mostrar_disciplinas_de_un_asociado', disciplinas.mostrar_disciplinas_de_un_asociado, methods=['GET'])
