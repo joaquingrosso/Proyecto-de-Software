@@ -30,12 +30,10 @@ const actions = {
         //await apiService.get('/auth/logout_jwt');
         commit('logoutUserState');
     },
-    async cuotasUsuario(cuota) {
-        await getApiService().servicesAuth.get('/me/payments',cuota).then((response)=>{
-            console.log(response.data);
-            commit('setCuotas', response.data);
+    async cuotasUsuario({ commit }) {
+        await getApiService().servicesAuth.get('/me/payments').then((response)=>{
+            commit('setCuotas',response.data)
         });
-        
     },
 
 };
@@ -51,8 +49,6 @@ const mutations = {
     },
     setCuotas(state,cuota) {
         state.cuotas = cuota;
-        console.log(state.cuotas);
-        console.log(cuota);
     }
 };
 

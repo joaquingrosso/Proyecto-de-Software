@@ -25,9 +25,17 @@
           <RouterLink to="/">
             <li class="nav-item">Inicio</li>
           </RouterLink>
+          <div v-if="isLogged">
+          <RouterLink to="/mis_disciplinas">
+          <li class="nav-item" >Mis Disciplinas</li>
+          </RouterLink>
+          </div>
+          <div v-else>
           <RouterLink to="/disciplinas">
             <li class="nav-item">Disciplinas</li>
           </RouterLink>
+          
+          </div>
           <RouterLink to="/contacto">
             <li class="nav-item">Contacto</li>
           </RouterLink>
@@ -40,6 +48,7 @@
           <RouterLink to="/carnet">
             <li class="nav-item" v-if="isLogged">Carnet</li>
           </RouterLink>
+          
         </ul>
 
       </div>
@@ -67,7 +76,6 @@ export default {
     
     setLogged(){
       this.isLogged = this.isLoggedIn
-      console.log(this.isLogged)
     },
     ...mapActions('auth',['logoutUser']),
     async logout() {
@@ -78,9 +86,12 @@ export default {
           email: null,
           password: null
         }
-        console.log()
-        this.$router.go(); // go para refrescar la pagina
-        //window.location.reload();
+
+        if (this.$router.currentRoute.value.fullPath == '/')  {
+          this.$router.go();
+        }else{
+          this.$router.push('/'); 
+        }
       },
     },
   

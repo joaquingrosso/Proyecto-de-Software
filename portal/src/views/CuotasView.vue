@@ -8,26 +8,24 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     data: () => ({
         error: false,
-        cuotas: {
-            periodo: null,
-            monto: null
-        }
+        cuota: {}
     }),
     computed: {
         ...mapGetters({
             cuotas: "auth/cuotas",
         })
+
     },
     methods: {
         ...mapActions("auth", ["cuotasUsuario"]),
         async verCuotasUsuario() {
-            await this.cuotasUsuario(this.cuotas)
+            await this.cuotasUsuario()
                 .catch(() => {
                     // Handle error
                     this.error = true;
 
                 });
-                console.log(this.cuotas);
+
         },
     },
     created() {
@@ -42,7 +40,6 @@ export default {
     <main>
         <div class="box_content_desc">
             <div class="col-md-10">
-                {{ cuotas }}
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr class="bg-primary text-white">
@@ -52,10 +49,10 @@ export default {
                         </tr>
                     </thead>
                     <tbody id="myTable">
-                        <tr v-for="(valor) in this.cuotas">
+                        <tr v-for="(valor) in cuotas">
                             <td> {{ valor?.periodo }} </td>
                             <td> {{ valor?.monto }} </td>
-                            <td> Operaciones </td>
+                            <td> </td>
 
                         </tr>
 

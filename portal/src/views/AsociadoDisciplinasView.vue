@@ -8,14 +8,15 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      lista: [],
+      disciplina: {},
     }
   },
   methods: {
-    getMensaje() {
-      const path = 'http://127.0.0.1:5000/api/club/disciplines'
+    getDisciplina() {
+      const path = 'http://127.0.0.1:5000/api/me/disciplines'
       axios.get(path).then((respuesta) => {
-        this.lista = respuesta.data;
+        console.log(respuesta.data)
+        this.disciplina = respuesta.data;
       })
         .catch((error) => {
           console.log(error)
@@ -24,8 +25,7 @@ export default {
 
   },
   created() {
-    this.getMensaje()
-    console.log(this.lista)
+    this.getDisciplina()
     }
 }
 
@@ -46,9 +46,9 @@ export default {
           </div>
           <div class="card-img-overlay">
             <div className="card-bodyy rounded">
-              <h4 className="card-title text-center">{{ valor.nombre }}</h4>
-              <p className="card-text text-dark text-center">Horario: {{ valor.dia_y_hora }}</p>
-              <p className="card-text text-dark text-center">Instructores: {{ valor.instructores }}</p>
+              <h4 className="card-title text-center">{{ valor.name }}</h4>
+              <p className="card-text text-dark text-center">Horario: {{ valor.date_time}}</p>
+              <p className="card-text text-dark text-center">Instructores: {{ valor.instructors }}</p>
             </div>
           </div>
 
@@ -62,7 +62,7 @@ export default {
 .card-img-top {
   width: 40%;
   opacity: 0.05;
-  
+
 }
 
 .box-image {
@@ -75,7 +75,6 @@ export default {
 .card {
   margin-bottom: 10px;
   background: #7CA0AF;
-  
 
 }
 
