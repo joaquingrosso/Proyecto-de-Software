@@ -43,9 +43,11 @@ def mostrar_pagos_de_un_asociado(current_user):
 
 
 #pago de un asociado
-def cargar_pago(id):
-     cuota_actual = Cuota.query.get(id)
-     cuota_actual = Cuota.get_cuota_by_id(id)
+@token_required
+def cargar_pago(current_user):
+     cuota_actual = Cuota.query.get(current_user.asociado_id)
+     print(cuota_actual)
+     cuota_actual = Cuota.get_cuota_by_id(current_user.asociado_id)
      print(cuota_actual)
      try:
           if cuota_actual is None:

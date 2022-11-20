@@ -143,7 +143,7 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/api/me/disciplines', 'mostrar_disciplinas_de_un_asociado', disciplinas.mostrar_disciplinas_de_un_asociado, methods=['GET'])
     app.add_url_rule('/api/me/profile', 'mostrar_usuario', profile.mostrar_usuario, methods=['GET'])
     app.add_url_rule('/api/me/payments', 'mostrar_pagos_de_un_asociado', pagos_de_un_asociado.mostrar_pagos_de_un_asociado, methods=['GET'])
-    app.add_url_rule('/api/me/payments/cuota/<int:id>', 'cargar_pago', pagos_de_un_asociado.cargar_pago, methods=["POST", "GET"])
+    app.add_url_rule('/api/me/payments/', 'cargar_pago', pagos_de_un_asociado.cargar_pago, methods=["POST"])
     #app.add_url_rule('/api/me/license', 'carnet_digital', profile.carnet_digital, methods=["GET"])
     app.add_url_rule('/api/me/license', 'licencia_digital', profile.carnet_digital, methods= ["GET"])
 
