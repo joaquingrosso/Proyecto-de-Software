@@ -9,6 +9,11 @@ export default {
     data: () => ({
         error: false,
         cuota: {},
+        validarFecha: true,
+        pago:{
+            monto: null,
+            periodo:null
+        }
     }),
     computed: {
         ...mapGetters({
@@ -17,21 +22,32 @@ export default {
         })
 
     },
+
     methods: {
-        ...mapActions("auth", ["cuotasUsuario"]),
+        ...mapActions("auth", ["cuotasUsuario","pagarCuotaAsociado"]),
         async verCuotasUsuario() {
             await this.cuotasUsuario()
                 .catch(() => {
                     // Handle error
                     this.error = true;
+                    this.validarFecha = false;
+                    
                 });
 
         },
+        async pagarCuotas(periodo,monto){
+            this.pago.periodo = periodo;
+            this.pago.monto = monto;
+            await this.pagarCuotaAsociado(this.pago)
+            
+        },
+       
+
         
     },
     created() {
         this.verCuotasUsuario();
-        console.log(this.lista)
+        
     }
 };
 
@@ -40,7 +56,6 @@ export default {
 <template>
     <Header></Header>
     <main>
-        {{disciplinaAsociado}}
         <div class="box_content_desc">
             <div class="col-md-10">
                 <table class="table table-striped table-bordered" >
@@ -57,7 +72,7 @@ export default {
                             <td > {{disciplinaAsociado[index]?.name}}</td>
                             <td > {{ valor?.periodo }} </td>
                             <td > {{ valor?.monto }} </td>
-                            <td > <button type="submit" class="btn btn-danger btn-md"> Pagar</button></td>
+                            <td > <button type="submit" class="btn btn-danger btn-md" v-if="valor?.estado == 'No-Paga'" @click="pagarCuotas(valor?.periodo,valor?.monto)"> Pagar</button></td>
 
                         </tr>
 

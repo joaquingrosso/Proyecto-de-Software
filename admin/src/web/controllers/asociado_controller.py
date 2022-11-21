@@ -241,7 +241,6 @@ def export_pdf_carnet(id):
         pdf = pdfkit.from_string(html,False,configuration=config)
     else:
         pdf =pdfkit.from_string(html,False)
-    print("saliod del if")
     resp = make_response(pdf)
     resp.headers["Content-Type"] = "aplication/pdf"
     resp.headers["Content-Disposition"] = "inline;filename=carnet_digital.pdf"
@@ -311,7 +310,6 @@ def vincular_usuario(id):
     if request.method == "POST":
         user_id = request.form.get('user') #saco el id de la seleccion del select del modal
         usuario = Usuario.get_user_by_id(user_id)
-        print(usuario.get_id_asociado)
         if usuario.asociado_id is None:
             usuario.vincular_usuario_socio(id)
             flash("Se vinculo correctamente el usuario")

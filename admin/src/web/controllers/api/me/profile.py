@@ -11,8 +11,7 @@ def mostrar_usuario(current_user):
    if not current_user:
         return jsonify({"error": "404 el id no existe"}), 404
    asociado = Asociado.get_asociado_by_id(current_user.asociado_id)
-   # print(current_user)
-   # print(asociado)
+
    if asociado is not None:
       dic = {
             "user": current_user.username,
@@ -44,7 +43,6 @@ def mostrar_usuario(current_user):
 def carnet_digital(current_user):
 #    import pdb
 #    pdb.set_trace()
-   print(current_user)
    if not current_user:
         return jsonify({"error": "404"}), 404
    asociado = Asociado.get_asociado_by_id(current_user.asociado_id)

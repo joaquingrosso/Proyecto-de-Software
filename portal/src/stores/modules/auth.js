@@ -8,7 +8,8 @@ const state = {
     isLoggedIn: false,
     cuotas:{},
     disciplinas:{},
-    disciplinasAsociado: {}
+    disciplinasAsociado: {},
+    pago:{}
 };
 
 const getters = {
@@ -18,6 +19,7 @@ const getters = {
     disciplinas: state => state.disciplinas,
     carnet: state => state.carnet,
     disciplinasAsociado: state => state.disciplinasAsociado,
+    pago: state => state.pago
 };
 
 const actions = {
@@ -56,6 +58,11 @@ const actions = {
             commit('setDisciplinasAsociado',response.data)
         });
     },
+    async pagarCuotaAsociado({ commit },pago) {
+        await getApiService().servicesAuth.post('/me/payments', pago).then((response)=>{ //services para sin autenticacion
+            commit('setPago',response.data)
+        })
+    }
 };
 
 const mutations = {
@@ -79,6 +86,10 @@ const mutations = {
     setDisciplinasAsociado(state,disciplinasAsociado) {
         state.disciplinasAsociado = disciplinasAsociado;
     },
+    setPago(state,pago){
+        state.pago = pago;
+    }
+
 
 };
 
