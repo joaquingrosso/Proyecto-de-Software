@@ -48,7 +48,9 @@
           <RouterLink to="/carnet">
             <li class="nav-item" v-if="isLogged">Carnet</li>
           </RouterLink>
-          
+          <RouterLink to="/estadisticas">
+            <li class="nav-item" v-if="isLogged">Estadisticas</li>
+          </RouterLink>
         </ul>
 
       </div>
