@@ -11,7 +11,8 @@ import io
 import xlwt
 from src.web.controllers import login_required
 from datetime import datetime
-
+from werkzeug.utils import secure_filename 
+import os
 
 @login_required
 def crear_asociado():
@@ -317,4 +318,19 @@ def vincular_usuario(id):
             flash("Se vinculo correctamente el usuario")
         else:
             flash("Ya se encuenta vinculado este asociado")
+    return redirect(url_for("gestion_asociados"))
+
+
+def registrar_archivo(id_asoc):
+    if request.method == "POST":    
+        file = request.files['archivo']
+        basepath = os.path.dirname (__file__)
+        filename = secure_filename(file.filename)
+
+        extension = os.path.splitext(filename)[1]
+        nuevoNombreFile = "carnet_asociado" + id_asoc + extension
+
+        upload_path = os.path.join (basepath, '../../../public/img/carnets', nuevoNombreFile)
+        file.save(upload_path)
+        redirect(url_for("gestion_asociados"))
     return redirect(url_for("gestion_asociados"))
