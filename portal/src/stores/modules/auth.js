@@ -6,13 +6,18 @@ const state = {
     user: {},
     token:null,
     isLoggedIn: false,
-    cuotas:{}
+    cuotas:{},
+    disciplinas:{},
+    disciplinasAsociado: {}
 };
 
 const getters = {
     isLoggedIn: state => state.isLoggedIn,
     user: state => state.user,
-    cuotas: state => state.cuotas
+    cuotas: state => state.cuotas,
+    disciplinas: state => state.disciplinas,
+    carnet: state => state.carnet,
+    disciplinasAsociado: state => state.disciplinasAsociado,
 };
 
 const actions = {
@@ -35,7 +40,22 @@ const actions = {
             commit('setCuotas',response.data)
         });
     },
-
+    async disciplinasClub({ commit }) {
+        await getApiService().service.get('/club/disciplines').then((response)=>{
+            commit('setDisciplinas',response.data)
+        });
+    },
+    async carnetAsociado({ commit }) {
+        await getApiService().servicesAuth.get('/me/license').then((response)=>{
+            console.log(response.data);
+            commit('setCarnet',response.data);
+        });
+    },
+    async disciplinasAsociado({ commit }) {
+        await getApiService().servicesAuth.get('/me/disciplines').then((response)=>{
+            commit('setDisciplinasAsociado',response.data)
+        });
+    },
 };
 
 const mutations = {
@@ -49,7 +69,17 @@ const mutations = {
     },
     setCuotas(state,cuota) {
         state.cuotas = cuota;
-    }
+    },
+    setDisciplinas(state,disciplinas) {
+        state.disciplinas = disciplinas;
+    },
+    setCarnet(state,carnet) {
+        state.carnet = carnet;
+    },
+    setDisciplinasAsociado(state,disciplinasAsociado) {
+        state.disciplinasAsociado = disciplinasAsociado;
+    },
+
 };
 
 export default {

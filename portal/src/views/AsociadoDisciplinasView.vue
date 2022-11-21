@@ -3,32 +3,32 @@ import Header from "../views/Header.vue"
 </script>
 
 <script >
-import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  data() {
-    return {
-      disciplina: {},
-    }
+  data: () => ({
+    error: false,
+  }),
+  computed: {
+    ...mapGetters({
+      disciplinaAsociado: "auth/disciplinasAsociado",
+    })
   },
   methods: {
-    getDisciplina() {
-      const path = 'http://127.0.0.1:5000/api/me/disciplines'
-      axios.get(path).then((respuesta) => {
-        console.log(respuesta.data)
-        this.disciplina = respuesta.data;
-      })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
+    ...mapActions("auth", ["disciplinasAsociado"]),
+    async verDisciplinasAsociado() {
+      await this.disciplinasAsociado()
+        .catch(() => {
+          // Handle error
+          this.error = true;
 
+        });
+    },
   },
   created() {
-    this.getDisciplina()
-    }
-}
-
+    this.verDisciplinasAsociado();
+  }
+};
 </script>
 
 
@@ -39,7 +39,7 @@ export default {
 
   <div className="container ">
     <div className="row">
-      <div className="col-md-4" v-for="(valor, indice) in lista">
+      <div className="col-md-4" v-for="valor in disciplinaAsociado">
         <div className="card  animate__animated animate__fadeInUp">
           <div class="box-image">
             <img src="../../public/img/logo2.png" class="card-img-top" alt="...">
@@ -47,7 +47,7 @@ export default {
           <div class="card-img-overlay">
             <div className="card-bodyy rounded">
               <h4 className="card-title text-center">{{ valor.name }}</h4>
-              <p className="card-text text-dark text-center">Horario: {{ valor.date_time}}</p>
+              <p className="card-text text-dark text-center">Horario: {{ valor.date_time }}</p>
               <p className="card-text text-dark text-center">Instructores: {{ valor.instructors }}</p>
             </div>
           </div>

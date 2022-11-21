@@ -3,32 +3,33 @@ import Header from "../views/Header.vue"
 </script>
 
 <script >
-import axios from 'axios'
-
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  data() {
-    return {
-      lista: [],
-    }
+  data: () => ({
+    error: false,
+  }),
+  computed: {
+    ...mapGetters({
+      disciplinas: "auth/disciplinas",
+    })
+
   },
   methods: {
-    getMensaje() {
-      const path = 'http://127.0.0.1:5000/api/club/disciplines'
-      axios.get(path).then((respuesta) => {
-        this.lista = respuesta.data;
-      })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
+    ...mapActions("auth", ["disciplinasClub"]),
+    async verDisciplinas() {
+      await this.disciplinasClub()
+        .catch(() => {
+          // Handle error
+          this.error = true;
 
+        });
+
+    },
   },
   created() {
-    this.getMensaje()
-    console.log(this.lista)
-    }
+    this.verDisciplinas();
+  }
 }
-
 </script>
 
 
@@ -39,7 +40,7 @@ export default {
 
   <div className="container ">
     <div className="row">
-      <div className="col-md-4" v-for="(valor, indice) in lista">
+      <div className="col-md-4" v-for="valor in disciplinas">
         <div className="card  animate__animated animate__fadeInUp">
           <div class="box-image">
             <img src="../../public/img/logo2.png" class="card-img-top" alt="...">
@@ -62,7 +63,7 @@ export default {
 .card-img-top {
   width: 40%;
   opacity: 0.05;
-  
+
 }
 
 .box-image {
@@ -75,7 +76,7 @@ export default {
 .card {
   margin-bottom: 10px;
   background: #7CA0AF;
-  
+
 
 }
 

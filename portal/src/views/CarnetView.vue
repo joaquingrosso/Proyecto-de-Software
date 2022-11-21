@@ -8,30 +8,25 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     data: () => ({
         error: false,
-        cuotas: {
-            periodo: null,
-            monto: null
-        }
     }),
     computed: {
         ...mapGetters({
-            cuotas: "auth/cuotas",
+            carnet: "auth/carnet",
         })
     },
     methods: {
-        ...mapActions("auth", ["cuotasUsuario"]),
-        async verCuotasUsuario() {
-            await this.cuotasUsuario(this.cuotas)
+        ...mapActions("auth", ["carnetAsociado"]),
+        async verCarnetAsociado() {
+            await this.carnetAsociado()
                 .catch(() => {
                     // Handle error
                     this.error = true;
 
                 });
-            console.log(this.cuotas);
         },
     },
     created() {
-        this.verCuotasUsuario();
+        this.verCarnetAsociado();
     }
 };
 
@@ -48,18 +43,16 @@ export default {
             </div>
             <div id="body">
                 <div id="img_estado">
-                    <div>Estado: <h3>{{ estado }}</h3>
+                    <div><h3>Estado: </h3><h5>{{ carnet.description }}</h5>
                     </div>
                 </div>
                 <div>
-                    <h3></h3>
-                    <h5></h5>
-                    <h5># Socio: </h5>
+                    <!-- <h3></h3> -->
+                    <h5>{{carnet.profile.document_type}}: {{carnet.profile.document_number}}</h5>
+                    <h5># Socio: {{carnet.profile.number}}</h5>
                     <h5>Fecha Alta: </h5>
-                    <div>
-                        QR
-                    </div>
                 </div>
+                <div v-if="error">No se encuentra disponible el Carnet Digital</div>
 
             </div>
         </div>
