@@ -47,8 +47,13 @@
           <RouterLink to="/carnet">
             <li class="nav-item" v-if="isLogged">Carnet</li>
           </RouterLink>
+<<<<<<< HEAD
           <RouterLink to="/estadistica">
             <li class="nav-item">Estadistica</li>
+=======
+          <RouterLink to="/estadisticas">
+            <li class="nav-item" v-if="isLogged">Estadisticas</li>
+>>>>>>> qr
           </RouterLink>
         </ul>
 
