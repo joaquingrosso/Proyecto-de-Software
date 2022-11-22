@@ -1,9 +1,4 @@
-<script setup>
-import TheWelcome from "../components/TheWelcome.vue";
-</script>
-
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+    <h1>ingreso despues del boton del form login</h1>
+    
 </template>

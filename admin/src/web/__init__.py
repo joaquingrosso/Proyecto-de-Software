@@ -17,8 +17,11 @@ from src.web.controllers.api.club import disciplines
 from src.web.controllers.api.me import disciplinas
 from src.web.controllers.api.me import profile
 from src.web.controllers.api.me import pagos_de_un_asociado
+from src.web.controllers.api.stats import asociados as AsociadosStats
+from src.web.controllers.api.auth import login_jwt
 from src.web.controllers import asociado_controller
 from src.web.controllers import config_controller
+from src.web.controllers.api.club import info
 
 
 from src.web.controllers import cuota_controller
@@ -43,21 +46,23 @@ from src.core.database import db
 from flask_sqlalchemy import SQLAlchemy
 from flask_session.__init__ import Session
 from os import error
-
+from flask_cors import CORS
 # from routes import auth
-
+from flask_qrcode import QRcode
 
 # def create_app(static_folder="static"):
 def create_app(env="development", static_folder="static"):
     app = Flask(__name__, static_folder=static_folder)
     app.config.from_object(config[env])
-
+    CORS(app, supports_credentials=True)
     # configuracion de la bd
     database.init_app(app)
     app.secret_key= "holamundo"
     # Server Side session
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
+    QRcode(app)
+
     
 # #ruta al login 
     @app.route("/")
@@ -65,8 +70,12 @@ def create_app(env="development", static_folder="static"):
         #return redirect(url_for('login'))
          return render_template("home.html")  
 
-    
-
+     # jwt
+    app.add_url_rule('/api/auth', 'login_jwt_2', login_jwt.login_jwt, methods=["POST"])
+    #app.add_url_rule('/api/auth/getUser', 'signup', login_jwt.signup, methods=["GET"])
+    # app.add_url_rule('/auth/logout_jwt', 'logout_jwt', auth_controller.logout_jwt, methods=["GET", "POST"])
+    #app.add_url_rule('/api/auth/user_jwt', 'user_jwt', login_jwt.user_jwt, methods=["GET"])
+    # app.add_url_rule('/api/auth/login_jwt', 'login_jwt', auth_controller.login_jwt, methods=["GET", "POST"])
 
     # Register user
     app.add_url_rule('/registrar_usuario', 'register_user', usuarios_controller.register_validation, methods=["GET", "POST"])
@@ -114,8 +123,10 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/export_pdf', 'export_pdf', asociado_controller.export_pdf)
     app.add_url_rule('/export_csv', 'export_csv', asociado_controller.export_csv) 
     app.add_url_rule("/bhuscar_usaurio", "buscar_usuario_asociado", asociado_controller.buscar_usuario_asociado, methods=["GET"])
-    
-    
+    app.add_url_rule("/carnet_digital/<id>", "carnet_digital", asociado_controller.carnet_digital, methods=["GET"])
+    app.add_url_rule('/export_pdf_carnet/<id>', 'export_pdf_carnet', asociado_controller.export_pdf_carnet)
+    app.add_url_rule('/vincular_usuario/<id>', 'vincular_usuario', asociado_controller.vincular_usuario, methods=["POST"])
+    app.add_url_rule('/registrar-archivo/<id_asoc>', 'registrar-archivo', asociado_controller.registrar_archivo, methods=["POST"])
     #Operaciones Couta
     app.add_url_rule('/realizar_pago/<id_a><id_d>', 'realizar_pago', cuota_controller.realizar_pago, methods=["POST", "GET"])
     app.add_url_rule('/pagar_cuota/<id_c> <monto><id_d> <id_a> ', 'pagar_cuota', cuota_controller.pagar_cuota)
@@ -131,12 +142,18 @@ def create_app(env="development", static_folder="static"):
     # Endpoints para la api de disciplinas 
     app.add_url_rule('/api/club/discipline/<int:id>', 'mostrar_disciplina',disciplines.mostrar_disciplina, methods=['GET'])
     app.add_url_rule('/api/club/disciplines', 'mostrar_disciplinas',disciplines.mostrar_disciplinas, methods=['GET'])
+    app.add_url_rule('/api/club/info', 'mostrar_info',info.mostrar_info_club, methods=['GET'])
 
      # Endpoints para la api de usuario
-    app.add_url_rule('/api/me/discipline/<int:id>', 'mostrar_disciplinas_de_un_asociado', disciplinas.mostrar_disciplinas_de_un_asociado, methods=['GET'])
-    app.add_url_rule('/api/me/profile/<int:id>', 'mostrar_usuario', profile.mostrar_usuario, methods=['GET'])
-    app.add_url_rule('/api/me/payments/<int:id>', 'mostrar_pagos_de_un_asociado', pagos_de_un_asociado.mostrar_pagos_de_un_asociado, methods=['GET'])
-    app.add_url_rule('/api/me/payments/cuota/<int:id>', 'cargar_pago', pagos_de_un_asociado.cargar_pago, methods=["POST", "GET"])
+    app.add_url_rule('/api/me/disciplines', 'mostrar_disciplinas_de_un_asociado', disciplinas.mostrar_disciplinas_de_un_asociado, methods=['GET'])
+    app.add_url_rule('/api/me/profile', 'mostrar_usuario', profile.mostrar_usuario, methods=['GET'])
+    app.add_url_rule('/api/me/payments', 'mostrar_pagos_de_un_asociado', pagos_de_un_asociado.mostrar_pagos_de_un_asociado, methods=['GET'])
+    app.add_url_rule('/api/me/payments', 'cargar_pago', pagos_de_un_asociado.cargar_pago, methods=["POST"])
+    #app.add_url_rule('/api/me/license', 'carnet_digital', profile.carnet_digital, methods=["GET"])
+    app.add_url_rule('/api/me/license', 'licencia_digital', profile.carnet_digital, methods= ["GET"])
+
+    # Endpoints para la api de estadisticas
+    app.add_url_rule('/api/stats/asociado_por_año', 'asociado_por_año', AsociadosStats.asociado_por_año, methods= ["GET"])
 
 
     @app.cli.command(name="resetdb")

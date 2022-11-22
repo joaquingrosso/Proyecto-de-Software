@@ -37,7 +37,7 @@ class Asociado(db.Model):
     #cuota = db.relationship('cuota', secondary=asociado_cuota, backref=db.backref('asociado_realiza_una_cuota', lazy = True), lazy='subquery')
 
     def __init__(
-            self, first_name=None, last_name=None, document_type=None, document=None, gender=None, adress=None, state=None ,phone_number=None , email=None
+            self, first_name=None, last_name=None, document_type=None, document=None, gender=None, adress=None, state=None ,phone_number=None , email=None, created_at=datetime.now()
     ):
         self.first_name = first_name
         self.last_name = last_name
@@ -49,6 +49,7 @@ class Asociado(db.Model):
         self.state = state
         self.phone_number = phone_number
         self.email = email
+        self.created_at=created_at
 
     def __repr__(self):
         return "<asociado(first_name='%s', last_name='%s', document_type='%s', document='%s', gender='%s', state='%s', email='%s' )>" % (
@@ -60,6 +61,10 @@ class Asociado(db.Model):
             self.state,
             self.email
         )
+
+    @classmethod
+    def get_all(self):
+        return Asociado.query.all()
 
     @classmethod
     def get_asociado_by_id(self, asoc_id):
@@ -128,3 +133,6 @@ class Asociado(db.Model):
 
     def get_paginated(self, query, page, cant):
         return query.filter_by().paginate(page=page, per_page=cant)
+    
+    def get_fecha(self):
+        return self.created_at

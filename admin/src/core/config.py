@@ -8,6 +8,9 @@ class Config(object):
     DB_PASS = "db_pass"
     DB_NAME = "db_name"
     SECRET_KEY = "secret"
+    JWT_SECRET_KEY="secret_key"
+    JWT_TOKEN_LOCATION=["cookies"]
+    JWT_ACCESS_COOKIE_NAME="access_token_cookie"
     WKHTML_CUSTOM_PATH = environ.get("WKHTML_CUSTOM_PATH", "")
     USE_WKHTML_CUSTOM_PATH = bool(environ.get("USE_WKHTML_CUSTOM_PATH", 0))
 class ProductionConfig(Config):
@@ -34,6 +37,8 @@ class DevelopmentConfig(Config):
     ) 
     WKHTML_CUSTOM_PATH = environ.get("WKHTML_CUSTOM_PATH", r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")
     USE_WKHTML_CUSTOM_PATH = bool(environ.get("USE_WKHTML_CUSTOM_PATH", 1))
+
+
 class TestingConfig(Config):
     """Testing configuration."""
 
@@ -51,14 +56,6 @@ config = dict(
      test=TestingConfig,
       production=ProductionConfig
 )
-
-
-
-
-
-
-
-
 
 
 

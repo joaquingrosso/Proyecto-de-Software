@@ -76,3 +76,16 @@ def ver_recibo_cuota(cuota_id):
     resp.headers["Content-Disposition"] = "inline;filename=recibo_cuota.pdf"
     return resp
     
+# @classmethod
+# def estado_asociado(self, asociadoid):
+#     pago= False
+#     cuotas_asociado = Cuota.get_cuota_by_id_asociado(asociadoid)
+#     dic_mes={ "Enero":1, "Febrero":2, "Marzo":3, "Abril":4, "Mayo":5, "Junio":6,
+#              "Julio":7, "Agosto":8, "Septembre":9, "Octubre":10, "Noviembre":11, "Diciembre":12}
+#     fecha_hoy = datetime.now()
+#     dia_actual=int(fecha_hoy.strftime('%d'))
+#     mes_actual=int(fecha_hoy.strftime('%m'))
+#     for cuota in cuotas_asociado:
+#         mes = cuota.periodo.split(" ")
+#         if dic_mes[mes[0]] <= mes_actual and cuota.estado == "Paga":
+#     return False

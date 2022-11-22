@@ -4,13 +4,16 @@ from flask import render_template, request, redirect , url_for, flash, make_resp
 from src.core.models.disciplina_model import Disciplina
 from src.core.models.cuota_model import Cuota
 from src.core.models.config_model import Config
+from src.core.models.usuario_model import Usuario
 from flask import current_app as app
 import pdfkit
 import io
 import xlwt
 from src.web.controllers import login_required
 from datetime import datetime
-
+from werkzeug.utils import secure_filename 
+import os
+import base64
 
 @login_required
 def crear_asociado():
@@ -104,7 +107,7 @@ def realizar_inscripcion(id_a, id_d):
             fecha_hoy = datetime.now()
             mes_actual=int(fecha_hoy.strftime('%m'))
             año_actual=fecha_hoy.strftime('%Y')
-            for i in range(mes_actual+1, 13):
+            for i in range(mes_actual, 13):
                 cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos.get(i)+ " " + año_actual)
                 cuo.register_cuota_database()
     else:
@@ -225,7 +228,25 @@ def export_pdf():
     resp.headers["Content-Disposition"] = "inline;filename=asociados.pdf"
     return resp
 
-    
+def export_pdf_carnet(id):
+    asociado = Asociado.get_asociado_by_id(id)
+    cuotas = Cuota.get_cuota_by_id_asociado(asociado.id)
+    fecha = asociado.get_fecha()
+    dia_actual=fecha.strftime('%d')
+    mes_actual=fecha.strftime('%m')
+    año_actual=fecha.strftime('%Y')
+    fecha_ingreso= dia_actual+ "/" + mes_actual +"/"  + año_actual
+    html =  render_template("/pdfs/pdf_carnet.html", asociado=asociado , fecha = fecha_ingreso , estado = Cuota.validar_deuda_cuota(cuotas))
+    if app.config.get("USE_WKHTML_CUSTOM_PATH") == True:
+        path_wkhtmltopdf = app.config.get("WKHTML_CUSTOM_PATH")
+        config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf) 
+        pdf = pdfkit.from_string(html,False,configuration=config)
+    else:
+        pdf =pdfkit.from_string(html,False)
+    resp = make_response(pdf)
+    resp.headers["Content-Type"] = "aplication/pdf"
+    resp.headers["Content-Disposition"] = "inline;filename=carnet_digital.pdf"
+    return resp    
 
 def export_csv():
     '''Exportar un csv'''
@@ -271,3 +292,45 @@ def buscar_usuario_asociado():
     results = Asociado.get_paginated(Asociado, lista_usuario, page, config.cant)
 
     return render_template("gestion_asociados.html", asoc=results)
+
+def carnet_digital(id):
+    asociado = Asociado.get_asociado_by_id(id)
+    cuotas = Cuota.get_cuota_by_id_asociado(asociado.id)
+    fecha = asociado.get_fecha()
+    dia_actual=fecha.strftime('%d')
+    mes_actual=fecha.strftime('%m')
+    año_actual=fecha.strftime('%Y')
+    fecha_ingreso= dia_actual+ "/" + mes_actual +"/"  + año_actual
+    return render_template("/asociado/carnet.html", asociado=asociado , fecha = fecha_ingreso , estado = Cuota.validar_deuda_cuota(cuotas))
+
+def vincular_usuario(id):
+    usuarios = Usuario.query.all()
+    for user in usuarios:
+        if user.asociado_id == id:
+            flash("El usuario ya tiene un asociado vinculado")
+            return redirect(url_for("gestion_asociados"))
+    if request.method == "POST":
+        user_id = request.form.get('user') #saco el id de la seleccion del select del modal
+        usuario = Usuario.get_user_by_id(user_id)
+        if usuario.asociado_id is None:
+            usuario.vincular_usuario_socio(id)
+            flash("Se vinculo correctamente el usuario")
+        else:
+            flash("Ya se encuenta vinculado este asociado")
+    return redirect(url_for("gestion_asociados"))
+
+
+def registrar_archivo(id_asoc):
+    if request.method == "POST":    
+        file = request.files['archivo']
+        basepath = os.path.dirname (__file__)
+        filename = secure_filename(file.filename)
+
+        extension = os.path.splitext(filename)[1]
+        nuevoNombreFile = "carnet_asociado" + id_asoc + extension
+
+        upload_path = os.path.join (basepath, '../../../public/img/carnets', nuevoNombreFile)
+        file.save(upload_path)
+        redirect(url_for("gestion_asociados"))
+    return redirect(url_for("gestion_asociados"))
+

@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, url_for, session, flash
+from flask import redirect, render_template, request, url_for, session, flash, jsonify
 from src.core.models.usuario_model import Usuario
 from werkzeug.security import check_password_hash
 

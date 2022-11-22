@@ -1,0 +1,63 @@
+
+{% extends "index.html" %}
+
+
+{% block content %}
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/carnet.css') }}">
+
+{% endblock %}
+<br>
+<br>
+<div class="container" >
+    <!-- url_for('registarArchivo') -->
+    
+
+    <div style="display: flex;">
+            <form action="{{ url_for('registrar-archivo', id_asoc=asociado.id) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
+                <div class="custom-file">
+                    <input type="file" name="archivo" required>
+                    <label  for="validatedCustomFile">Seleccionar Archivo...</label>
+                </div>
+                <br>  
+                <div >
+                    <a href=""> <button type="submit" class="btn btn-warning "><i class="fa-solid fa-user-plus"></i> Agregar
+                        Imagen</button> </a>
+                    <a href="{{ url_for('export_pdf_carnet', id=asociado.id) }}"> <button type="button" class="btn btn-danger ">
+                        <i class="fa-sharp fa-solid fa-file-pdf"></i> Exportar PDF</button> </a>
+                </div>
+                
+            </form>
+            <br>
+            
+        
+    </div>
+
+    <br>
+
+    <div id="header">
+        <div id="titulo">
+            <h1>Club Deportivo Villa Elisa</h1>
+        </div>
+    </div>
+    <div id="body">
+        <div id="img_estado">
+            <img src="../../../../public/img/perfil.png">
+            <div>Estado: <h3>{{estado}}</h3>
+        </div>
+        </div>
+        <div>
+            <h3>{{asociado.last_name}} {{asociado.first_name}}</h3>
+            <h5>{{asociado.document_type}}: {{asociado.document}}</h5>
+            <h5># Socio: {{asociado.id}}</h5>
+            <h5>Fecha Alta: {{fecha}}</h5>
+            <div>
+                QR
+                <img src="{{ qrcode("puto el que lee")  }}">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

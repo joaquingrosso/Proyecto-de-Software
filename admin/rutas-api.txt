@@ -1,0 +1,27 @@
+CLUB
+
+** Obtiene todas las disciplinas que se realizan en la entidad **
+
+https://admin-grupo13.proyecto2022.linti.unlp.edu.ar/api/club/disciplines
+
+** obtiene una disciplina particular ***
+
+https://admin-grupo13.proyecto2022.linti.unlp.edu.ar/api/club/discipline/2
+
+ME	
+
+** Obtiene toda la información del perfil del usuario autentificado. **
+
+https://admin-grupo13.proyecto2022.linti.unlp.edu.ar/api/me/profile/1
+
+** Obtiene la lista de las disciplinas a las que está inscripto el usuario autentificado **
+
+https://admin-grupo13.proyecto2022.linti.unlp.edu.ar/api/me/discipline/1
+
+** Obtiene la lista de pagos registrados del usuario autentificado **
+
+https://admin-grupo13.proyecto2022.linti.unlp.edu.ar//api/me/payments/3
+
+** Registra un nuevo pago para el usuario autentificado. **
+
+https://admin-grupo13.proyecto2022.linti.unlp.edu.ar/api/me/payments/cuota/4

@@ -78,6 +78,9 @@ class Disciplina(db.Model):
     def list_disciplina(page,cant):
         return Disciplina.query.filter_by().paginate(page,cant)
 
+    def listar_disciplinas():
+        return Disciplina.query.all()
+    
     def list_disciplinas_activas(page,cant):
         return Disciplina.query.filter_by(enabled = True ).paginate(page,cant)
 

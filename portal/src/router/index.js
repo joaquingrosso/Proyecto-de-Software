@@ -1,21 +1,70 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import InicioView from "../views/InicioView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      name: "home",
-      component: HomeView,
+      name: "inicio",
+      component: InicioView,
+      // component: () => import("../views/AboutView.vue"),
+    },
+    // ruta al login
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("../views/LoginView.vue"),
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/AboutView.vue"),
+      path: "/disciplinas",
+      name: "disciplinas",      
+      component: () => import("../views/DisciplinasView.vue"),
+    },
+    {
+      path: "/contacto",
+      name: "contacto",      
+      component: () => import("../views/ContactoView.vue"),
+    },
+    {
+      path: "/estadistica",
+      name: "estadistica",      
+      component: () => import("../views/EstadisticaView.vue"),
+    },
+    {
+      path: "/descripcion",
+      name: "descripcion",      
+      component: () => import("../views/DescripcionView.vue"),
+    },
+    {
+      path: "/home",
+      name: "home",
+      component: () => import("../views/HomeView.vue"),
+    },
+    {
+      path: "/inicioPublico",
+      name: "inicioPublico",
+      component: () => import("../views/InicioPublico.vue"),
+    },
+    {
+      path: "/cuotas",
+      name: "cuotas",
+      component: () => import("../views/CuotasView.vue"),
+    },
+    {
+      path: "/carnet",
+      name: "carnet",
+      component: () => import("../views/CarnetView.vue"),
+    },
+    {
+      path: "/mis_disciplinas",
+      name: "mis_disciplinas",
+      component: () => import("../views/AsociadoDisciplinasView.vue"),
+    },
+    {
+      path: "/estadisticas",
+      name: "estadisticas",
+      component: () => import("../views/EstadisticasView.vue"),
     },
   ],
 });
