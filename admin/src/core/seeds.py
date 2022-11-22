@@ -39,8 +39,7 @@ def run():
         info_contacto ="unContacto", 
         texto_encabezado = "unTexto",    
         valor_cuota = 100,    
-        recargo_cuota = 50
-    
+        recargo_cuota = 50    
         )
        
     #asignacion usuario al rol
@@ -50,3 +49,100 @@ def run():
     models.asignar_permisos(rol1, [permiso1, permiso2, permiso3, permiso4, permiso5, permiso6 , permiso8,permiso9])
     models.asignar_permisos(rol2, [permiso1, permiso2, permiso4,permiso5])
     models.asignar_permisos(rol3, [permiso7])
+
+    models.crear_asociado(
+        first_name = "Pablo1",
+        last_name = "Gomez",
+        document_type = "DNI",
+        document = "12345678",
+        gender =  "Hombre",
+        adress = "esquina tu señora",
+        state = "Activo",
+        phone_number = "123456789",
+        email = "pablog1@gamil.com", 
+        created_at = "2022-1-20 19:38:07.889133"
+    )
+    models.crear_asociado(
+        first_name = "Pablo2",
+        last_name = "Gomez",
+        document_type = "DNI",
+        document = "12345678",
+        gender =  "Hombre",
+        adress = "esquina tu señora",
+        state = "Activo",
+        phone_number = "123456789",
+        email = "pablog2@gamil.com", 
+        created_at = "2022-2-20 19:38:07.889133"
+    )
+    models.crear_asociado(
+        first_name = "Pablo2",
+        last_name = "Gomez",
+        document_type = "DNI",
+        document = "12345678",
+        gender =  "Hombre",
+        adress = "esquina tu señora",
+        state = "Activo",
+        phone_number = "123456789",
+        email = "pablog2@gamil.com", 
+        created_at = "2022-2-20 19:38:07.889133"
+    )
+    models.crear_asociado(
+        first_name = "Pablo3",
+        last_name = "Gomez",
+        document_type = "DNI",
+        document = "12345678",
+        gender =  "Hombre",
+        adress = "esquina tu señora",
+        state = "Activo",
+        phone_number = "123456789",
+        email = "pablog3@gamil.com", 
+        created_at = "2022-5-20 19:38:07.889133"
+    )
+    models.crear_asociado(
+        first_name = "Pablo4",
+        last_name = "Gomez",
+        document_type = "DNI",
+        document = "12345678",
+        gender =  "Hombre",
+        adress = "esquina tu señora",
+        state = "Activo",
+        phone_number = "123456789",
+        email = "pablog4@gamil.com", 
+        created_at = "2022-7-20 19:38:07.889133"
+    )
+    models.crear_asociado(
+        first_name = "Pablo5",
+        last_name = "Gomez",
+        document_type = "DNI",
+        document = "12345678",
+        gender =  "Hombre",
+        adress = "esquina tu señora",
+        state = "Activo",
+        phone_number = "123456789",
+        email = "pablog5@gamil.com", 
+        created_at = "2022-11-20 19:38:07.889133"
+    )
+    models.crear_asociado(
+        first_name = "Pablo6",
+        last_name = "Gomez",
+        document_type = "DNI",
+        document = "12345678",
+        gender =  "Hombre",
+        adress = "esquina tu señora",
+        state = "Activo",
+        phone_number = "123456789",
+        email = "pablog6@gamil.com", 
+        created_at = "2022-11-20 19:38:07.889133"
+    )
+    models.crear_asociado(
+        first_name = "Pablo7",
+        last_name = "Gomez",
+        document_type = "DNI",
+        document = "12345678",
+        gender =  "Hombre",
+        adress = "esquina tu señora",
+        state = "Activo",
+        phone_number = "123456789",
+        email = "pablog7@gamil.com", 
+        created_at = "2022-11-20 19:38:07.889133"
+    )

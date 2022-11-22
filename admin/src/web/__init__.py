@@ -17,6 +17,7 @@ from src.web.controllers.api.club import disciplines
 from src.web.controllers.api.me import disciplinas
 from src.web.controllers.api.me import profile
 from src.web.controllers.api.me import pagos_de_un_asociado
+from src.web.controllers.api.stats import asociados as AsociadosStats
 from src.web.controllers.api.auth import login_jwt
 from src.web.controllers import asociado_controller
 from src.web.controllers import config_controller
@@ -148,6 +149,10 @@ def create_app(env="development", static_folder="static"):
     app.add_url_rule('/api/me/payments', 'cargar_pago', pagos_de_un_asociado.cargar_pago, methods=["POST"])
     #app.add_url_rule('/api/me/license', 'carnet_digital', profile.carnet_digital, methods=["GET"])
     app.add_url_rule('/api/me/license', 'licencia_digital', profile.carnet_digital, methods= ["GET"])
+
+    # Endpoints para la api de estadisticas
+    app.add_url_rule('/api/stats/asociado_por_año', 'asociado_por_año', AsociadosStats.asociado_por_año, methods= ["GET"])
+
 
     @app.cli.command(name="resetdb")
     def resetdb():

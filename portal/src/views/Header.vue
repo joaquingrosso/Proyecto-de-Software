@@ -33,8 +33,7 @@
           <div v-else>
           <RouterLink to="/disciplinas">
             <li class="nav-item">Disciplinas</li>
-          </RouterLink>
-          
+          </RouterLink>          
           </div>
           <RouterLink to="/contacto">
             <li class="nav-item">Contacto</li>
@@ -48,7 +47,9 @@
           <RouterLink to="/carnet">
             <li class="nav-item" v-if="isLogged">Carnet</li>
           </RouterLink>
-          
+          <RouterLink to="/estadistica">
+            <li class="nav-item">Estadistica</li>
+          </RouterLink>
         </ul>
 
       </div>
