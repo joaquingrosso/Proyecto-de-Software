@@ -47,6 +47,7 @@ from flask_session.__init__ import Session
 from os import error
 from flask_cors import CORS
 # from routes import auth
+from flask_qrcode import QRcode
 
 # def create_app(static_folder="static"):
 def create_app(env="development", static_folder="static"):
@@ -59,6 +60,7 @@ def create_app(env="development", static_folder="static"):
     # Server Side session
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
+    QRcode(app)
 
     
 # #ruta al login 
