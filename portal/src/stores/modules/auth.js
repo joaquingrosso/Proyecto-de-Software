@@ -3,9 +3,9 @@ import { getApiService } from '@/api'
 const namespaced = true;
 
 const state = {
-    user: {},
+    user: {}, //meterlo en el storage
     token:null,
-    isLoggedIn: false,
+    isLoggedIn: false,//meterlo en el storage
     cuotas:{},
     disciplinas:{},
     disciplinasAsociado: {},
