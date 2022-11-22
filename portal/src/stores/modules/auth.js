@@ -9,7 +9,8 @@ const state = {
     cuotas:{},
     disciplinas:{},
     disciplinasAsociado: {},
-    pago:{}
+    pago:{},
+    statsAsocXMes:{}
 };
 
 const getters = {
@@ -19,7 +20,8 @@ const getters = {
     disciplinas: state => state.disciplinas,
     carnet: state => state.carnet,
     disciplinasAsociado: state => state.disciplinasAsociado,
-    pago: state => state.pago
+    pago: state => state.pago,
+    statsAsocXMes: state => state.statsAsocXMes
 };
 
 const actions = {
@@ -62,6 +64,11 @@ const actions = {
         await getApiService().servicesAuth.post('/me/payments', pago).then((response)=>{ //services para sin autenticacion
             commit('setPago',response.data)
         })
+    },
+    async asociadosInscriptosPorMes({ commit }) {
+        await getApiService().service.get('/stats/asociado_por_año').then((response)=>{ //services para sin autenticacion
+            commit('setAsocXmes',response.data)
+        })
     }
 };
 
@@ -88,6 +95,9 @@ const mutations = {
     },
     setPago(state,pago){
         state.pago = pago;
+    },
+    setAsocXmes(state,asocXmes){
+        state.statsAsocXMes = asocXmes;
     }
 
 

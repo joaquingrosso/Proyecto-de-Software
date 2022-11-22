@@ -27,6 +27,11 @@ const router = createRouter({
       component: () => import("../views/ContactoView.vue"),
     },
     {
+      path: "/estadistica",
+      name: "estadistica",      
+      component: () => import("../views/EstadisticaView.vue"),
+    },
+    {
       path: "/descripcion",
       name: "descripcion",      
       component: () => import("../views/DescripcionView.vue"),
@@ -55,6 +60,11 @@ const router = createRouter({
       path: "/mis_disciplinas",
       name: "mis_disciplinas",
       component: () => import("../views/AsociadoDisciplinasView.vue"),
+    },
+    {
+      path: "/estadisticas",
+      name: "estadisticas",
+      component: () => import("../views/EstadisticasView.vue"),
     },
   ],
 });

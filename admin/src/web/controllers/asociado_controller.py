@@ -13,6 +13,7 @@ from src.web.controllers import login_required
 from datetime import datetime
 from werkzeug.utils import secure_filename 
 import os
+import base64
 
 @login_required
 def crear_asociado():
@@ -332,3 +333,4 @@ def registrar_archivo(id_asoc):
         file.save(upload_path)
         redirect(url_for("gestion_asociados"))
     return redirect(url_for("gestion_asociados"))
+
