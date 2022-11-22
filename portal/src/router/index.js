@@ -42,11 +42,6 @@ const router = createRouter({
       component: () => import("../views/HomeView.vue"),
     },
     {
-      path: "/inicioPublico",
-      name: "inicioPublico",
-      component: () => import("../views/InicioPublico.vue"),
-    },
-    {
       path: "/cuotas",
       name: "cuotas",
       component: () => import("../views/CuotasView.vue"),
