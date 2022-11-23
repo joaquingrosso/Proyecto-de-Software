@@ -5,9 +5,6 @@
 
 <template>
   <Header/>
-  
-  {{ asocPorMes }}
-  
   <Bar
     :chart-options="chartOptions"
     :chart-data="chartData"
@@ -46,7 +43,7 @@ export default {
     },
     height: {
       type: Number,
-      default: 400
+      default: 100
     },
     cssClasses: {
       default: '',
@@ -63,12 +60,13 @@ export default {
   },
   data() {
     return {
+      dic: {},
       chartData: {
-        labels: [ 'January', 'February', 'March' ],
-        datasets: [ { data: [40, 20, 12] } ]
+        labels: [ 'January','February','March','April','May','June','July','August','September','Octuber','November','December' ],
+        datasets: [ { data: [] } ]
       },
       chartOptions: {
-        responsive: true
+        responsive: false
       }
     }
   },
@@ -82,15 +80,25 @@ export default {
     ...mapActions("auth", ["asociadosInscriptosPorMes"]),
     async getAsociadosPorMes() {
       await this.asociadosInscriptosPorMes()
-        .catch(() => {
+      .catch(() => {
           // Handle error
           this.error = true;
-        });
+      });
+         
 
     },
+    setDiccionario(){
+      this.dic = this.asocPorMes;
+      const lista = Object.values(this.dic);
+      console.log(lista);
+      lista.forEach(element => {
+        this.chartData.datasets[0].data.push(element);
+      });
+    }
   },
   created() {
     this.getAsociadosPorMes();
+    this.setDiccionario();
   }
 }
 
