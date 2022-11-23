@@ -17,6 +17,12 @@
     :height="height"
   />
 
+  <!-- para separar graficos -->
+  <hr>
+
+  
+
+
 </template>
 
 <script>
@@ -39,11 +45,11 @@ export default {
     },
     width: {
       type: Number,
-      default: 100
+      default: 400
     },
     height: {
       type: Number,
-      default: 100
+      default: 400
     },
     cssClasses: {
       default: '',
@@ -51,7 +57,8 @@ export default {
     },
     styles: {
       type: Object,
-      default: () => {}
+      default: () => {
+      }
     },
     plugins: {
       type: Array,
@@ -63,10 +70,14 @@ export default {
       dic: {},
       chartData: {
         labels: [ 'January','February','March','April','May','June','July','August','September','Octuber','November','December' ],
-        datasets: [ { data: [] } ]
+        datasets: [ {
+          label: "ASOCIADOS POR AÑO",
+          backgroundColor: "BLUE",
+          data: [] } ]
       },
       chartOptions: {
-        responsive: false
+        responsive: true,
+        maintainAspectRatio: false
       }
     }
   },
@@ -103,7 +114,4 @@ export default {
 }
 
   
-
-
-
 </script>

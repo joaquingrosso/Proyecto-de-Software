@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <Bar
       :chart-options="chartOptions"
       :chart-data="chartData"
@@ -63,4 +63,4 @@
       }
     }
   }
-  </script>
+  </script> -->
