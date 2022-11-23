@@ -2,6 +2,8 @@ from flask import jsonify
 from datetime import datetime
 
 from src.core.models.asociado_model import Asociado
+from src.core.models.disciplina_model import Disciplina
+from src.core.models.cuota_model import Cuota
 
 def asociado_por_año():
     try:
@@ -25,7 +27,51 @@ def asociado_por_año():
     
 
 def asociado_por_disciplinas():
-    return none;
+    try:
+        asociados = Asociado.get_all()
+        disciplinas = Disciplina.get_all()
+        lista = {}
+        
+        for d in disciplinas:
+            lista[d.name] = 0
+
+        for a in asociados:
+            disciplinas = a.disciplinas
+            for d in disciplinas:
+                lista[d.name]+=1              
+            
+        return jsonify(lista), 200
+    except:
+        return jsonify({"error": "500 Internal server Error"}), 500
 
 def morosos_al_dia():
-    return none;
+    try:
+        # morosos={ "Morosos":0, "Al dia":0}
+        asociados = Asociado.get_all()
+        
+        # fecha_hoy = datetime.now()
+        # dia_actual=int(fecha_hoy.strftime('%d'))
+        # mes_actual=int(fecha_hoy.strftime('%m'))
+
+        for a in asociados:
+            for d in a.disciplinas:
+                cuotas = Cuota.get_cuotas_by_disciplina_asociado(d.id, a.id)                
+                for c in cuotas:
+                    print(a.first_name + ' ' + c.periodo.split()[0])
+                #busco la cuota paga mas nueva
+                
+                    
+        return jsonify("hola")     
+    except:
+        return jsonify({"error": "500 Internal server Error"}), 500
+
+def ultimaCuotaPaga(cuotas):
+    if(len(cuotas)==0):
+      return None
+    max = self.carList[0].price
+    maxObject = self.carList[0]
+    for i in self.carList:
+      if(i.price>max):
+        max = i.price
+        maxObject = i
+    return maxObject        

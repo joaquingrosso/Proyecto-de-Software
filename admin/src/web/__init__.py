@@ -154,6 +154,8 @@ def create_app(env="development", static_folder="static"):
 
     # Endpoints para la api de estadisticas
     app.add_url_rule('/api/stats/asociado_por_año', 'asociado_por_año', AsociadosStats.asociado_por_año, methods= ["GET"])
+    app.add_url_rule('/api/stats/asociado_por_disciplinas', 'asociado_por_disciplinas', AsociadosStats.asociado_por_disciplinas, methods= ["GET"])
+    app.add_url_rule('/api/stats/morosos_al_dia', 'morosos_al_dia', AsociadosStats.morosos_al_dia, methods= ["GET"])
 
 
     @app.cli.command(name="resetdb")
