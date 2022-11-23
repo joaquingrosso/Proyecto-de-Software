@@ -1,5 +1,6 @@
 
-<template>
+<template>    
+
     <Bar
       :chart-options="chartOptions"
       :chart-data="chartData"
@@ -64,7 +65,7 @@
       return {
         dic: {},
         chartData: {
-          labels: [ 'January','February','March','April','May','June','July','August','September','Octuber','November','December' ],
+          labels: [],
           datasets: [ {
             label: "ASOCIADOS POR AÑO",
             backgroundColor: "BLUE",
@@ -78,33 +79,34 @@
     },
     computed: {
       ...mapGetters({
-        asocPorMes: "auth/statsAsocXMes",
+        asocPorDisc: "auth/statsAsocXDisc",
       })
   
     },
     methods: {
-      ...mapActions("auth", ["asociadosInscriptosPorMes"]),
-      async getAsociadosPorMes() {
-        await this.asociadosInscriptosPorMes()
+      ...mapActions("auth", ["asociadosInscriptosPorDisciplina"]),
+      async getAsociadosPorDisciplina() {
+        await this.asociadosInscriptosPorDisciplina()
         .catch(() => {
             // Handle error
             this.error = true;
         });
-           
-  
       },
-      setDiccionario(){
-        this.dic = this.asocPorMes;
+      setObject(){
+        this.dic = this.asocPorDisc;
         const lista = Object.values(this.dic);
-        console.log(lista);
+        const listaLabel = Object.keys(this.dic);
         lista.forEach(element => {
           this.chartData.datasets[0].data.push(element);
+        });
+        listaLabel.forEach(element => {
+          this.chartData.labels.push(element);
         });
       }
     },
     created() {
-      this.getAsociadosPorMes();
-      this.setDiccionario();
+      this.getAsociadosPorDisciplina();
+      this.setObject();
     }
   }
   
