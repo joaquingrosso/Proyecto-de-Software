@@ -43,7 +43,7 @@ export default {
         },
 
     },
-    created() {
+    created() {        
         this.verCuotasUsuario();
     }
 };
@@ -100,8 +100,7 @@ export default {
                        <br/>
                         Nombre de Disciplina: {{cuotas.disciplinas[valor-1].nombre}}
                         <div v-for="valor2 in cuotas.disciplinas[valor-1].cuotas.length">
-                            Periodo a Pagar: {{cuotas.disciplinas[valor-1].cuotas[valor2-1].periodo}} -- Monto: {{cuotas.disciplinas[valor-1].cuotas[valor2-1].monto}}<br />
-                            
+                            Periodo a Pagar: {{cuotas.disciplinas[valor-1].cuotas[valor2-1].periodo}} -- Monto: {{cuotas.disciplinas[valor-1].cuotas[valor2-1].monto}}<br />                            
                         </div>
                         
                     </div>

@@ -83,13 +83,19 @@ const actions = {
         await getApiService().service.get('/stats/morosos_al_dia').then((response)=>{ //services para sin autenticacion
             commit('setAsocMxAD',response.data)
         })
+    },
+    establecerStateLoggedIn_User({ commit }){
+        commit('setUser', localStorage.getItem('user'))
     }
+
 };
 
 const mutations = {
     setUser(state, user) {
         state.isLoggedIn = true;
         state.user = user;
+        localStorage.setItem("user", state.user);        
+        localStorage.setItem("isLoggedIn", state.isLoggedIn);
     },
     logoutUserState(state) {
         state.isLoggedIn = false;
