@@ -52,7 +52,8 @@
             <h5># Socio: {{asociado.id}}</h5>
             <h5>Fecha Alta: {{fecha}}</h5>
             <div>
-                <img src="{{ qrcode(" puto qr " ) }}">
+                
+                <img src="{{ qrcode("qr.add_data('https://admin-grupo13.proyecto2022.linti.unlp.edu.ar/carnet_digital/{{asociado.id}}')") }}">
             </div>
         </div>
     </div>
