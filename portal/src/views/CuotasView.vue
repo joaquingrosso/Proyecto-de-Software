@@ -84,7 +84,7 @@ export default {
 
 
     },
-    created() {
+    created() {        
         this.verCuotasUsuario();
     }
 };

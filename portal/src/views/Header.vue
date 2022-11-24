@@ -79,10 +79,12 @@ export default {
     setLogged(){
       this.isLogged = this.isLoggedIn
     },
-    ...mapActions('auth',['logoutUser']),
+    ...mapActions('auth',['logoutUser', 'establecerStateLoggedIn_User']),
     async logout() {
         await this.logoutUser();
         localStorage.removeItem('token');
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('user');
         this.error=false;
         this.user = {
           email: null,
@@ -95,9 +97,16 @@ export default {
           this.$router.push('/'); 
         }
       },
+    async recuperarStorage(){
+      const aux = localStorage.getItem("isLoggedIn")
+      if (aux != null) {
+        await this.establecerStateLoggedIn_User()
+      } 
+    } 
     },
   
   created () {
+    this.recuperarStorage()
     this.setLogged()
   }
 }
