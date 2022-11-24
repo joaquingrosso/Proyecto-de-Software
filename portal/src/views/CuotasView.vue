@@ -13,7 +13,8 @@ export default {
         pago: {
             monto: null,
             periodo: null
-        }
+        },
+        listaPagos:[]
     }),
     computed: {
         ...mapGetters({
@@ -35,12 +36,52 @@ export default {
                 });
 
         },
-        async pagarCuotas(periodo, monto) {
-            this.pago.periodo = periodo;
-            this.pago.monto = monto;
-            await this.pagarCuotaAsociado(this.pago)
+
+        verificarPago(periodo){
+            //console.log(this.listaPagos.length)
+            //console.log(this.listaPagos)
+            for (let index = 0; index < this.listaPagos.length; index++) {
+                
+                //console.log(periodo)
+                //console.log(this.listaPagos[index].periodo)
+                if (this.listaPagos[index].periodo == periodo) {
+                    
+                    return true;
+                }
+                
+            }
+            return false;
+        },
+        modificarMonto(periodo,monto){
+            for (let index = 0; index < this.listaPagos.length; index++) {
+                if (this.listaPagos[index].periodo == periodo) {
+                    this.listaPagos[index].monto += monto;
+                }
+            }
+        },
+        async pagarCuotas(cuota) {
+            //this.pago.periodo = periodo;
+            //this.pago.monto = cuota.total_a_pagar;
+            for (let index = 0; index < cuota.disciplinas.length; index++) {
+                cuota.disciplinas[index].cuotas.forEach(element => {
+                    if (!this.verificarPago(element.periodo)) {
+                        this.pago.periodo = element.periodo;
+                        this.pago.monto = element.monto;
+                        console.log(this.pago) // ver porque pago se actualiza y no se agrega a lista
+                        this.listaPagos.push(element)
+                    }else{
+                        this.modificarMonto(element.periodo, element.monto);
+        
+                    }       
+                });
+                
+            }
+            
+            //console.log(this.listaPagos)
+            //await this.pagarCuotaAsociado(this.pago)
 
         },
+
 
     },
     created() {
@@ -53,38 +94,6 @@ export default {
 <template>
     <Header></Header>
     <main>
-        <!-- <div class="box_content_desc">
-            <div class="col-md-10">
-                <table class="table table-striped table-bordered" >
-                    <thead>
-                        <tr class="bg-primary text-white" align="center">
-                            <th >Cuota Societaria</th>
-                            <th>Mes</th>
-                            <th>Monto</th>
-                            <th class="text-center">Operaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="myTable">
-                        <tr v-for="valor, index in cuotas" align="center">
-                            <td > {{valor.monto_cuota}}</td>
-                            <td >  </td>
-                            <td >  </td>
-                            <td > <button type="submit" class="btn btn-danger btn-md" v-if="valor?.estado == 'No-Paga'" @click="pagarCuotas(valor?.periodo,valor?.monto)"> Pagar</button></td>
-
-                        </tr>
-
-                    </tbody>
-                </table>
-
-            </div> 
-        </div> -->
-
-        <!-- {{cuotas.disciplinas[1].nombre}}<br />
-        {{cuotas.monto_base}}<br />
-        {{cuotas.disciplinas[1].cuotas[1].monto}}<br />
-        {{cuotas.disciplinas[1].cuotas[1].periodo}}<br />
-        {{cuotas.disciplinas[1].cuotas[1].estado}}<br /> -->
-        
         <h1>Listado de cuotas</h1>
         <div class="accordion" id="accordionExample" >
             <div class="accordion-item" >
@@ -96,20 +105,25 @@ export default {
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample" v-for="valor in cuotas.disciplinas.length">
-                    <div class="accordion-body">
+                    <div class="accordion-body" >
                        <br/>
                         Nombre de Disciplina: {{cuotas.disciplinas[valor-1].nombre}}
-                        <div v-for="valor2 in cuotas.disciplinas[valor-1].cuotas.length">
-                            Periodo a Pagar: {{cuotas.disciplinas[valor-1].cuotas[valor2-1].periodo}} -- Monto: {{cuotas.disciplinas[valor-1].cuotas[valor2-1].monto}}<br />
-                            
+                        <div v-if = "cuotas.disciplinas[valor-1].cuotas.length > 0 "  >
+                            <div v-for="valor2 in cuotas.disciplinas[valor-1].cuotas.length">
+                                Periodo a Pagar: {{cuotas.disciplinas[valor-1].cuotas[valor2-1].periodo}} -- Monto: {{cuotas.disciplinas[valor-1].cuotas[valor2-1].monto}}
+                                
+                            </div>
+                        </div >
+                        <div v-else>
+                            No hay cuotas a pagar    
                         </div>
-                        
                     </div>
                 </div>
-                Monto de la cuota del Club: {{cuotas.monto_base}}
-                
+                Monto de la cuota del Club: {{cuotas.monto_base}} -- Total a Pagar: {{cuotas.total_a_pagar}}
+                <button type="submit" class="btn btn-danger btn-md" @click="pagarCuotas(cuotas)"> Pagar</button>
             </div>
         </div>
+        
 
     </main>
 
