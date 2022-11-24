@@ -91,7 +91,7 @@ def habilitar_deshabilitar(id):
 def realizar_inscripcion(id_a, id_d):
     asociado = Asociado.get_asociado_by_id(id_a)
     disciplina = Disciplina.get_disciplina_by_id(id_d)
-    monto_base = Config.get_valor_cuota()
+    #monto_base = Config.get_valor_cuota()
     if asociado is None:
         flash("el asociado no existe")
         return redirect(url_for("gestion_asociados"))
@@ -108,7 +108,8 @@ def realizar_inscripcion(id_a, id_d):
             mes_actual=int(fecha_hoy.strftime('%m'))
             año_actual=fecha_hoy.strftime('%Y')
             for i in range(mes_actual, 13):
-                cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos.get(i)+ " " + año_actual)
+                #cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos.get(i)+ " " + año_actual)
+                cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost, periodos.get(i)+ " " + año_actual)
                 cuo.register_cuota_database()
     else:
         flash("El usuario al que desea inscribir se encuentra con el estado moroso")

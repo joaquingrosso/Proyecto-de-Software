@@ -23,32 +23,41 @@ def mostrar_pagos_de_un_asociado(current_user):
         recargo_cuota = Config.get_valor_porcentaje()
         dia_actual = int(fecha_hoy.strftime('%d'))
         mes_actual = int(fecha_hoy.strftime('%m'))
-
+        if len(cuotas) == 0:
+                return jsonify({"error": "404 No hay cuotas pagas"}), 404
         for cuota in cuotas:
             mes = cuota.periodo.split(" ")
-            if dic_mes.get(mes[0]) > mes_actual or cuota.estado == "Paga":
+            if cuota.estado == "Paga":
                 c = {
                     "periodo": cuota.periodo,
                     "estado": cuota.estado,
                     "monto": cuota.monto
                 }
                 lista.append(c)
-            else:
-                if dia_actual >= 1 and dia_actual <= 10:
-                    c = {
-                        "periodo": cuota.periodo,
-                        "estado":   cuota.estado,
-                        "monto": cuota.monto
-                    }
-                    lista.append(c)
-                else:
-                    recargo = (cuota.monto * recargo_cuota)/100
-                    c = {
-                        "periodo": cuota.periodo,
-                        "estado":   cuota.estado,
-                        "monto": cuota.monto + recargo
-                    }
-                    lista.append(c)
+                
+            # if dic_mes.get(mes[0]) > mes_actual or cuota.estado == "Paga":
+            #     c = {
+            #         "periodo": cuota.periodo,
+            #         "estado": cuota.estado,
+            #         "monto": cuota.monto
+            #     }
+            #     lista.append(c)
+            # else:
+            #     if dia_actual >= 1 and dia_actual <= 10:
+            #         c = {
+            #             "periodo": cuota.periodo,
+            #             "estado":   cuota.estado,
+            #             "monto": cuota.monto
+            #         }
+            #         lista.append(c)
+            #     else:
+            #         recargo = (cuota.monto * recargo_cuota)/100
+            #         c = {
+            #             "periodo": cuota.periodo,
+            #             "estado":   cuota.estado,
+            #             "monto": cuota.monto + recargo
+            #         }
+            #         lista.append(c)
 
     except:
         return jsonify({"error": "500 Internal server Error"}), 500

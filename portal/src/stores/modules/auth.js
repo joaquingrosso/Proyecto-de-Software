@@ -6,7 +6,7 @@ const state = {
     user: {}, //meterlo en el storage
     token:null,
     isLoggedIn: false,//meterlo en el storage
-    cuotas:{},
+    cuotasImpagas:{},
     disciplinas:{},
     disciplinasAsociado: {},
     pago:{},
@@ -18,7 +18,7 @@ const state = {
 const getters = {
     isLoggedIn: state => state.isLoggedIn,
     user: state => state.user,
-    cuotas: state => state.cuotas,
+    cuotasImpagas: state => state.cuotasImpagas,
     disciplinas: state => state.disciplinas,
     carnet: state => state.carnet,
     disciplinasAsociado: state => state.disciplinasAsociado,
@@ -43,9 +43,9 @@ const actions = {
         //await apiService.get('/auth/logout_jwt');
         commit('logoutUserState');
     },
-    async cuotasUsuario({ commit }) {
-        await getApiService().servicesAuth.get('/me/payments').then((response)=>{
-            commit('setCuotas',response.data)
+    async cuotasUsuarioImpagas({ commit }) {
+        await getApiService().servicesAuth.get('/me/mostrar_cuotas_impagas').then((response)=>{
+            commit('setCuotasImpagas',response.data)
         });
     },
     async disciplinasClub({ commit }) {
@@ -95,8 +95,8 @@ const mutations = {
         state.isLoggedIn = false;
         state.user = {};
     },
-    setCuotas(state,cuota) {
-        state.cuotas = cuota;
+    setCuotasImpagas(state,cuota) {
+        state.cuotasImpagas = cuota;
     },
     setDisciplinas(state,disciplinas) {
         state.disciplinas = disciplinas;
