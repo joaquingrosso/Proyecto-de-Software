@@ -11,7 +11,7 @@ from datetime import datetime
 def mostrar_cuotas_impagas(current_user):
     try:
         dic_mes = {"Enero": 1, "Febrero": 2, "Marzo": 3, "Abril": 4, "Mayo": 5, "Junio": 6,
-                "Julio": 7, "Agosto": 8, "Septembre": 9, "Octubre": 10, "Noviembre": 11, "Diciembre": 12}
+                "Julio": 7, "Agosto": 8, "Septiembre": 9, "Octubre": 10, "Noviembre": 11, "Diciembre": 12}
         total=0
         asociado_actual = Asociado.query.get(current_user.asociado_id)
         fecha_hoy = datetime.now()

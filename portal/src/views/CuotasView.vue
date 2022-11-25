@@ -32,23 +32,15 @@ export default {
                     // Handle error
                     this.error = true;
                     this.validarFecha = false;
-
                 });
-
         },
 
+
         verificarPago(periodo){
-            //console.log(this.listaPagos.length)
-            //console.log(this.listaPagos)
-            for (let index = 0; index < this.listaPagos.length; index++) {
-                
-                //console.log(periodo)
-                //console.log(this.listaPagos[index].periodo)
-                if (this.listaPagos[index].periodo == periodo) {
-                    
+            for (let index = 0; index < this.listaPagos.length; index++) {                
+                if (this.listaPagos[index].periodo == periodo) {                                        
                     return true;
-                }
-                
+                }                
             }
             return false;
         },
@@ -59,32 +51,32 @@ export default {
                 }
             }
         },
-        async pagarCuotas(cuota) {
-            //this.pago.periodo = periodo;
-            //this.pago.monto = cuota.total_a_pagar;
+        armarPagos(cuota){
             for (let index = 0; index < cuota.disciplinas.length; index++) {
                 cuota.disciplinas[index].cuotas.forEach(element => {
                     if (!this.verificarPago(element.periodo)) {
                         this.pago.periodo = element.periodo;
                         this.pago.monto = element.monto;
-                        console.log(this.pago) // ver porque pago se actualiza y no se agrega a lista
                         this.listaPagos.push(element)
                     }else{
                         this.modificarMonto(element.periodo, element.monto);
-        
                     }       
-                });
-                
+                });                
+            }
+            this.pago.periodo = null;
+            this.pago.monto = null;
+        },
+        async pagarCuotas(cuota) {
+            this.armarPagos(cuota);
+            for (let index = 0; index < this.listaPagos.length; index++){
+               console.log(this.listaPagos[index]) 
+               await this.pagarCuotaAsociado(this.listaPagos[index])
             }
             
-            //console.log(this.listaPagos)
-            //await this.pagarCuotaAsociado(this.pago)
-
-        },
-
-
+            
+        }
     },
-    created() {        
+    created() {       
         this.verCuotasUsuario();
     }
 };
