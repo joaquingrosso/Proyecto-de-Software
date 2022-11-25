@@ -101,7 +101,7 @@ def realizar_inscripcion(id_a, id_d):
         else:
             Asociado.inscribir_disciplina(asociado, disciplina)
             #generar cuotas
-            #periodos = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septembre", "Octubre", "Noviembre", "Diciembre"]
+            
             periodos={ 1:"Enero", 2:"Febrero", 3:"Marzo", 4:"Abril", 5:"Mayo", 6:"Junio",
              7:"Julio",8: "Agosto", 9:"Septiembre",10: "Octubre", 11:"Noviembre",12:"Diciembre"}
             fecha_hoy = datetime.now()

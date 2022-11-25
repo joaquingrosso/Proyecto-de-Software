@@ -32,7 +32,6 @@ export default {
                     // Handle error
                     this.error = true;
                     this.validarFecha = false;
-
                 });
 
         },
@@ -59,28 +58,19 @@ export default {
                 }
             }
         },
+        async pagarCuota(cuota){
+            await this.pagarCuotaAsociado(cuota)
+        },
         async pagarCuotas(cuota) {
-            //this.pago.periodo = periodo;
-            //this.pago.monto = cuota.total_a_pagar;
             for (let index = 0; index < cuota.disciplinas.length; index++) {
                 cuota.disciplinas[index].cuotas.forEach(element => {
-                    if (!this.verificarPago(element.periodo)) {
-                        this.pago.periodo = element.periodo;
-                        this.pago.monto = element.monto;
-                        console.log(this.pago) // ver porque pago se actualiza y no se agrega a lista
-                        this.listaPagos.push(element)
-                    }else{
-                        this.modificarMonto(element.periodo, element.monto);
-        
-                    }       
-                });
-                
+                    console.log(element)
+                    this.pagarCuota(element)
+                });                
             }
-            
-            //console.log(this.listaPagos)
-            //await this.pagarCuotaAsociado(this.pago)
-
+            this.$router.push("/cuotas");
         },
+        
 
 
     },
