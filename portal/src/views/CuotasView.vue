@@ -33,21 +33,14 @@ export default {
                     this.error = true;
                     this.validarFecha = false;
                 });
-
         },
 
+
         verificarPago(periodo){
-            //console.log(this.listaPagos.length)
-            //console.log(this.listaPagos)
-            for (let index = 0; index < this.listaPagos.length; index++) {
-                
-                //console.log(periodo)
-                //console.log(this.listaPagos[index].periodo)
-                if (this.listaPagos[index].periodo == periodo) {
-                    
+            for (let index = 0; index < this.listaPagos.length; index++) {                
+                if (this.listaPagos[index].periodo == periodo) {                                        
                     return true;
-                }
-                
+                }                
             }
             return false;
         },
@@ -74,7 +67,7 @@ export default {
 
 
     },
-    created() {        
+    created() {       
         this.verCuotasUsuario();
     }
 };
