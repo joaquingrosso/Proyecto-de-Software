@@ -57,7 +57,8 @@ export default {
 <template>
     <Header></Header>
     <main>
-        <h1>Listado de cuotas</h1>
+        <div v-if="!error">
+            <h1>Listado de cuotas</h1>
         <div class="accordion" id="accordionExample" >
             <div class="accordion-item" >
                 <h2 class="accordion-header" id="headingOne">
@@ -86,6 +87,11 @@ export default {
                 <button type="submit" class="btn btn-danger btn-md" @click="pagarCuotas(cuotas)" v-if="pago"> Pagar</button>
             </div>
             
+        </div>
+        
+        </div>
+        <div v-else>
+            <h1>Upss Ocurrio un problema y no se cargo la vista de las cuotas pendientes</h1>
         </div>
         
 

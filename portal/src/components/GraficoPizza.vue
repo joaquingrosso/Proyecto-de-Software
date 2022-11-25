@@ -1,10 +1,14 @@
 
 <template>
+    <div v-if="!error">
 
-    <Pie :chart-options="chartOptions" :chart-data="chartData" :chart-id="chartId" :dataset-id-key="datasetIdKey"
-        :plugins="plugins" :css-classes="cssClasses" :styles="styles" :width="width" :height="height" />
-
-
+        <Pie :chart-options="chartOptions" :chart-data="chartData" :chart-id="chartId" :dataset-id-key="datasetIdKey"
+            :plugins="plugins" :css-classes="cssClasses" :styles="styles" :width="width" :height="height" />
+    </div>
+    <div v-else>
+        <br />
+        <h1>El grafico de Pizza no se encuentra disponible</h1>
+    </div>
 </template>
   
 <script>
@@ -49,6 +53,7 @@ export default {
     },
     data() {
         return {
+            error: true,
             dic: {},
             chartData: {
                 labels: ['Al Dia', 'Morosos'],

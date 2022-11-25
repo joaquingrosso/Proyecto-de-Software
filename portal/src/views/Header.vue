@@ -44,8 +44,11 @@
           <RouterLink to="/estadistica">
             <li class="nav-item">Estadistica</li>
           </RouterLink>
+          <RouterLink to="/cuotas_pagas">
+            <li class="nav-item" v-if="isLogged">Pagos Realizados</li>
+          </RouterLink>
           <RouterLink to="/cuotas">
-            <li class="nav-item" v-if="isLogged">Cuotas</li>
+            <li class="nav-item" v-if="isLogged">Pagos Disponibles</li>
           </RouterLink>
           <RouterLink to="/carnet">
             <li class="nav-item" v-if="isLogged">Carnet</li>
@@ -202,6 +205,8 @@ export default {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.842);
   cursor: pointer;
+  height: 5rem;
+  
 }
 
 

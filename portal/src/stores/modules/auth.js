@@ -12,7 +12,8 @@ const state = {
     pago:{},
     statsAsocXMes:{},
     statsAsocXDisc:{},
-    statsMorosAlDia:{}
+    statsMorosAlDia:{},
+    pagosRealizados:{}
 };
 
 const getters = {
@@ -26,6 +27,7 @@ const getters = {
     statsAsocXMes: state => state.statsAsocXMes,
     statsAsocXDisc: state => state.statsAsocXDisc,
     statsMorosAlDia: state => state.statsMorosAlDia,
+    pagosRealizados: state => state.pagosRealizados
 };
 
 const actions = {
@@ -65,22 +67,28 @@ const actions = {
         });
     },
     async pagarCuotaAsociado({ commit },pago) {
-        await getApiService().servicesAuth.post('/me/payments', pago).then((response)=>{ //services para sin autenticacion
+        await getApiService().servicesAuth.post('/me/payments', pago).then((response)=>{ 
             commit('setPago',response.data)
         })
     },
+    async verCuotaAsociado({ commit }) {
+        await getApiService().servicesAuth.get('/me/payments').then((response)=>{ 
+            console.log(response.data);
+            commit('setPagosRealizados',response.data)
+        })
+    },
     async asociadosInscriptosPorMes({ commit }) {
-        await getApiService().service.get('/stats/asociado_por_año').then((response)=>{ //services para sin autenticacion
+        await getApiService().service.get('/stats/asociado_por_año').then((response)=>{ 
             commit('setAsocXmes',response.data)
         })
     },
     async asociadosInscriptosPorDisciplina({ commit }) {
-        await getApiService().service.get('/stats/asociado_por_disciplinas').then((response)=>{ //services para sin autenticacion
+        await getApiService().service.get('/stats/asociado_por_disciplinas').then((response)=>{ 
             commit('setAsocXDisc',response.data)
         })
     },
     async asociadosMorososAlDia({ commit }) {
-        await getApiService().service.get('/stats/morosos_al_dia').then((response)=>{ //services para sin autenticacion
+        await getApiService().service.get('/stats/morosos_al_dia').then((response)=>{ 
             commit('setAsocMxAD',response.data)
         })
     },
@@ -124,6 +132,9 @@ const mutations = {
     },
     setAsocMxAD(state,asocMxAD){        
         state.statsMorosAlDia = asocMxAD;
+    },
+    setPagosRealizados(state,pagos){        
+        state.pagosRealizados = pagos;
     }
 
 

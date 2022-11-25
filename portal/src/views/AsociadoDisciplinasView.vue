@@ -36,26 +36,31 @@ export default {
 <template>
 
   <Header />
-
-  <div className="container ">
-    <div className="row">
-      <div className="col-md-4" v-for="valor in disciplinaAsociado">
-        <div className="card  animate__animated animate__fadeInUp">
-          <div class="box-image">
-            <img src="../../public/img/logo2.png" class="card-img-top" alt="...">
-          </div>
-          <div class="card-img-overlay">
-            <div className="card-bodyy rounded">
-              <h4 className="card-title text-center">{{ valor.name }}</h4>
-              <p className="card-text text-dark text-center">Horario: {{ valor.date_time }}</p>
-              <p className="card-text text-dark text-center">Instructores: {{ valor.instructors }}</p>
+  <div v-if="!error">
+    <div className="container ">
+      <div className="row">
+        <div className="col-md-4" v-for="valor in disciplinaAsociado">
+          <div className="card  animate__animated animate__fadeInUp">
+            <div class="box-image">
+              <img src="../../public/img/logo2.png" class="card-img-top" alt="...">
             </div>
-          </div>
+            <div class="card-img-overlay">
+              <div className="card-bodyy rounded">
+                <h4 className="card-title text-center">{{ valor.name }}</h4>
+                <p className="card-text text-dark text-center">Horario: {{ valor.date_time }}</p>
+                <p className="card-text text-dark text-center">Instructores: {{ valor.instructors }}</p>
+              </div>
+            </div>
 
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <div v-else>
+    <h1>Upss Ocurrio un problema y no se cargo la vista de las disciplinas</h1>
+  </div>
+
 </template>
 
 <style>

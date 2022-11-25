@@ -36,11 +36,6 @@ const router = createRouter({
       name: "descripcion",      
       component: () => import("../views/DescripcionView.vue"),
     },
-    {
-      path: "/home",
-      name: "home",
-      component: () => import("../views/HomeView.vue"),
-    },
 
     {
       path: "/cuotas",
@@ -61,6 +56,11 @@ const router = createRouter({
       path: "/estadisticas",
       name: "estadisticas",
       component: () => import("../views/EstadisticaView.vue"),
+    },
+    {
+      path: "/cuotas_pagas",
+      name: "cuotas_pagas",
+      component: () => import("../views/CuotasPagasView.vue"),
     },
   ],
 });

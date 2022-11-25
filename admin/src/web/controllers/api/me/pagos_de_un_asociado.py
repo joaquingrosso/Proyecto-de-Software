@@ -17,7 +17,7 @@ def mostrar_pagos_de_un_asociado(current_user):
         dic_mes = {"Enero": 1, "Febrero": 2, "Marzo": 3, "Abril": 4, "Mayo": 5, "Junio": 6,
                    "Julio": 7, "Agosto": 8, "Septiembre": 9, "Octubre": 10, "Noviembre": 11, "Diciembre": 12}
         lista = []
-        asociado_actual = Asociado.query.get(current_user.asociado_id)
+        #asociado_actual = Asociado.query.get(current_user.asociado_id)
         cuotas = Cuota.cuota_asociado(current_user.asociado_id)
         fecha_hoy = datetime.now()
         recargo_cuota = Config.get_valor_porcentaje()
@@ -34,43 +34,9 @@ def mostrar_pagos_de_un_asociado(current_user):
                     "monto": cuota.monto
                 }
                 lista.append(c)
-                
-            # if dic_mes.get(mes[0]) > mes_actual or cuota.estado == "Paga":
-            #     c = {
-            #         "periodo": cuota.periodo,
-            #         "estado": cuota.estado,
-            #         "monto": cuota.monto
-            #     }
-            #     lista.append(c)
-            # else:
-            #     if dia_actual >= 1 and dia_actual <= 10:
-            #         c = {
-            #             "periodo": cuota.periodo,
-            #             "estado":   cuota.estado,
-            #             "monto": cuota.monto
-            #         }
-            #         lista.append(c)
-            #     else:
-            #         recargo = (cuota.monto * recargo_cuota)/100
-            #         c = {
-            #             "periodo": cuota.periodo,
-            #             "estado":   cuota.estado,
-            #             "monto": cuota.monto + recargo
-            #         }
-            #         lista.append(c)
 
     except:
         return jsonify({"error": "500 Internal server Error"}), 500
-
-    if not asociado_actual:
-        return jsonify({"error": "404 el id no existe"}), 404
-#    dic= {
-
-#             "id" : asociado_actual.id,
-#             "nombre del Asociado": asociado_actual.first_name,
-#            }
-
-#   resp= {'datos del asociado':dic, 'pagos': lista }
     resp = lista
     return jsonify(resp), 200
 

@@ -237,7 +237,9 @@ def export_pdf_carnet(id):
     mes_actual=fecha.strftime('%m')
     año_actual=fecha.strftime('%Y')
     fecha_ingreso= dia_actual+ "/" + mes_actual +"/"  + año_actual
-    html =  render_template("/pdfs/pdf_carnet.html", asociado=asociado , fecha = fecha_ingreso , estado = Cuota.validar_deuda_cuota(cuotas))
+    path = app.config.get("CARNET_CUSTOM_PATH")
+    print(path)
+    html =  render_template("/pdfs/pdf_carnet.html", asociado=asociado , fecha = fecha_ingreso , estado = Cuota.validar_deuda_cuota(cuotas), path= path)
     if app.config.get("USE_WKHTML_CUSTOM_PATH") == True:
         path_wkhtmltopdf = app.config.get("WKHTML_CUSTOM_PATH")
         config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf) 
@@ -332,6 +334,6 @@ def registrar_archivo(id_asoc):
 
         upload_path = os.path.join (basepath, '../../../public/img/carnets', nuevoNombreFile)
         file.save(upload_path)
-        redirect(url_for("gestion_asociados"))
-    return redirect(url_for("gestion_asociados"))
+    #     redirect(url_for("gestion_asociados"))
+    return redirect(url_for("carnet_digital",id=id_asoc))
 

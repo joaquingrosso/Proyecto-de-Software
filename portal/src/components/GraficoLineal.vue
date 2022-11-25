@@ -1,7 +1,13 @@
  
 <template>
-  <Line :chart-options="chartOptions" :chart-data="chartData" :chart-id="chartId" :dataset-id-key="datasetIdKey"
+  <div v-if="!error">
+    <Line :chart-options="chartOptions" :chart-data="chartData" :chart-id="chartId" :dataset-id-key="datasetIdKey"
     :plugins="plugins" :css-classes="cssClasses" :styles="styles" :width="width" :height="height" />
+  </div>
+  <div v-else>
+      <br />
+      <h1>El grafico Lineal no se encuentra disponible</h1>
+  </div>
 
 
 </template>
@@ -48,6 +54,7 @@ export default {
   },
   data() {
     return {
+      error:false,
       dic: {},
       chartData: {
         labels: ['January','February','March','April','May','June','July','August','September','Octuber','November','December'],
