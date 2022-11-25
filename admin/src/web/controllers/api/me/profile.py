@@ -47,6 +47,11 @@ def carnet_digital(current_user):
         return jsonify({"error": "404"}), 404
    asociado = Asociado.get_asociado_by_id(current_user.asociado_id)
    cuotas_pagas = Cuota.cuota_asociado(current_user.asociado_id)
+   fecha = asociado.get_fecha()
+   dia_actual=fecha.strftime('%d')
+   mes_actual=fecha.strftime('%m')
+   año_actual=fecha.strftime('%Y')
+   fecha_ingreso= dia_actual+ "/" + mes_actual +"/"  + año_actual
    if asociado is not None and cuotas_pagas is not None:
       dic= { 
             "status": "OK",
@@ -55,11 +60,14 @@ def carnet_digital(current_user):
                "user": current_user.username,
                "email": current_user.email,
                "number": asociado.id,
+               "first_name": asociado.first_name,
+               "last_name": asociado.last_name,
                "document_type": asociado.document_type,
                "document_number": asociado.document,
                "gender": asociado.gender,
                "address": asociado.adress,
-               "phone":asociado.phone_number
+               "phone":asociado.phone_number,
+               "fecha_alta":fecha_ingreso
             }
            
          }

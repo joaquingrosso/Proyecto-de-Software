@@ -26,14 +26,14 @@
             <li class="nav-item">Inicio</li>
           </RouterLink>
           <div v-if="isLogged">
-          <RouterLink to="/mis_disciplinas">
-          <li class="nav-item" >Mis Disciplinas</li>
-          </RouterLink>
+            <RouterLink to="/mis_disciplinas">
+            <li class="nav-item" >Mis Disciplinas</li>
+            </RouterLink>
           </div>
           <div v-else>
-          <RouterLink to="/disciplinas">
-            <li class="nav-item">Disciplinas</li>
-          </RouterLink>          
+            <RouterLink to="/disciplinas">
+              <li class="nav-item">Disciplinas</li>
+            </RouterLink>          
           </div>
           <RouterLink to="/contacto">
             <li class="nav-item">Contacto</li>
@@ -41,15 +41,19 @@
           <RouterLink to="/descripcion">
             <li class="nav-item">Descripcion</li>
           </RouterLink>
+          <RouterLink to="/estadistica">
+            <li class="nav-item">Estadistica</li>
+          </RouterLink>
+          <RouterLink to="/cuotas_pagas">
+            <li class="nav-item" v-if="isLogged">Pagos Realizados</li>
+          </RouterLink>
           <RouterLink to="/cuotas">
-            <li class="nav-item" v-if="isLogged">Cuotas</li>
+            <li class="nav-item" v-if="isLogged">Pagos Disponibles</li>
           </RouterLink>
           <RouterLink to="/carnet">
             <li class="nav-item" v-if="isLogged">Carnet</li>
           </RouterLink>
-          <RouterLink to="/estadistica">
-            <li class="nav-item">Estadistica</li>
-          </RouterLink>
+          
         </ul>
 
       </div>
@@ -78,10 +82,12 @@ export default {
     setLogged(){
       this.isLogged = this.isLoggedIn
     },
-    ...mapActions('auth',['logoutUser']),
+    ...mapActions('auth',['logoutUser', 'establecerStateLoggedIn_User']),
     async logout() {
         await this.logoutUser();
         localStorage.removeItem('token');
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('user');
         this.error=false;
         this.user = {
           email: null,
@@ -94,9 +100,16 @@ export default {
           this.$router.push('/'); 
         }
       },
+    async recuperarStorage(){
+      const aux = localStorage.getItem("isLoggedIn")
+      if (aux != null) {
+        await this.establecerStateLoggedIn_User()
+      } 
+    } 
     },
   
   created () {
+    this.recuperarStorage()
     this.setLogged()
   }
 }
@@ -192,6 +205,8 @@ export default {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.842);
   cursor: pointer;
+  height: 5rem;
+  
 }
 
 

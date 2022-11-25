@@ -35,27 +35,34 @@ export default {
 <template>
     <Header></Header>
     <main>
-        <div class="container">
-            <div id="header">
-                <div id="titulo">
-                    <h1>Club Deportivo Villa Elisa</h1>
-                </div>
-            </div>
-            <div id="body">
-                <div id="img_estado">
-                    <div><h3>Estado: </h3><h5>{{ carnet.description }}</h5>
+        <div v-if="!error">
+            <div class="container">
+                <div id="header">
+                    <div id="titulo">
+                        <h1>Club Deportivo Villa Elisa</h1>
                     </div>
                 </div>
-                <div>
-                    <!-- <h3></h3> -->
-                    <h5>{{carnet.profile.document_type}}: {{carnet.profile.document_number}}</h5>
-                    <h5># Socio: {{carnet.profile.number}}</h5>
-                    <h5>Fecha Alta: </h5>
-                </div>
-                <div v-if="error">No se encuentra disponible el Carnet Digital</div>
+                <div id="body">
+                    <div id="img_estado">
+                        <div>
+                            <h3>Estado: </h3>
+                            <h5>{{ carnet.description }}</h5>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>{{ carnet.profile.last_name }} {{ carnet.profile.first_name }}</h3>
+                        <h5>{{ carnet.profile.document_type }}: {{ carnet.profile.document_number }}</h5>
+                        <h5># Socio: {{ carnet.profile.number }}</h5>
+                        <h5>Fecha Alta: {{ carnet.profile.fecha_alta }}</h5>
+                    </div>
 
+                </div>
             </div>
         </div>
+        <div v-else>
+            <h1>Upss Ocurrio un problema y no se cargo la vista del Carnet Digital</h1>
+        </div>
+
     </main>
 
 </template>

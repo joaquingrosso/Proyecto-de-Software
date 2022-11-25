@@ -18,7 +18,7 @@ def realizar_pago(id_a, id_d):
 @login_required
 def pagar_cuota(id_c, monto, id_d, id_a):
     dic_mes={ "Enero":1, "Febrero":2, "Marzo":3, "Abril":4, "Mayo":5, "Junio":6,
-             "Julio":7, "Agosto":8, "Septembre":9, "Octubre":10, "Noviembre":11, "Diciembre":12}
+             "Julio":7, "Agosto":8, "Septiembre":9, "Octubre":10, "Noviembre":11, "Diciembre":12}
     cuo = Cuota.get_cuota_by_id(id_c)
     cuo.estado = Cuota.get_estado_paga()
     fecha_hoy = datetime.now()

@@ -6,22 +6,28 @@ const state = {
     user: {}, //meterlo en el storage
     token:null,
     isLoggedIn: false,//meterlo en el storage
-    cuotas:{},
+    cuotasImpagas:{},
     disciplinas:{},
     disciplinasAsociado: {},
     pago:{},
-    statsAsocXMes:{}
+    statsAsocXMes:{},
+    statsAsocXDisc:{},
+    statsMorosAlDia:{},
+    pagosRealizados:{}
 };
 
 const getters = {
     isLoggedIn: state => state.isLoggedIn,
     user: state => state.user,
-    cuotas: state => state.cuotas,
+    cuotasImpagas: state => state.cuotasImpagas,
     disciplinas: state => state.disciplinas,
     carnet: state => state.carnet,
     disciplinasAsociado: state => state.disciplinasAsociado,
     pago: state => state.pago,
-    statsAsocXMes: state => state.statsAsocXMes
+    statsAsocXMes: state => state.statsAsocXMes,
+    statsAsocXDisc: state => state.statsAsocXDisc,
+    statsMorosAlDia: state => state.statsMorosAlDia,
+    pagosRealizados: state => state.pagosRealizados
 };
 
 const actions = {
@@ -39,9 +45,9 @@ const actions = {
         //await apiService.get('/auth/logout_jwt');
         commit('logoutUserState');
     },
-    async cuotasUsuario({ commit }) {
-        await getApiService().servicesAuth.get('/me/payments').then((response)=>{
-            commit('setCuotas',response.data)
+    async cuotasUsuarioImpagas({ commit }) {
+        await getApiService().servicesAuth.get('/me/mostrar_cuotas_impagas').then((response)=>{
+            commit('setCuotasImpagas',response.data)
         });
     },
     async disciplinasClub({ commit }) {
@@ -61,28 +67,50 @@ const actions = {
         });
     },
     async pagarCuotaAsociado({ commit },pago) {
-        await getApiService().servicesAuth.post('/me/payments', pago).then((response)=>{ //services para sin autenticacion
+        await getApiService().servicesAuth.post('/me/payments', pago).then((response)=>{ 
             commit('setPago',response.data)
         })
     },
+    async verCuotaAsociado({ commit }) {
+        await getApiService().servicesAuth.get('/me/payments').then((response)=>{ 
+            console.log(response.data);
+            commit('setPagosRealizados',response.data)
+        })
+    },
     async asociadosInscriptosPorMes({ commit }) {
-        await getApiService().service.get('/stats/asociado_por_año').then((response)=>{ //services para sin autenticacion
+        await getApiService().service.get('/stats/asociado_por_año').then((response)=>{ 
             commit('setAsocXmes',response.data)
         })
+    },
+    async asociadosInscriptosPorDisciplina({ commit }) {
+        await getApiService().service.get('/stats/asociado_por_disciplinas').then((response)=>{ 
+            commit('setAsocXDisc',response.data)
+        })
+    },
+    async asociadosMorososAlDia({ commit }) {
+        await getApiService().service.get('/stats/morosos_al_dia').then((response)=>{ 
+            commit('setAsocMxAD',response.data)
+        })
+    },
+    establecerStateLoggedIn_User({ commit }){
+        commit('setUser', localStorage.getItem('user'))
     }
+
 };
 
 const mutations = {
     setUser(state, user) {
         state.isLoggedIn = true;
         state.user = user;
+        localStorage.setItem("user", state.user);        
+        localStorage.setItem("isLoggedIn", state.isLoggedIn);
     },
     logoutUserState(state) {
         state.isLoggedIn = false;
         state.user = {};
     },
-    setCuotas(state,cuota) {
-        state.cuotas = cuota;
+    setCuotasImpagas(state,cuota) {
+        state.cuotasImpagas = cuota;
     },
     setDisciplinas(state,disciplinas) {
         state.disciplinas = disciplinas;
@@ -98,6 +126,15 @@ const mutations = {
     },
     setAsocXmes(state,asocXmes){
         state.statsAsocXMes = asocXmes;
+    },
+    setAsocXDisc(state,asocXdisc){
+        state.statsAsocXDisc = asocXdisc;
+    },
+    setAsocMxAD(state,asocMxAD){        
+        state.statsMorosAlDia = asocMxAD;
+    },
+    setPagosRealizados(state,pagos){        
+        state.pagosRealizados = pagos;
     }
 
 

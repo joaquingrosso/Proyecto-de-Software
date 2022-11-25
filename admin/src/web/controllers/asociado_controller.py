@@ -91,7 +91,7 @@ def habilitar_deshabilitar(id):
 def realizar_inscripcion(id_a, id_d):
     asociado = Asociado.get_asociado_by_id(id_a)
     disciplina = Disciplina.get_disciplina_by_id(id_d)
-    monto_base = Config.get_valor_cuota()
+    #monto_base = Config.get_valor_cuota()
     if asociado is None:
         flash("el asociado no existe")
         return redirect(url_for("gestion_asociados"))
@@ -101,14 +101,15 @@ def realizar_inscripcion(id_a, id_d):
         else:
             Asociado.inscribir_disciplina(asociado, disciplina)
             #generar cuotas
-            #periodos = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septembre", "Octubre", "Noviembre", "Diciembre"]
+            
             periodos={ 1:"Enero", 2:"Febrero", 3:"Marzo", 4:"Abril", 5:"Mayo", 6:"Junio",
              7:"Julio",8: "Agosto", 9:"Septiembre",10: "Octubre", 11:"Noviembre",12:"Diciembre"}
             fecha_hoy = datetime.now()
             mes_actual=int(fecha_hoy.strftime('%m'))
             año_actual=fecha_hoy.strftime('%Y')
             for i in range(mes_actual, 13):
-                cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos.get(i)+ " " + año_actual)
+                #cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost + monto_base, periodos.get(i)+ " " + año_actual)
+                cuo = Cuota(asociado.id, disciplina.id, disciplina.monthly_cost, periodos.get(i)+ " " + año_actual)
                 cuo.register_cuota_database()
     else:
         flash("El usuario al que desea inscribir se encuentra con el estado moroso")
@@ -236,7 +237,9 @@ def export_pdf_carnet(id):
     mes_actual=fecha.strftime('%m')
     año_actual=fecha.strftime('%Y')
     fecha_ingreso= dia_actual+ "/" + mes_actual +"/"  + año_actual
-    html =  render_template("/pdfs/pdf_carnet.html", asociado=asociado , fecha = fecha_ingreso , estado = Cuota.validar_deuda_cuota(cuotas))
+    path = app.config.get("CARNET_CUSTOM_PATH")
+    print(path)
+    html =  render_template("/pdfs/pdf_carnet.html", asociado=asociado , fecha = fecha_ingreso , estado = Cuota.validar_deuda_cuota(cuotas), path= path)
     if app.config.get("USE_WKHTML_CUSTOM_PATH") == True:
         path_wkhtmltopdf = app.config.get("WKHTML_CUSTOM_PATH")
         config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf) 
@@ -331,6 +334,6 @@ def registrar_archivo(id_asoc):
 
         upload_path = os.path.join (basepath, '../../../public/img/carnets', nuevoNombreFile)
         file.save(upload_path)
-        redirect(url_for("gestion_asociados"))
-    return redirect(url_for("gestion_asociados"))
+    #     redirect(url_for("gestion_asociados"))
+    return redirect(url_for("carnet_digital",id=id_asoc))
 

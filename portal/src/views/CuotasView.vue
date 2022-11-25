@@ -8,46 +8,47 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     data: () => ({
         error: false,
-        cuota: {},
         validarFecha: true,
-        pago:{
-            monto: null,
-            periodo:null
-        }
+        pago: true
     }),
     computed: {
         ...mapGetters({
-            cuotas: "auth/cuotas",
+            cuotas: "auth/cuotasImpagas",
             disciplinaAsociado: "auth/disciplinasAsociado",
         })
 
     },
 
     methods: {
-        ...mapActions("auth", ["cuotasUsuario","pagarCuotaAsociado"]),
+        ...mapActions("auth", ["cuotasUsuarioImpagas", "pagarCuotaAsociado"]),
         async verCuotasUsuario() {
-            await this.cuotasUsuario()
+            await this.cuotasUsuarioImpagas()
                 .catch(() => {
                     // Handle error
                     this.error = true;
                     this.validarFecha = false;
-                    
                 });
-
         },
-        async pagarCuotas(periodo,monto){
-            this.pago.periodo = periodo;
-            this.pago.monto = monto;
-            await this.pagarCuotaAsociado(this.pago)
-            
-        },
-       
 
+        async pagarCuota(cuota){
+            await this.pagarCuotaAsociado(cuota)
+        },
+        async pagarCuotas(cuota) {
+            for (let index = 0; index < cuota.disciplinas.length; index++) {
+                cuota.disciplinas[index].cuotas.forEach(element => {
+                    console.log(element)
+                    this.pagarCuota(element)
+                });                
+            }
+            this.pago = false;
+            this.$router.push("/");
+        },
         
+
+
     },
-    created() {
+    created() {       
         this.verCuotasUsuario();
-        
     }
 };
 
@@ -56,31 +57,44 @@ export default {
 <template>
     <Header></Header>
     <main>
-        <div class="box_content_desc">
-            <div class="col-md-10">
-                <table class="table table-striped table-bordered" >
-                    <thead>
-                        <tr class="bg-primary text-white" align="center">
-                            <th >Disciplina</th>
-                            <th>Mes</th>
-                            <th>Monto</th>
-                            <th class="text-center">Operaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="myTable">
-                        <tr v-for="valor, index in cuotas" align="center">
-                            <td > {{disciplinaAsociado[index]?.name}}</td>
-                            <td > {{ valor?.periodo }} </td>
-                            <td > {{ valor?.monto }} </td>
-                            <td > <button type="submit" class="btn btn-danger btn-md" v-if="valor?.estado == 'No-Paga'" @click="pagarCuotas(valor?.periodo,valor?.monto)"> Pagar</button></td>
-
-                        </tr>
-
-                    </tbody>
-                </table>
-
+        <div v-if="!error">
+            <h1>Listado de cuotas</h1>
+        <div class="accordion" id="accordionExample" >
+            <div class="accordion-item" >
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >
+                        <h4>Resumen de Factura </h4>
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample" v-for="valor in cuotas.disciplinas.length" >
+                    <div class="accordion-body" >
+                       <br/>
+                        Nombre de Disciplina: {{cuotas.disciplinas[valor-1].nombre}}
+                        <div v-if = "cuotas.disciplinas[valor-1].cuotas.length > 0 "  >
+                            <div v-for="valor2 in cuotas.disciplinas[valor-1].cuotas.length">
+                                Periodo a Pagar: {{cuotas.disciplinas[valor-1].cuotas[valor2-1].periodo}} -- Monto: {{cuotas.disciplinas[valor-1].cuotas[valor2-1].monto}}
+                                
+                            </div>
+                        </div >
+                        <div v-else>
+                            No hay cuotas a pagar    
+                        </div>
+                    </div>
+                </div>
+                Monto de la cuota del Club: {{cuotas.monto_base}} -- Total a Pagar: {{cuotas.total_a_pagar}}
+                <button type="submit" class="btn btn-danger btn-md" @click="pagarCuotas(cuotas)" v-if="pago"> Pagar</button>
             </div>
+            
         </div>
+        
+        </div>
+        <div v-else>
+            <h1>Upss Ocurrio un problema y no se cargo la vista de las cuotas pendientes</h1>
+        </div>
+        
+
     </main>
 
 </template>

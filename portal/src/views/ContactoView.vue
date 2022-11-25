@@ -5,11 +5,16 @@
 <template>
     <Header></Header>
     <main>
-        <div class="box_content_contacto">
+        <div v-if="!error">
+          <div class="box_content_contacto">
             <h1 class="title"> Contacto </h1>
             <br>
             <h3> Email : {{ info.email }}</h3>
             <h3> Telefono: {{ info.telefono }} </h3>
+        </div>
+        </div>
+        <div v-else>
+            <h1>Upss Ocurrio un problema y no se cargo la informacion del Contacto del Club</h1>
         </div>
     </main>
     
@@ -21,6 +26,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      error: false,
       info: {
         email : null,
         telefono: null
@@ -34,8 +40,8 @@ export default {
         this.info.email = respuesta.data.email;
         this.info.telefono = respuesta.data.phone;
       })
-        .catch((error) => {
-          console.log(error)
+        .catch(() => {
+          this.error = true
         })
     },
 

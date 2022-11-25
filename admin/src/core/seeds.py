@@ -84,7 +84,7 @@ def run():
         state = "Activo",
         phone_number = "123456789",
         email = "pablog2@gamil.com", 
-        created_at = "2022-2-20 19:38:07.889133"
+        created_at = "2022-11-20 19:38:07.889133"
     )
     models.crear_asociado(
         first_name = "Pablo3",
@@ -96,7 +96,7 @@ def run():
         state = "Activo",
         phone_number = "123456789",
         email = "pablog3@gamil.com", 
-        created_at = "2022-5-20 19:38:07.889133"
+        created_at = "2022-11-20 19:38:07.889133"
     )
     models.crear_asociado(
         first_name = "Pablo4",
@@ -108,7 +108,7 @@ def run():
         state = "Activo",
         phone_number = "123456789",
         email = "pablog4@gamil.com", 
-        created_at = "2022-7-20 19:38:07.889133"
+        created_at = "2022-11-20 19:38:07.889133"
     )
     models.crear_asociado(
         first_name = "Pablo5",

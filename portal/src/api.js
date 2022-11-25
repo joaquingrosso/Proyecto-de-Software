@@ -10,6 +10,7 @@ const getApiService = () => {
             //xsrfCookieName: 'csrf_access_token',
         }),
         servicesAuth: axios.create({
+            //baseURL: 'http://localhost:5000/api/',
             baseURL: 'https://admin-grupo13.proyecto2022.linti.unlp.edu.ar/api/',
             withCredentials: true,
             //xsrfCookieName: 'csrf_access_token',

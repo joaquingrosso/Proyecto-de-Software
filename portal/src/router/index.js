@@ -37,11 +37,6 @@ const router = createRouter({
       component: () => import("../views/DescripcionView.vue"),
     },
     {
-      path: "/home",
-      name: "home",
-      component: () => import("../views/HomeView.vue"),
-    },
-    {
       path: "/cuotas",
       name: "cuotas",
       component: () => import("../views/CuotasView.vue"),
@@ -59,7 +54,12 @@ const router = createRouter({
     {
       path: "/estadisticas",
       name: "estadisticas",
-      component: () => import("../views/EstadisticasView.vue"),
+      component: () => import("../views/EstadisticaView.vue"),
+    },
+    {
+      path: "/cuotas_pagas",
+      name: "cuotas_pagas",
+      component: () => import("../views/CuotasPagasView.vue"),
     },
   ],
 });

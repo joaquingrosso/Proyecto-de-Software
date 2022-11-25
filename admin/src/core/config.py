@@ -13,6 +13,7 @@ class Config(object):
     JWT_ACCESS_COOKIE_NAME="access_token_cookie"
     WKHTML_CUSTOM_PATH = environ.get("WKHTML_CUSTOM_PATH", "")
     USE_WKHTML_CUSTOM_PATH = bool(environ.get("USE_WKHTML_CUSTOM_PATH", 0))
+    
 class ProductionConfig(Config):
     """Production configuration."""
     ENV_NAME = "prod"
@@ -23,8 +24,7 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"
     ) 
-
-
+    CARNET_CUSTOM_PATH = environ.get("CARNET_CUSTOM_PATH", r"https://admin-grupo13.proyecto2022.linti.unlp.edu.ar")
 class DevelopmentConfig(Config):
     """Development configuration."""
     ENV_NAME = "dev"
@@ -37,7 +37,7 @@ class DevelopmentConfig(Config):
     ) 
     WKHTML_CUSTOM_PATH = environ.get("WKHTML_CUSTOM_PATH", r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")
     USE_WKHTML_CUSTOM_PATH = bool(environ.get("USE_WKHTML_CUSTOM_PATH", 1))
-
+    CARNET_CUSTOM_PATH = environ.get("CARNET_CUSTOM_PATH", r"http://127.0.0.1:5000")
 
 class TestingConfig(Config):
     """Testing configuration."""

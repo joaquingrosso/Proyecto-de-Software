@@ -37,8 +37,8 @@ export default {
 <template>
 
   <Header />
-
-  <div className="container ">
+  <div v-if="!error">
+    <div className="container ">
     <div className="row">
       <div className="col-md-4" v-for="valor in disciplinas">
         <div className="card  animate__animated animate__fadeInUp">
@@ -57,6 +57,11 @@ export default {
       </div>
     </div>
   </div>
+  </div>
+  <div v-else>
+    <h1>Upss Ocurrio un problema y no se cargo la vista con todas las disciplinas del Club</h1>
+  </div>
+  
 </template>
 
 <style>
