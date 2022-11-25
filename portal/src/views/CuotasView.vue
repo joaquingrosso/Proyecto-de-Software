@@ -8,13 +8,8 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     data: () => ({
         error: false,
-        cuotaImpaga: {},
         validarFecha: true,
-        pago: {
-            monto: null,
-            periodo: null
-        },
-        listaPagos:[]
+        pago: true
     }),
     computed: {
         ...mapGetters({
@@ -35,22 +30,6 @@ export default {
                 });
         },
 
-
-        verificarPago(periodo){
-            for (let index = 0; index < this.listaPagos.length; index++) {                
-                if (this.listaPagos[index].periodo == periodo) {                                        
-                    return true;
-                }                
-            }
-            return false;
-        },
-        modificarMonto(periodo,monto){
-            for (let index = 0; index < this.listaPagos.length; index++) {
-                if (this.listaPagos[index].periodo == periodo) {
-                    this.listaPagos[index].monto += monto;
-                }
-            }
-        },
         async pagarCuota(cuota){
             await this.pagarCuotaAsociado(cuota)
         },
@@ -61,7 +40,8 @@ export default {
                     this.pagarCuota(element)
                 });                
             }
-            this.$router.push("/cuotas");
+            this.pago = false;
+            this.$router.push("/");
         },
         
 
@@ -87,7 +67,7 @@ export default {
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                    data-bs-parent="#accordionExample" v-for="valor in cuotas.disciplinas.length">
+                    data-bs-parent="#accordionExample" v-for="valor in cuotas.disciplinas.length" >
                     <div class="accordion-body" >
                        <br/>
                         Nombre de Disciplina: {{cuotas.disciplinas[valor-1].nombre}}
@@ -103,8 +83,9 @@ export default {
                     </div>
                 </div>
                 Monto de la cuota del Club: {{cuotas.monto_base}} -- Total a Pagar: {{cuotas.total_a_pagar}}
-                <button type="submit" class="btn btn-danger btn-md" @click="pagarCuotas(cuotas)"> Pagar</button>
+                <button type="submit" class="btn btn-danger btn-md" @click="pagarCuotas(cuotas)" v-if="pago"> Pagar</button>
             </div>
+            
         </div>
         
 
