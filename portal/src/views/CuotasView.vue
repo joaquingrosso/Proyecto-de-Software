@@ -9,7 +9,6 @@ export default {
     data: () => ({
         error: false,
         validarFecha: true,
-        pago: true
     }),
     computed: {
         ...mapGetters({
@@ -36,16 +35,12 @@ export default {
         async pagarCuotas(cuota) {
             for (let index = 0; index < cuota.disciplinas.length; index++) {
                 cuota.disciplinas[index].cuotas.forEach(element => {
-                    console.log(element)
                     this.pagarCuota(element)
                 });                
             }
-            this.pago = false;
             this.$router.push("/");
         },
         
-
-
     },
     created() {       
         this.verCuotasUsuario();
@@ -83,10 +78,13 @@ export default {
                         </div>
                     </div>
                 </div>
-                Monto de la cuota del Club: {{cuotas.monto_base}} -- Total a Pagar: {{cuotas.total_a_pagar}}
-                <button type="submit" class="btn btn-danger btn-md" @click="pagarCuotas(cuotas)" v-if="pago"> Pagar</button>
+                <div>
+                    Monto de la cuota del Club: {{cuotas.monto_base}} -- Total a Pagar: {{cuotas.total_a_pagar}}
+                    <button type="submit" class="btn btn-danger btn-md" @click="pagarCuotas(cuotas)" > Pagar</button>
+                </div>
+
             </div>
-            
+
         </div>
         
         </div>

@@ -13,7 +13,8 @@ const state = {
     statsAsocXMes:{},
     statsAsocXDisc:{},
     statsMorosAlDia:{},
-    pagosRealizados:{}
+    pagosRealizados:{},
+    contacto:{}
 };
 
 const getters = {
@@ -27,7 +28,8 @@ const getters = {
     statsAsocXMes: state => state.statsAsocXMes,
     statsAsocXDisc: state => state.statsAsocXDisc,
     statsMorosAlDia: state => state.statsMorosAlDia,
-    pagosRealizados: state => state.pagosRealizados
+    pagosRealizados: state => state.pagosRealizados,
+    contacto: state => state.contacto,
 };
 
 const actions = {
@@ -94,7 +96,12 @@ const actions = {
     },
     establecerStateLoggedIn_User({ commit }){
         commit('setUser', localStorage.getItem('user'))
-    }
+    },
+    async infoContacto({ commit }) {
+        await getApiService().service.get('/club/info').then((response)=>{ 
+            commit('setContacto',response.data)
+        })
+    },
 
 };
 
@@ -135,6 +142,9 @@ const mutations = {
     },
     setPagosRealizados(state,pagos){        
         state.pagosRealizados = pagos;
+    },
+    setContacto(state,contacto){
+        state.contacto = contacto;
     }
 
 
