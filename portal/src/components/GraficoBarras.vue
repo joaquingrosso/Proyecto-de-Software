@@ -59,7 +59,7 @@ export default {
   },
   data() {
     return {
-      error: true,
+      error: false,
       dic: {},
       chartData: {
         labels: [],

@@ -55,7 +55,7 @@ from flask_qrcode import QRcode
 def create_app(env="development", static_folder="static"):
     app = Flask(__name__, static_folder=static_folder)
     app.config.from_object(config[env])
-    CORS(app, supports_credentials=True)
+    #CORS(app, supports_credentials=True)
     # configuracion de la bd
     database.init_app(app)
     app.secret_key= "holamundo"
