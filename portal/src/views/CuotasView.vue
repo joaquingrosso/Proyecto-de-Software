@@ -79,8 +79,12 @@ export default {
                     </div>
                 </div>
                 <div>
-                    Monto de la cuota del Club: {{cuotas.monto_base}} -- Total a Pagar: {{cuotas.total_a_pagar}}
-                    <button type="submit" class="btn btn-danger btn-md" @click="pagarCuotas(cuotas)" > Pagar</button>
+                    
+                    <div v-if="cuotas.total_a_pagar != cuotas.monto_base">
+                        Monto de la cuota del Club: {{cuotas.monto_base}} -- Total a Pagar: {{cuotas.total_a_pagar}}
+                        <button type="submit" class="btn btn-danger btn-md" @click="pagarCuotas(cuotas)" > Pagar</button>
+                    </div>
+                        
                 </div>
 
             </div>

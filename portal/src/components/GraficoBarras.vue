@@ -64,7 +64,7 @@ export default {
       chartData: {
         labels: [],
         datasets: [{
-          label: "ASOCIADOS POR AÑO",
+          label: "ASOCIADOS POR DISCIPLINAS",
           backgroundColor: "BLUE",
           data: []
         }]

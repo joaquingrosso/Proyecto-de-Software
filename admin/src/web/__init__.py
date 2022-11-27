@@ -55,7 +55,7 @@ from flask_qrcode import QRcode
 def create_app(env="development", static_folder="static"):
     app = Flask(__name__, static_folder=static_folder)
     app.config.from_object(config[env])
-    #CORS(app, supports_credentials=True)
+    # CORS(app, supports_credentials=True)
     # configuracion de la bd
     database.init_app(app)
     app.secret_key= "holamundo"
@@ -141,7 +141,7 @@ def create_app(env="development", static_folder="static"):
     #datos roles y permisos
     
     # Endpoints para la api de disciplinas 
-    app.add_url_rule('/api/club/discipline/<int:id>', 'mostrar_disciplina',disciplines.mostrar_disciplina, methods=['GET'])
+    # app.add_url_rule('/api/club/discipline/<int:id>', 'mostrar_disciplina',disciplines.mostrar_disciplina, methods=['GET'])
     app.add_url_rule('/api/club/disciplines', 'mostrar_disciplinas',disciplines.mostrar_disciplinas, methods=['GET'])
     app.add_url_rule('/api/club/info', 'mostrar_info',info.mostrar_info_club, methods=['GET'])
 
