@@ -41,7 +41,7 @@
     #bod img{
         width: 100px;
         height: 100px;
-        border-radius: 1500px;
+        
     }
     
     #titulo{
@@ -73,7 +73,7 @@
                 <h5># Socio: {{asociado.id}}</h5>
                 <h5>Fecha Alta: {{fecha}}</h5>
                 <div>
-                    QR
+                    <img src="{{ qrcode("qr.add_data('https://admin-grupo13.proyecto2022.linti.unlp.edu.ar/carnet_digital/{{asociado.id}}')") }}">
                 </div>
             </div>
     
